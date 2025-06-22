@@ -1,0 +1,268 @@
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@theme {
+  --color-brand-yellow: #dfff00;
+  --color-brand-dark: #0f172a;
+  --color-brand-gray: #1e293b;
+  --color-brand-light-gray: #334155;
+  --color-brand-text: #e2e8f0;
+
+  /* Definisi warna untuk variasi tombol dan elemen lain */
+  --color-info-500: #0ea5e9; /* Tailwind Sky-500 untuk Info */
+  --color-success-500: #10b981; /* Tailwind Emerald-500 untuk Success */
+  --color-warning-500: #f59e0b; /* Tailwind Amber-500 untuk Warning */
+  --color-danger-500: #ef4444; /* Tailwind Red-500 untuk Danger */
+
+  --font-sans: Poppins, sans-serif;
+  --font-khand: Khand, sans-serif;
+  --font-montserrat: Montserrat, sans-serif;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-page-load: fadeInUp 0.8s ease-out forwards;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+/* Universal Form Input Styling */
+input:not([type='checkbox']):not([type='radio']):not([type='range']),
+textarea,
+select {
+  @apply w-full p-3 rounded-md bg-brand-light-gray text-brand-text border border-gray-600 focus:ring-brand-yellow focus:border-brand-yellow placeholder-gray-500 outline-none;
+}
+
+/* Specific styles for file inputs */
+input[type='file'] {
+  @apply file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-yellow file:text-brand-dark hover:file:bg-yellow-400 cursor-pointer;
+}
+
+/* Checkbox and Radio */
+input[type='checkbox'],
+input[type='radio'] {
+  @apply h-4 w-4 text-brand-yellow focus:ring-brand-yellow border-gray-600 rounded-sm bg-brand-light-gray appearance-none checked:bg-brand-yellow checked:border-transparent;
+  /* Custom checkmark for checkboxes */
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Radio button specific styling */
+input[type='radio'] {
+  @apply rounded-full;
+}
+
+/* Select dropdown arrow (customizing native select is tricky, might need JS for full control) */
+select {
+  /* Use a custom background image for the arrow */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23e2e8f0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.5em;
+  padding-right: 2.5rem; /* Make space for the custom arrow */
+  -webkit-appearance: none; /* Remove default browser arrow */
+  -moz-appearance: none; /* Remove default browser arrow */
+  appearance: none; /* Remove default browser arrow */
+}
+/* Optional: For IE11+ remove default arrow */
+select::-ms-expand {
+  display: none;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-dark text-brand-text font-khand antialiased;
+  }
+  .section-title {
+    @apply text-3xl md:text-4xl font-medium text-white mb-2 text-center;
+  }
+  .section-subtitle {
+    @apply text-brand-text/80 text-center mb-8 md:mb-12 max-w-xl mx-auto;
+  }
+  .btn {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300;
+  }
+  .btn-primary {
+    @apply bg-brand-yellow text-brand-dark hover:bg-yellow-400 hover:shadow-lg;
+  }
+  .btn-outline {
+    @apply border border-brand-yellow text-brand-yellow hover:bg-brand-yellow hover:text-brand-dark;
+  }
+  /* NEW: Button Disabled State */
+  .btn:disabled {
+    @apply opacity-50 cursor-not-allowed shadow-none;
+  }
+
+  /* NEW: Button Variations */
+  .btn-secondary {
+    @apply bg-brand-light-gray text-brand-text hover:bg-brand-gray hover:shadow-md;
+  }
+  .btn-info {
+    @apply bg-info-500 text-white hover:bg-info-500/80 hover:shadow-md;
+  }
+  .btn-success {
+    @apply bg-success-500 text-white hover:bg-success-500/80 hover:shadow-md;
+  }
+  .btn-warning {
+    @apply bg-warning-500 text-white hover:bg-warning-500/80 hover:shadow-md;
+  }
+  .btn-danger {
+    @apply bg-danger-500 text-white hover:bg-danger-500/80 hover:shadow-md;
+  }
+  .btn-ghost {
+    @apply bg-transparent text-brand-text hover:bg-brand-light-gray;
+  }
+  .card {
+    @apply bg-brand-gray p-6 rounded-xl shadow-lg
+           transition-all duration-300 ease-in-out
+           hover:shadow-2xl hover:-translate-y-1;
+  }
+
+  .brand-border {
+    @apply border-[0.5px] border-brand-yellow rounded-2xl;
+  }
+  .card-home {
+    @apply transition-all duration-300 transform rounded-2xl hover:-translate-y-1;
+  }
+}
+
+/* Grid Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(to right, rgba(51, 65, 85, 0.2) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(51, 65, 85, 0.2) 1px, transparent 1px);
+  background-size: 40px 40px; /* Adjust grid size */
+  z-index: -1;
+  opacity: 0.5; /* Adjust grid opacity */
+}
+
+/* Page Load Animation Delay */
+.load-delay-1 {
+  animation-delay: 0.1s;
+}
+.load-delay-2 {
+  animation-delay: 0.2s;
+}
+.load-delay-3 {
+  animation-delay: 0.3s;
+}
+.load-delay-4 {
+  animation-delay: 0.4s;
+}
+.load-delay-5 {
+  animation-delay: 0.5s;
+}
+.load-delay-6 {
+  animation-delay: 0.6s;
+}
+
+/* Initial state for page load animation */
+.animate-on-load {
+  opacity: 0;
+}
+
+/* Untuk efek parallax sederhana pada gambar hero */
+.parallax-bg {
+  background-attachment: fixed; /* Ini untuk background, jika ingin elemen bergerak, pakai JS */
+}
+/* Animasi untuk elemen yang muncul saat di-scroll (opsional) */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 1.2s ease-out,
+    transform 0.25s ease-out;
+}
+.fade-in-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.animate-marquee {
+  animation: marquee 20s linear infinite; /* Adjust duration as needed */
+  display: flex;
+  flex-wrap: nowrap; /* Prevents items from wrapping */
+  min-width: fit-content; /* Ensures content extends beyond viewport */
+}
+
+/* Scrollbar Styling (Webkit-based browsers: Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px; /* For vertical scrollbars */
+  height: 8px; /* For horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-brand-dark); /* Dark track color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-light-gray); /* Lighter gray thumb */
+  border-radius: 10px;
+  border: 2px solid var(--color-brand-dark); /* Border to make it thinner */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-yellow); /* Yellow on hover */
+  border-color: var(--color-brand-gray); /* Adjust border on hover */
+}
+
+/* Kalender (input type="date") - styling mostly handled by base input styles */
+/* Browser default date pickers are very hard to style with CSS.
+   For consistent design, a JS library (e.g., flatpickr, react-datepicker) is highly recommended.
+   We can apply basic font/color but the popup itself is browser-controlled. */
+input[type='date'] {
+  /* Basic styling will apply from the universal input rule */
+  /* You might want to override color for the calendar icon/text if needed */
+  color-scheme: dark; /* Tries to enforce dark theme for the native date picker UI */
+}
