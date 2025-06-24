@@ -28,9 +28,9 @@
           </li>
           <li>
             <router-link
-              to="/work"
+              to="/project"
               class="text-sm text-gray-400 transition-colors hover:text-brand-yellow"
-              >WORKS</router-link
+              >PROJECTS</router-link
             >
           </li>
           <li>
@@ -44,7 +44,7 @@
             <router-link
               to="/testimonial"
               class="text-sm text-gray-400 transition-colors hover:text-brand-yellow"
-              >TESTIMONIAL</router-link
+              >TESTIMONIALS</router-link
             >
           </li>
         </ul>
@@ -119,7 +119,7 @@ export default {
   data() {
     return {
       copied: false,
-      email: 'numannasyarmz11gmail.com',
+      email: 'numannasyarmz11@gmail.com', // Pastikan emailnya benar
     }
   },
   computed: {

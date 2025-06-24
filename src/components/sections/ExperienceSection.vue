@@ -1,21 +1,18 @@
 <template>
   <section
-    id="experience"
+    id="experiences"
     class="container px-4 py-8 mx-auto text-white md:px-8 lg:px-16 bg-brand-dark"
   >
     <div class="flex flex-col mb-10 md:flex-row md:justify-between md:items-start">
       <div class="max-w-3xl">
-        <h2 class="mb-4 text-3xl font-bold text-white md:text-4xl">
-          Years of experience driving
-          <span class="text-brand-yellow">innovation</span>
-        </h2>
+        <HighlightedTitle lighter="innovation" unlighter="Years of experience driving" />
         <p class="text-brand-text/80">
           With years of experience, I specialize in driving innovation and creating impactful
           solutions.
         </p>
       </div>
-      <a
-        href="#"
+      <router-link
+        to="/experience"
         class="flex items-center justify-between mt-6 space-x-2 btn btn-primary group md:mt-0"
       >
         <span>Discover More</span>
@@ -33,12 +30,12 @@
             d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
           />
         </svg>
-      </a>
+      </router-link>
     </div>
 
     <div class="flex flex-col gap-8">
       <div
-        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home fade-in-up-on-scroll is-visible"
+        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home fade-in-up-on-scroll"
       >
         <img
           src="https://placehold.co/300x210/000000/FFF"
@@ -81,7 +78,7 @@
       </div>
 
       <div
-        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home fade-in-up-on-scroll is-visible"
+        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home fade-in-up-on-scroll"
         style="animation-delay: 0.1s"
       >
         <img
@@ -121,7 +118,7 @@
       </div>
 
       <div
-        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home fade-in-up-on-scroll is-visible"
+        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home fade-in-up-on-scroll"
         style="animation-delay: 0.2s"
       >
         <img
@@ -166,8 +163,13 @@
 </template>
 
 <script>
+import HighlightedTitle from '../common/HighlightedTitle.vue'
+
 export default {
   name: 'ExperienceSection',
+  components: {
+    HighlightedTitle,
+  },
 }
 </script>
 

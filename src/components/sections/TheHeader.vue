@@ -4,19 +4,36 @@
   >
     <div class="container flex items-center justify-center mx-auto">
       <nav class="items-center hidden space-x-6 md:flex">
-        <router-link to="/" class="font-semibold transition-colors hover:text-yellow-300"
+        <router-link
+          to="/"
+          class="transition-colors hover:text-brand-yellow"
+          active-class="text-brand-yellow"
           >HOME</router-link
         >
-        <router-link to="/about" class="text-white transition-colors hover:text-yellow-300"
+
+        <router-link
+          to="/about"
+          class="text-white transition-colors hover:text-brand-yellow"
+          active-class="text-brand-yellow"
           >ABOUT</router-link
         >
-        <router-link to="/work" class="text-white transition-colors hover:text-yellow-300"
-          >WORKS</router-link
+
+        <router-link
+          to="/project"
+          class="text-white transition-colors hover:text-brand-yellow"
+          active-class="text-brand-yellow"
+          >PROJECTS</router-link
         >
-        <router-link to="/experience" class="text-white transition-colors hover:text-yellow-300"
+        <router-link
+          to="/experience"
+          class="text-white transition-colors hover:text-brand-yellow"
+          active-class="text-brand-yellow"
           >EXPERIENCES</router-link
         >
-        <router-link to="/testimonial" class="text-white transition-colors hover:text-yellow-300"
+        <router-link
+          to="/testimonial"
+          class="text-white transition-colors hover:text-brand-yellow"
+          active-class="text-brand-yellow"
           >TESTIMONIALS</router-link
         >
       </nav>
@@ -50,30 +67,38 @@
         @click="mobileMenuOpen = false"
         class="absolute left-0 right-0 p-4 shadow-lg md:hidden top-full bg-brand-gray"
       >
-        <router-link to="/" class="block py-2 hover:text-yellow-300" @click="mobileMenuOpen = false"
+        <router-link
+          to="/"
+          class="block py-2 hover:text-brand-yellow"
+          active-class="text-brand-yellow"
+          @click="mobileMenuOpen = false"
           >HOME</router-link
         >
         <router-link
           to="/about"
-          class="block py-2 text-white hover:text-yellow-300"
+          class="block py-2 text-white hover:text-brand-yellow"
+          active-class="text-brand-yellow"
           @click="mobileMenuOpen = false"
           >ABOUT</router-link
         >
         <router-link
-          to="/work"
-          class="block py-2 text-white hover:text-yellow-300"
+          to="/project"
+          class="block py-2 text-white hover:text-brand-yellow"
+          active-class="text-brand-yellow"
           @click="mobileMenuOpen = false"
-          >WORKS</router-link
+          >PROJECTS</router-link
         >
         <router-link
           to="/experience"
-          class="block py-2 text-white hover:text-yellow-300"
+          class="block py-2 text-white hover:text-brand-yellow"
+          active-class="text-brand-yellow"
           @click="mobileMenuOpen = false"
           >EXPERIENCES</router-link
         >
         <router-link
           to="/testimonial"
-          class="block py-2 text-white hover:text-yellow-300"
+          class="block py-2 text-white hover:text-brand-yellow"
+          active-class="text-brand-yellow"
           @click="mobileMenuOpen = false"
           >TESTIMONIALS</router-link
         >

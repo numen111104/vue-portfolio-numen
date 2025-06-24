@@ -1,23 +1,25 @@
-import AboutSection from '@/components/sections/AboutSection.vue'
-import ExperienceSection from '@/components/sections/ExperienceSection.vue'
-import HeroSection from '@/components/sections/HeroSection.vue'
-import TestimonialSection from '@/components/sections/TestimonialSection.vue'
-import WorkSection from '@/components/sections/WorkSection.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '@/views/HomeView.vue' // Import HomeView
+import AboutDetailView from '@/views/AboutDetailView.vue'
+import ProjectDetailView from '@/views/ProjectDetailView.vue'
+import ExperiencesDetailView from '@/views/ExperiencesDetailView.vue'
+import TestimonialDetailView from '@/views/TestimonialDetailView.vue'
 
 const routes = [
-  { path: '/', name: 'Home', component: HeroSection },
-  { path: '/about', name: 'About', component: AboutSection },
-  { path: '/work', name: 'Work', component: WorkSection },
-  { path: '/experience', name: 'Experience', component: ExperienceSection },
-  { path: '/testimonial', name: 'Testimonial', component: TestimonialSection },
+  { path: '/', name: 'Home', component: HomeView },
+  { path: '/about', name: 'About', component: AboutDetailView },
+  { path: '/project', name: 'Project', component: ProjectDetailView },
+  { path: '/experience', name: 'Experience', component: ExperiencesDetailView },
+  { path: '/testimonial', name: 'Testimonial', component: TestimonialDetailView },
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-  scrollBehavior() {
-    return { top: 0, behavior: 'smooth' }
+  scrollBehavior(savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else return { top: 0, behavior: 'smooth' }
   },
 })
 

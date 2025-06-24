@@ -1,21 +1,21 @@
 <template>
   <section
-    id="works"
+    id="projects"
     class="container px-4 py-12 mx-auto text-white md:px-8 lg:px-16 bg-brand-dark"
   >
     <div class="flex flex-col mb-10 md:flex-row md:justify-between md:items-start">
       <div class="max-w-xl">
         <h2 class="mb-4 text-3xl font-bold text-white md:text-4xl">
-          Transforming Ideas into
-          <span class="text-brand-yellow">Impactful Solutions</span>
+          Innovating for a
+          <span class="text-brand-yellow">Brighter Future</span>
         </h2>
         <p class="text-brand-text/80">
-          I transform brilliant ideas into impactful solutions that deliver real results and make a
-          lasting difference.
+          I innovate to create solutions that pave the way for a brighter and more sustainable
+          future.
         </p>
       </div>
-      <a
-        href="#"
+      <router-link
+        to="/project"
         class="flex items-center justify-between mt-6 space-x-2 btn btn-primary group md:mt-0"
       >
         <span>Discover More</span>
@@ -33,7 +33,7 @@
             d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
           />
         </svg>
-      </a>
+      </router-link>
     </div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -162,18 +162,6 @@
 
 <script>
 export default {
-  name: 'WorkSection',
+  name: 'ProjectSection',
 }
 </script>
-
-<style scoped>
-/* Scoped styles for the Works section if needed */
-/* Ensure your .card-home and .project-card styles are defined in your global CSS or this component's style block */
-.card-home {
-  /* Add your card styles here */
-  background-color: var(--brand-gray); /* Example */
-  border-radius: 0.75rem; /* Example: rounded-xl */
-  padding: 1.5rem; /* Example: p-6 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Example */
-}
-</style>

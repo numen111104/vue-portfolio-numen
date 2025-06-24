@@ -50,7 +50,7 @@
     </div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <div class="p-6 card-home fade-in-up-on-scroll is-visible">
+      <div class="p-6 card-home fade-in-up-on-scroll">
         <div class="flex items-center gap-4 mb-4">
           <img
             alt="Ryan Florence"
@@ -67,7 +67,7 @@
         </p>
       </div>
 
-      <div class="p-6 card-home fade-in-up-on-scroll is-visible" style="animation-delay: 0.1s">
+      <div class="p-6 card-home fade-in-up-on-scroll" style="animation-delay: 0.1s">
         <div class="flex items-center gap-4 mb-4">
           <img
             alt="Debbie O'Brien"
@@ -85,7 +85,7 @@
         </p>
       </div>
 
-      <div class="p-6 card-home fade-in-up-on-scroll is-visible" style="animation-delay: 0.2s">
+      <div class="p-6 card-home fade-in-up-on-scroll" style="animation-delay: 0.2s">
         <div class="flex items-center gap-4 mb-4">
           <img
             alt="Kent C. Dodds"
@@ -100,7 +100,7 @@
         <p class="text-sm leading-relaxed text-white">Skip to the end. Use @tailwindcss.</p>
       </div>
 
-      <div class="p-6 card-home fade-in-up-on-scroll is-visible" style="animation-delay: 0.3s">
+      <div class="p-6 card-home fade-in-up-on-scroll" style="animation-delay: 0.3s">
         <div class="flex items-center gap-4 mb-4">
           <img
             alt="Guillermo Rauch"
@@ -119,7 +119,7 @@
       </div>
 
       <div
-        class="flex flex-col justify-between p-6 card-home fade-in-up-on-scroll is-visible"
+        class="flex flex-col justify-between p-6 card-home fade-in-up-on-scroll"
         style="animation-delay: 0.4s"
       >
         <div>
@@ -148,7 +148,7 @@
       </div>
 
       <div
-        class="flex flex-col justify-between p-6 card-home fade-in-up-on-scroll is-visible"
+        class="flex flex-col justify-between p-6 card-home fade-in-up-on-scroll"
         style="animation-delay: 0.5s"
       >
         <div>
@@ -257,7 +257,7 @@
 </template>
 
 <script>
-import BaseModal from '@/components/BaseModal.vue' // Impor BaseModal
+import BaseModal from '@/components/common/BaseModal.vue' // Impor BaseModal
 
 export default {
   name: 'TestimonialSection',

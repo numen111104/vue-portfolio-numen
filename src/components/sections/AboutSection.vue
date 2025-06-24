@@ -1,14 +1,8 @@
 <template>
-  <section
-    id="about"
-    class="container px-4 py-8 mx-auto text-white md:px-8 lg:px-16 bg-dark-purple"
-  >
+  <section id="about" class="container px-4 py-8 mx-auto text-white md:px-8 lg:px-16">
     <h3 class="section-title md:hidden block hover:text-brand-yellow transition-all">About Me</h3>
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <div
-        class="col-span-1 card-home fade-in-up-on-scroll is-visible"
-        style="animation-delay: 0.2s"
-      >
+      <div class="col-span-1 card-home fade-in-up-on-scroll" style="animation-delay: 0.2s">
         <img
           src="@/assets/images/about.png"
           alt="Nu'man Nasyar MZ"
@@ -17,7 +11,7 @@
       </div>
 
       <div class="grid grid-cols-1 col-span-1 gap-8 md:grid-cols-1 lg:col-span-1">
-        <div class="card-home fade-in-up-on-scroll is-visible" style="animation-delay: 0.3s">
+        <div class="card-home fade-in-up-on-scroll" style="animation-delay: 0.3s">
           <div class="relative w-full overflow-hidden rounded-lg">
             <div class="relative">
               <img
@@ -39,8 +33,8 @@
           </div>
 
           <div class="my-4">
-            <a
-              href="#contact"
+            <router-link
+              to="/about"
               class="flex items-center justify-between space-x-2 btn btn-primary group"
             >
               <span>MORE ABOUT ME</span>
@@ -58,7 +52,7 @@
                   d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
                 />
               </svg>
-            </a>
+            </router-link>
           </div>
 
           <div class="flex justify-between gap-4 mt-4">
@@ -98,7 +92,7 @@
           </div>
         </div>
 
-        <div class="card-home fade-in-up-on-scroll is-visible" style="animation-delay: 0.6s">
+        <div class="card-home fade-in-up-on-scroll" style="animation-delay: 0.6s">
           <h3 class="mb-2 text-xl font-semibold">Education</h3>
 
           <div class="flex items-center justify-start gap-4 p-4">
@@ -122,7 +116,7 @@
 
       <div class="grid grid-cols-1 col-span-1 gap-8 md:col-span-2 lg:col-span-1">
         <div
-          class="flex flex-col justify-between card-home fade-in-up-on-scroll is-visible"
+          class="flex flex-col justify-between card-home fade-in-up-on-scroll"
           style="animation-delay: 0.4s"
         >
           <h3 class="mb-2 text-xl font-semibold">
@@ -182,7 +176,7 @@
           </p>
         </div>
         <div
-          class="flex flex-col justify-between card-home fade-in-up-on-scroll is-visible"
+          class="flex flex-col justify-between card-home fade-in-up-on-scroll"
           style="animation-delay: 0.5s"
         >
           <h3 class="mb-2 text-xl font-semibold">
@@ -191,7 +185,7 @@
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                viewBox="0 0 24 24"
+                viewbox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
                 class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45"
