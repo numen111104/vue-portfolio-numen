@@ -1,41 +1,6 @@
 <template>
   <main class="container px-4 py-8 mx-auto text-white md:px-8 lg:px-16">
-    <div class="h-20 md:h-24"></div>
-    <section class="mb-8">
-      <div
-        class="hover:scale-105 transition duration-300 cursor-pointer brand-border card-home bg-brand-light-gray flex rounded-xl items-center justify-center h-12 w-40 group p-2"
-      >
-        <svg
-          class="w-5 h-5 text-brand-yellow transform"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-          <path d="M14 2v6h6"></path>
-          <path d="M12 17v-6"></path>
-          <path d="M9 14h6"></path>
-        </svg>
-        <div class="w-2"></div>
-        <p class="text-brand-yellow font-medium text-md">Testimonials</p>
-      </div>
-      <div class="flex sm:flex-row flex-col justify-between">
-        <div>
-          <h2 class="text-brand-text mb-3 font-medium text-3xl">
-            What <span class="text-brand-yellow">They Say</span> About Me
-          </h2>
-          <p class="text-gray-400 font-normal text-base">
-            Listen to what clients and colleagues have to say about my work and dedication.
-          </p>
-        </div>
-        <div class="md:h-0 h-10"></div>
-      </div>
-    </section>
-
+    <HighlightedTitle lighter="About Me" unlighter="What People Say" />
     <section class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
       <div class="p-6 card transition-all duration-300 ease-in-out hover:scale-105">
         <div class="flex items-center gap-4 mb-4">
@@ -157,8 +122,15 @@
 </template>
 
 <script>
+import BaseModal from '@/components/common/BaseModal.vue'
+import HighlightedTitle from '@/components/common/HighlightedTitle.vue'
+
 export default {
   name: 'TestimonialDetailView',
+  components: {
+    BaseModal,
+    HighlightedTitle,
+  },
   // Jika Anda ingin mengelola daftar testimonial secara dinamis, Anda bisa menambahkannya di sini
   // data() {
   //   return {

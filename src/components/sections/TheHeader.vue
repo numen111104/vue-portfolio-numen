@@ -6,7 +6,7 @@
       <nav class="items-center hidden space-x-6 md:flex">
         <router-link
           to="/"
-          class="transition-colors hover:text-brand-yellow"
+          class="transition-colors text-white hover:text-brand-yellow"
           active-class="text-brand-yellow"
           >HOME</router-link
         >
