@@ -122,13 +122,11 @@
 </template>
 
 <script>
-import BaseModal from '@/components/common/BaseModal.vue'
 import HighlightedTitle from '@/components/common/HighlightedTitle.vue'
 
 export default {
   name: 'TestimonialDetailView',
   components: {
-    BaseModal,
     HighlightedTitle,
   },
   // Jika Anda ingin mengelola daftar testimonial secara dinamis, Anda bisa menambahkannya di sini

@@ -98,29 +98,22 @@ const initIntersectionObserver = () => {
 
 <template>
   <div class="app-container">
-    <div
-      class="mouse-spotlight"
-      :style="{
-        'background-image': `radial-gradient(circle at ${mouseX}px ${mouseY}px, ${brandYellowRgba} 0%, transparent ${spotlightSize}px)`,
-      }"
-    ></div>
+    <div class="mouse-spotlight" :style="{
+      'background-image': `radial-gradient(circle at ${mouseX}px ${mouseY}px, ${brandYellowRgba} 0%, transparent ${spotlightSize}px)`,
+}"></div>
 
-    <div
-      v-if="!pageLoaded"
+    <div v-if="!pageLoaded"
       class="fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-500 bg-brand-dark"
-      :class="{ 'opacity-0 pointer-events-none': pageLoaded }"
-    >
+      :class="{ 'opacity-0 pointer-events-none': pageLoaded }">
       <img src="@/assets/images/icons/loading.svg" alt="Loading GIF" class="w-30 h-30" />
     </div>
 
     <TheHeader />
 
-    <main v-show="pageLoaded" class="pt-24 min-h-[calc(100vh-6rem)]">
-      <div
-        v-if="isLoading"
+    <main v-show="pageLoaded" class="min-h-[calc(100vh-6rem)] pt-8 md:pt-20 pb-20 md:pb-0">
+      <div v-if="isLoading"
         class="fixed inset-0 z-[999] flex items-center justify-center transition-opacity duration-300 bg-brand-dark/80 backdrop-blur-sm"
-        :class="{ 'opacity-0 pointer-events-none': !isLoading }"
-      >
+        :class="{ 'opacity-0 pointer-events-none': !isLoading }">
         <img src="@/assets/images/icons/loading.svg" alt="Loading GIF" class="w-30 h-30" />
       </div>
 
@@ -135,25 +128,28 @@ const initIntersectionObserver = () => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .app-container {
   position: relative;
   min-height: 100vh;
-  overflow-x: hidden; /* Mencegah horizontal scroll jika ada elemen melebihi viewport */
-  display: flex;
-  flex-direction: column;
-}
+  overflow-x: hidden;
+    /* Mencegah horizontal scroll jika ada elemen melebihi viewport */
+    display: flex;
+    flex-direction: column;
+  }
 
-/* Mouse spotlight */
-.mouse-spotlight {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  mix-blend-mode: lighten; /* Atau 'screen', 'overlay' */
-  z-index: 999; /* Di bawah loader/modal utama (z-index 1000) */
+    /* Mouse spotlight */
+    .mouse-spotlight {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      mix-blend-mode: lighten;
+      /* Atau 'screen', 'overlay' */
+      z-index: 999;
+      /* Di bawah loader/modal utama (z-index 1000) */
   transition: background-image 0.08s linear;
 }
 
@@ -162,6 +158,7 @@ const initIntersectionObserver = () => {
 .fade-leave-active {
   transition: opacity 0.5s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

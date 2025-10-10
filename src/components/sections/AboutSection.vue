@@ -120,8 +120,8 @@
           style="animation-delay: 0.4s"
         >
           <h3 class="mb-2 text-xl font-semibold">
-            <a
-              href="#"
+            <router-link
+              to="/certifications"
               class="flex items-center justify-between transition-transform group hover:text-brand-yellow"
             >
               <span> Certifications </span>
@@ -139,7 +139,7 @@
                   d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
                 ></path>
               </svg>
-            </a>
+            </router-link>
           </h3>
           <div class="relative w-full overflow-hidden">
             <div class="flex items-center gap-8 mb-4 animate-marquee">
@@ -180,7 +180,7 @@
           style="animation-delay: 0.5s"
         >
           <h3 class="mb-2 text-xl font-semibold">
-            <a href="#" class="flex items-center justify-between group">
+            <router-link to="/tech-stacks" class="flex items-center justify-between group">
               Techstacks
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +196,7 @@
                   d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
                 />
               </svg>
-            </a>
+            </router-link>
           </h3>
           <div class="relative w-full overflow-hidden">
             <div

@@ -2,7 +2,8 @@
   <header class="sticky top-0 bg-brand-gray border-b border-gray-600 z-30">
     <div class="px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 -mb-px">
-        <div class="flex">
+        <div class="flex items-center space-x-3">
+          <!-- Hamburger button -->
           <button
             class="text-gray-400 hover:text-white lg:hidden"
             @click.stop="$emit('toggle-sidebar')"
@@ -10,20 +11,29 @@
             :aria-expanded="sidebarOpen"
           >
             <span class="sr-only">Open sidebar</span>
-            <svg
-              class="w-6 h-6 fill-current"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <rect x="4" y="5" width="16" height="2" />
               <rect x="4" y="11" width="16" height="2" />
               <rect x="4" y="17" width="16" height="2" />
             </svg>
           </button>
+
+          <!-- Home button -->
+          <router-link
+            to="/"
+            class="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition duration-150 hover:bg-brand-light-gray hover:text-white"
+          >
+            <span class="sr-only">Go to main page</span>
+            <svg class="h-5 w-5 fill-current" viewBox="0 0 20 20">
+              <path
+                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+              />
+            </svg>
+          </router-link>
         </div>
 
         <div class="flex items-center space-x-3">
-          <div class="relative inline-flex" v-click-outside="() => (notificationOpen = false)">
+          <div class="relative inline-flex" ref="notificationButtonRef">
             <button
               class="w-8 h-8 flex items-center justify-center bg-brand-light-gray hover:bg-brand-gray transition duration-150 rounded-full"
               :class="{ 'bg-brand-gray': notificationOpen }"
@@ -117,7 +127,7 @@
             </transition>
           </div>
 
-          <div class="relative inline-flex" v-click-outside="() => (infoOpen = false)">
+          <div class="relative inline-flex" ref="infoButtonRef">
             <button
               class="w-8 h-8 flex items-center justify-center bg-brand-light-gray hover:bg-brand-gray transition duration-150 rounded-full"
               :class="{ 'bg-brand-gray': infoOpen }"
@@ -206,7 +216,7 @@
 
           <hr class="w-px h-6 bg-gray-600" />
 
-          <div class="relative inline-flex" v-click-outside="() => (userDropdownOpen = false)">
+          <div class="relative inline-flex" ref="userButtonRef">
             <button
               class="inline-flex justify-center items-center group"
               aria-haspopup="true"
@@ -281,11 +291,6 @@ const notificationOpen = ref(false)
 const infoOpen = ref(false)
 const userDropdownOpen = ref(false)
 
-// Direktif kustom onClickOutside (dari @vueuse/core) digunakan langsung di template sebagai v-click-outside
-// Anda perlu mendaftarkan direktif ini secara global di main.js jika ingin menggunakan v-click-outside="handler"
-// Atau, jika tidak mendaftarkan direktif, Anda bisa menggunakan onClickOutside() hook di setup()
-// seperti yang saya lakukan di TheSidebar.vue
-// Untuk komponen ini, saya akan tetap menggunakan ref dan onClickOutside() hook
 const notificationButtonRef = ref(null)
 onClickOutside(notificationButtonRef, () => {
   notificationOpen.value = false

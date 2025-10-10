@@ -1,28 +1,3 @@
-# Vue 3 & Tailwind CSS Portfolio
-
-This is a modern, fully responsive portfolio website built with Vue 3, Vite, and Tailwind CSS. It features a clean design, smooth animations, and a structure designed to be powered by a dynamic backend. The project also includes a foundational layout for a CMS/admin dashboard to manage portfolio content.
-
-## Key Features
-
--   **Fully Responsive Design**: A custom 3-tier navigation system ensures a great user experience on any device.
-    -   **Mobile (`<768px`):** A clean, icon-only navigation bar fixed to the bottom.
-    -   **Tablet (`768px - 1024px`):** A horizontal navigation bar at the top with icons and text for clarity.
-    -   **Desktop (`>1024px`):** An elegant, expanding icon-to-text navigation bar.
--   **Dynamic Content Ready**: The application is architected to be easily connected to a backend. All portfolio sections (Projects, Experiences, Tech Stacks, etc.) are designed to be managed dynamically.
--   **Comprehensive Database Schema**: Includes a `schema.dbml` file that defines a complete and scalable database structure, ready for backend development.
--   **Interactive UI**: Engaging user experience with modals for project details, smooth page transitions, and hover animations.
--   **Admin Dashboard Layout**: A complete layout for a backend dashboard is included, with a responsive sidebar and header, ready for building out content management functionality.
-
-## Database Schema
-
-A database schema is defined in `schema.dbml` using Database Markup Language (DBML). This provides a blueprint for the backend database, ensuring all portfolio content can be managed dynamically.
-
-You can visualize this schema and export SQL scripts by pasting the contents of `schema.dbml` into online tools like [dbdiagram.io](https://dbdiagram.io).
-
-<details>
-<summary>Click to view the DBML Schema</summary>
-
-```dbml
 //// ----------------------------------------------------
 //// -- DBML (Database Markup Language) for Vue Portfolio
 //// -- Designed to make the portfolio content fully
@@ -141,35 +116,3 @@ Table social_media_links {
   url varchar(255) [not null]
   display_order integer [default: 0]
 }
-```
-
-</details>
-
-## Project Setup
-
-### Recommended IDE Setup
-
--   [VSCode](https://code.visualstudio.com/)
--   [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur if installed).
-
-### Installation
-
-```sh
-npm install
-```
-
-### Development Server
-
-Compile and Hot-Reload for Development.
-
-```sh
-npm run dev
-```
-
-### Production Build
-
-Compile and Minify for Production.
-
-```sh
-npm run build
-```

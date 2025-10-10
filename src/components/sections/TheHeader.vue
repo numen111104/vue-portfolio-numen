@@ -1,128 +1,97 @@
 <template>
+  <!-- Header for Tablet and Desktop -->
   <header
-    class="fixed top-0 left-0 right-0 z-40 px-4 py-6 md:px-8 bg-brand-dark/80 backdrop-blur-md animate-on-load animate-page-load"
-  >
+    class="fixed top-0 left-0 right-0 z-40 hidden px-4 py-2 md:block bg-brand-dark/80 backdrop-blur-md animate-on-load animate-page-load">
     <div class="container flex items-center justify-center mx-auto">
-      <nav class="items-center hidden space-x-6 md:flex">
-        <router-link
-          to="/"
-          class="transition-colors text-white hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          >HOME</router-link
-        >
-
-        <router-link
-          to="/about"
-          class="text-white transition-colors hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          >ABOUT</router-link
-        >
-
-        <router-link
-          to="/project"
-          class="text-white transition-colors hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          >PROJECTS</router-link
-        >
-        <router-link
-          to="/experience"
-          class="text-white transition-colors hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          >EXPERIENCES</router-link
-        >
-        <router-link
-          to="/testimonial"
-          class="text-white transition-colors hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          >TESTIMONIALS</router-link
-        >
+      <!-- Tablet Nav (Icon + Text, No Expand) -->
+      <nav class="items-center hidden space-x-1 md:flex lg:hidden">
+        <router-link v-for="item in navItems" :key="item.name" :to="item.path"
+          class="flex items-center px-3 py-1.5 text-sm transition-colors rounded-full text-white/80 hover:bg-brand-yellow hover:text-brand-dark"
+          exact-active-class="active-link">
+          <component :is="item.icon" class="w-5 h-5 mr-2 shrink-0" />
+          <span class="whitespace-nowrap">{{ item.name }}</span>
+        </router-link>
       </nav>
-      <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white md:hidden">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
-      </button>
+
+      <!-- Desktop Nav (Icon with Expand) -->
+      <nav class="items-center hidden p-1 space-x-1 rounded-full lg:flex bg-black/20">
+        <router-link v-for="item in navItems" :key="item.name" :to="item.path"
+          class="flex items-center px-3 py-1.5 transition-all duration-300 rounded-full group text-white/70 hover:text-brand-yellow"
+          exact-active-class="active-link">
+          <component :is="item.icon" class="w-5 h-5" />
+          <span class="nav-text">
+            {{ item.name }}
+          </span>
+        </router-link>
+      </nav>
     </div>
-    <transition
-      enter-active-class="transition ease-out duration-200"
-      enter-from-class="opacity-0 transform -translate-y-4"
-      enter-to-class="opacity-100 transform translate-y-0"
-      leave-active-class="transition ease-in duration-150"
-      leave-from-class="opacity-100 transform translate-y-0"
-      leave-to-class="opacity-0 transform -translate-y-4"
-    >
-      <div
-        v-if="mobileMenuOpen"
-        @click="mobileMenuOpen = false"
-        class="absolute left-0 right-0 p-4 shadow-lg md:hidden top-full bg-brand-gray"
-      >
-        <router-link
-          to="/"
-          class="block py-2 hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          @click="mobileMenuOpen = false"
-          >HOME</router-link
-        >
-        <router-link
-          to="/about"
-          class="block py-2 text-white hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          @click="mobileMenuOpen = false"
-          >ABOUT</router-link
-        >
-        <router-link
-          to="/project"
-          class="block py-2 text-white hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          @click="mobileMenuOpen = false"
-          >PROJECTS</router-link
-        >
-        <router-link
-          to="/experience"
-          class="block py-2 text-white hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          @click="mobileMenuOpen = false"
-          >EXPERIENCES</router-link
-        >
-        <router-link
-          to="/testimonial"
-          class="block py-2 text-white hover:text-brand-yellow"
-          active-class="text-brand-yellow"
-          @click="mobileMenuOpen = false"
-          >TESTIMONIALS</router-link
-        >
-        <a href="#" class="block w-full mt-2 text-center btn btn-primary">HIRE ME</a>
-      </div>
-    </transition>
   </header>
+
+  <!-- Mobile Bottom Nav (Icon Only) -->
+  <nav
+    class="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around p-2 md:hidden bg-brand-dark/80 backdrop-blur-md">
+    <router-link v-for="item in navItems" :key="item.name" :to="item.path"
+      class="flex items-center justify-center w-12 h-12 transition-colors rounded-full text-white/70 hover:bg-brand-yellow hover:text-brand-yellow"
+      exact-active-class="active-link">
+      <component :is="item.icon" class="w-7 h-7" />
+    </router-link>
+  </nav>
 </template>
 
 <script>
+import {
+  IconHome,
+  IconUser,
+  IconBriefcase,
+  IconFileText,
+  IconMessageCircle
+} from '@tabler/icons-vue'
+
 export default {
   name: 'TheHeader',
+  components: {
+    IconHome,
+    IconUser,
+    IconBriefcase,
+    IconFileText,
+    IconMessageCircle
+  },
   data() {
     return {
-      mobileMenuOpen: false,
+      navItems: [
+        { name: 'HOME', path: '/', icon: 'IconHome' },
+        { name: 'ABOUT', path: '/about', icon: 'IconUser' },
+        { name: 'PROJECTS', path: '/project', icon: 'IconBriefcase' },
+        { name: 'EXPERIENCES', path: '/experience', icon: 'IconFileText' },
+        { name: 'TESTIMONIALS', path: '/testimonial', icon: 'IconMessageCircle' }
+      ]
     }
-  },
+  }
 }
 </script>
 
 <style scoped>
-/* Scoped styles for the header if needed */
-.router-link-exact-active {
-  color: var(--color-brand-yellow); /* Example: Highlight active link */
-  font-weight: bold;
+/* --- Desktop Nav --- */
+.nav-text {
+  max-width: 0;
+  overflow: hidden;
+  transition: max-width 0.4s ease-in-out, margin-left 0.4s ease-in-out;
+  margin-left: 0;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  /* 14px */
+  font-weight: 500;
+}
+
+.group:hover .nav-text,
+.active-link.group .nav-text {
+  max-width: 120px;
+  margin-left: 0.5rem;
+}
+
+/* Common Active Link Style for All Views */
+.active-link {
+  background-color: var(--color-brand-yellow);
+  color: var(--color-brand-dark);
 }
 </style>

@@ -5,12 +5,10 @@
   --color-brand-gray: #1e293b;
   --color-brand-light-gray: #334155;
   --color-brand-text: #e2e8f0;
-
-  /* Definisi warna untuk variasi tombol dan elemen lain */
-  --color-info-500: #0ea5e9; /* Tailwind Sky-500 untuk Info */
-  --color-success-500: #10b981; /* Tailwind Emerald-500 untuk Success */
-  --color-warning-500: #f59e0b; /* Tailwind Amber-500 untuk Warning */
-  --color-danger-500: #ef4444; /* Tailwind Red-500 untuk Danger */
+  --color-info-500: #0ea5e9;
+  --color-success-500: #10b98;
+  --color-warning-500: #f59e0b;
+  --color-danger-500: #ef4444;
 
   --font-sans: Poppins, sans-serif;
   --font-khand: Khand, sans-serif;
@@ -112,13 +110,13 @@ select::-ms-expand {
 
 @layer base {
   body {
-    @apply bg-brand-dark text-brand-text font-khand antialiased;
+    @apply bg-brand-dark text-brand-text font-montserrat antialiased;
   }
   .section-title {
     @apply text-3xl md:text-4xl font-medium text-white mb-2 text-center;
   }
   .section-subtitle {
-    @apply text-brand-text/80 text-center mb-8 md:mb-12 max-w-xl mx-auto;
+    @apply text-brand-text/80 mb-8 md:mb-2 mx-auto;
   }
   .btn {
     @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300;
@@ -154,7 +152,7 @@ select::-ms-expand {
     @apply bg-transparent text-brand-text hover:bg-brand-light-gray;
   }
   .card {
-    @apply bg-brand-gray p-6 rounded-xl shadow-lg
+    @apply p-6 rounded-xl shadow-lg
            transition-all duration-700 ease-in-out
            hover:shadow-2xl hover:-translate-y-1;
   }
@@ -179,9 +177,9 @@ body::before {
   background-image:
     linear-gradient(to right, rgba(51, 65, 85, 0.2) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(51, 65, 85, 0.2) 1px, transparent 1px);
-  background-size: 40px 40px; /* Adjust grid size */
+  background-size: 45px 45px;
   z-index: -1;
-  opacity: 0.5; /* Adjust grid opacity */
+  opacity: 0.5;
 }
 
 /* Page Load Animation Delay */
@@ -207,6 +205,7 @@ body::before {
 /* Initial state for page load animation */
 .animate-on-load {
   opacity: 0;
+  animation: var(--animate-page-load);
 }
 
 /* Untuk efek parallax sederhana pada gambar hero */
@@ -268,10 +267,10 @@ body::before {
   transform: translateX(0);
 }
 .animate-marquee {
-  animation: marquee 20s linear infinite; /* Adjust duration as needed */
+  animation: marquee 20s linear infinite;
   display: flex;
-  flex-wrap: nowrap; /* Prevents items from wrapping */
-  min-width: fit-content; /* Ensures content extends beyond viewport */
+  flex-wrap: nowrap;
+  min-width: fit-content;
 }
 
 /* Scrollbar Styling (Webkit-based browsers: Chrome, Safari, Edge) */
@@ -286,14 +285,14 @@ body::before {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-brand-light-gray); /* Lighter gray thumb */
+  background: var(--color-brand-light-gray);
   border-radius: 10px;
-  border: 2px solid var(--color-brand-dark); /* Border to make it thinner */
+  border: 2px solid var(--color-brand-dark);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand-yellow); /* Yellow on hover */
-  border-color: var(--color-brand-gray); /* Adjust border on hover */
+  background: var(--color-brand-yellow);
+  border-color: var(--color-brand-gray);
 }
 
 /* Kalender (input type="date") - styling mostly handled by base input styles */
@@ -301,7 +300,21 @@ body::before {
    For consistent design, a JS library (e.g., flatpickr, react-datepicker) is highly recommended.
    We can apply basic font/color but the popup itself is browser-controlled. */
 input[type='date'] {
-  /* Basic styling will apply from the universal input rule */
-  /* You might want to override color for the calendar icon/text if needed */
-  color-scheme: dark; /* Tries to enforce dark theme for the native date picker UI */
+  color-scheme: dark;
+}
+.nav-link {
+  @apply flex items-center gap-4 rounded-lg px-4 py-3 text-gray-300 transition-colors duration-200 hover:bg-brand-light-gray hover:text-white;
+}
+
+.nav-link.router-link-exact-active {
+  @apply bg-brand-yellow text-brand-dark font-semibold;
+}
+
+.chart-bar {
+  @apply flex w-full flex-col justify-end rounded-t-lg bg-green-500/50 transition-all duration-300 hover:bg-green-500;
+  position: relative;
+}
+
+.bar-label {
+  @apply absolute -top-5 left-1/2 -translate-x-1/2 transform text-xs text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100;
 }

@@ -2,24 +2,17 @@
   <section class="container px-4 py-8 mx-auto md:px-8 lg:px-16 text-white">
     <HighlightedTitle lighter="Timeline" unlighter="Education" class="text-center" />
     <div class="relative wrap overflow-hidden p-6 md:p-10 h-full">
-      <div
-        class="absolute border-opacity-20 border-brand-gray h-full border timeline-line"
-        style="left: 50%"
-      ></div>
+      <div class="absolute border-opacity-20 border-brand-gray h-full border timeline-line" style="left: 50%"></div>
 
-      <div
-        class="mb-8 flex justify-between items-center w-full timeline-item"
-        :class="{ 'left-aligned': false, 'right-aligned': true }"
-      >
+      <div class="mb-8 flex justify-between items-center w-full timeline-item"
+        :class="{ 'left-aligned': false, 'right-aligned': true }">
         <div class="order-1 w-5/12 hidden md:block"></div>
         <div
-          class="z-20 flex items-center order-1 bg-brand-yellow shadow-xl w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full"
-        >
+          class="z-20 flex items-center order-1 bg-brand-yellow shadow-xl w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full">
           <h1 class="mx-auto text-white font-semibold text-lg"></h1>
         </div>
         <div
-          class="order-1 bg-brand-gray rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 card transition-all duration-300 ease-in-out hover:scale-105"
-        >
+          class="order-1  rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 card transition-all duration-300 ease-in-out hover:scale-105">
           <p class="text-xs text-gray-400 mb-2 md:text-left text-center">
             Oct <span class="text-xl font-bold block text-white">01</span> 2020
           </p>
@@ -30,38 +23,25 @@
             Started journey with new office
           </p>
           <div class="flex mt-4 space-x-2 justify-center md:justify-start">
-            <img
-              src="https://placehold.co/60x60/334155/FFF?text=Office1"
-              alt="Office 1"
-              class="w-16 h-16 object-cover rounded-md"
-            />
-            <img
-              src="https://placehold.co/60x60/334155/FFF?text=Office2"
-              alt="Office 2"
-              class="w-16 h-16 object-cover rounded-md"
-            />
-            <img
-              src="https://placehold.co/60x60/334155/FFF?text=Office3"
-              alt="Office 3"
-              class="w-16 h-16 object-cover rounded-md"
-            />
+            <img src="https://placehold.co/60x60/334155/FFF?text=Office1" alt="Office 1"
+              class="w-16 h-16 object-cover rounded-md" />
+            <img src="https://placehold.co/60x60/334155/FFF?text=Office2" alt="Office 2"
+              class="w-16 h-16 object-cover rounded-md" />
+            <img src="https://placehold.co/60x60/334155/FFF?text=Office3" alt="Office 3"
+              class="w-16 h-16 object-cover rounded-md" />
           </div>
         </div>
       </div>
 
-      <div
-        class="mb-8 flex justify-between flex-row-reverse items-center w-full timeline-item"
-        :class="{ 'left-aligned': true, 'right-aligned': false }"
-      >
+      <div class="mb-8 flex justify-between flex-row-reverse items-center w-full timeline-item"
+        :class="{ 'left-aligned': true, 'right-aligned': false }">
         <div class="order-1 w-5/12 hidden md:block"></div>
         <div
-          class="z-20 flex items-center order-1 bg-brand-yellow shadow-xl w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full"
-        >
+          class="z-20 flex items-center order-1 bg-brand-yellow shadow-xl w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full">
           <h1 class="mx-auto text-white font-semibold text-lg"></h1>
         </div>
         <div
-          class="order-1 bg-brand-gray rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 card transition-all duration-300 ease-in-out hover:scale-105"
-        >
+          class="order-1  rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 card transition-all duration-300 ease-in-out hover:scale-105">
           <p class="text-xs text-gray-400 mb-2 md:text-left text-center">
             Sept <span class="text-xl font-bold block text-white">16</span> 2020
           </p>
@@ -74,19 +54,15 @@
         </div>
       </div>
 
-      <div
-        class="mb-8 flex justify-between items-center w-full timeline-item"
-        :class="{ 'left-aligned': false, 'right-aligned': true }"
-      >
+      <div class="mb-8 flex justify-between items-center w-full timeline-item"
+        :class="{ 'left-aligned': false, 'right-aligned': true }">
         <div class="order-1 w-5/12 hidden md:block"></div>
         <div
-          class="z-20 flex items-center order-1 bg-brand-yellow shadow-xl w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full"
-        >
+          class="z-20 flex items-center order-1 bg-brand-yellow shadow-xl w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full">
           <h1 class="mx-auto text-white font-semibold text-lg"></h1>
         </div>
         <div
-          class="order-1 bg-brand-gray rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 card transition-all duration-300 ease-in-out hover:scale-105"
-        >
+          class="order-1  rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 card transition-all duration-300 ease-in-out hover:scale-105">
           <p class="text-xs text-gray-400 mb-2 md:text-left text-center">
             Sept <span class="text-xl font-bold block text-white">12</span> 2020
           </p>
@@ -100,19 +76,15 @@
         </div>
       </div>
 
-      <div
-        class="mb-8 flex justify-between flex-row-reverse items-center w-full timeline-item"
-        :class="{ 'left-aligned': true, 'right-aligned': false }"
-      >
+      <div class="mb-8 flex justify-between flex-row-reverse items-center w-full timeline-item"
+        :class="{ 'left-aligned': true, 'right-aligned': false }">
         <div class="order-1 w-5/12 hidden md:block"></div>
         <div
-          class="z-20 flex items-center order-1 bg-brand-yellow shadow-xl w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full"
-        >
+          class="z-20 flex items-center order-1 bg-brand-yellow shadow-xl w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-full">
           <h1 class="mx-auto text-white font-semibold text-lg"></h1>
         </div>
         <div
-          class="order-1 bg-brand-gray rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 card transition-all duration-300 ease-in-out hover:scale-105"
-        >
+          class="order-1  rounded-lg shadow-xl w-full md:w-5/12 px-6 py-4 card transition-all duration-300 ease-in-out hover:scale-105">
           <p class="text-xs text-gray-400 mb-2 md:text-left text-center">
             Aug <span class="text-xl font-bold block text-white">20</span> 2020
           </p>
@@ -120,11 +92,8 @@
             New People joined with our journey
           </h3>
           <div class="flex items-center mt-4 justify-center md:justify-start">
-            <img
-              src="https://placehold.co/60x60/334155/FFF?text=John"
-              alt="John Smith"
-              class="w-12 h-12 object-cover rounded-full mr-3"
-            />
+            <img src="https://placehold.co/60x60/334155/FFF?text=John" alt="John Smith"
+              class="w-12 h-12 object-cover rounded-full mr-3" />
             <div>
               <p class="text-sm font-semibold text-white text-left">John Smith</p>
               <p class="text-xs text-gray-400 text-left">Designer</p>
