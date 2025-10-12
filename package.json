@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "watch": "npx @tailwindcss/cli -i ./src/assets/input.css -o ./src/assets/style.css --watch",
     "build": "vite build",
     "preview": "vite preview",
@@ -17,9 +17,11 @@
     "@tabler/icons": "^3.35.0",
     "@tabler/icons-vue": "^3.35.0",
     "@tailwindcss/vite": "^4.1.10",
+    "@vueform/multiselect": "^2.6.11",
     "@vueuse/core": "^13.4.0",
     "axios": "^1.10.0",
     "pinia": "^3.0.1",
+    "sweetalert2": "^11.26.1",
     "tailwindcss": "^4.1.10",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"

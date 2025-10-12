@@ -50,8 +50,8 @@
 
 <script setup>
 import { ref } from 'vue'
-import BaseModal from '@/components/common/BaseModal.vue'
-import HighlightedTitle from '@/components/common/HighlightedTitle.vue'
+import BaseModal from '@/components/ui/BaseModal.vue'
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
 
 const isModalVisible = ref(false)
 const selectedStack = ref(null)

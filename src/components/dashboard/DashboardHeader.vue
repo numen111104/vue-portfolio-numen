@@ -24,198 +24,27 @@
             class="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition duration-150 hover:bg-brand-light-gray hover:text-white"
           >
             <span class="sr-only">Go to main page</span>
-            <svg class="h-5 w-5 fill-current" viewBox="0 0 20 20">
-              <path
-                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
-              />
-            </svg>
+            <IconHome class="h-5 w-5" />
           </router-link>
         </div>
 
         <div class="flex items-center space-x-3">
-          <div class="relative inline-flex" ref="notificationButtonRef">
+          <!-- Notifications (Placeholder) -->
+          <div class="relative inline-flex">
             <button
               class="w-8 h-8 flex items-center justify-center bg-brand-light-gray hover:bg-brand-gray transition duration-150 rounded-full"
-              :class="{ 'bg-brand-gray': notificationOpen }"
-              aria-haspopup="true"
-              @click.prevent="notificationOpen = !notificationOpen"
-              :aria-expanded="notificationOpen"
             >
               <span class="sr-only">Notifications</span>
-              <svg class="w-4 h-4" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  class="fill-current text-gray-400"
-                  d="M6.5 0C2.91 0 0 2.462 0 5.5c0 1.075.37 2.074 1 2.922V12l2.699-1.542A7.454 7.454 0 006.5 11c3.59 0 6.5-2.462 6.5-5.5S10.09 0 6.5 0z"
-                />
-                <path
-                  class="fill-current text-gray-500"
-                  d="M16 9.5c0-.987-.429-1.897-1.147-2.639C14.124 10.348 10.66 13 6.5 13c-.103 0-.202-.018-.305-.021C7.231 13.617 8.556 14 10 14c.449 0 .886-.04 1.307-.11L15 16v-4h-.012C15.627 11.285 16 10.425 16 9.5z"
-                />
-              </svg>
+              <IconBell class="w-5 h-5 text-gray-400" />
               <div
                 class="absolute top-0 right-0 w-2.5 h-2.5 bg-brand-yellow border-2 border-brand-gray rounded-full"
               ></div>
             </button>
-            <transition
-              enter-active-class="transition ease-out duration-200 transform"
-              enter-from-class="opacity-0 -translate-y-2"
-              enter-to-class="opacity-100 translate-y-0"
-              leave-active-class="transition ease-out duration-200"
-              leave-from-class="opacity-100"
-              leave-to-class="opacity-0"
-            >
-              <div
-                v-show="notificationOpen"
-                class="origin-top-right z-10 absolute top-full right-0 -mr-48 sm:mr-0 min-w-80 bg-brand-gray border border-gray-600 py-1.5 rounded shadow-lg overflow-hidden mt-1"
-              >
-                <div class="text-xs font-semibold text-gray-400 uppercase pt-1.5 pb-2 px-4">
-                  Notifications
-                </div>
-                <ul>
-                  <li class="border-b border-gray-600 last:border-0">
-                    <a
-                      class="block py-2 px-4 hover:bg-brand-dark"
-                      href="#0"
-                      @click="notificationOpen = false"
-                    >
-                      <span class="block text-sm mb-2"
-                        >📣
-                        <span class="font-medium text-brand-text"
-                          >Edit your information in a swipe</span
-                        >
-                        Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                        mollit anim.</span
-                      >
-                      <span class="block text-xs font-medium text-gray-400">Feb 12, 2021</span>
-                    </a>
-                  </li>
-                  <li class="border-b border-gray-600 last:border-0">
-                    <a
-                      class="block py-2 px-4 hover:bg-brand-dark"
-                      href="#0"
-                      @click="notificationOpen = false"
-                    >
-                      <span class="block text-sm mb-2"
-                        >📣
-                        <span class="font-medium text-brand-text"
-                          >Edit your information in a swipe</span
-                        >
-                        Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                        mollit anim.</span
-                      >
-                      <span class="block text-xs font-medium text-gray-400">Feb 9, 2021</span>
-                    </a>
-                  </li>
-                  <li class="border-b border-gray-600 last:border-0">
-                    <a
-                      class="block py-2 px-4 hover:bg-brand-dark"
-                      href="#0"
-                      @click="notificationOpen = false"
-                    >
-                      <span class="block text-sm mb-2"
-                        >🚀<span class="font-medium text-brand-text"
-                          >Say goodbye to paper receipts!</span
-                        >
-                        Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                        mollit anim.</span
-                      >
-                      <span class="block text-xs font-medium text-gray-400">Jan 24, 2020</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </transition>
-          </div>
-
-          <div class="relative inline-flex" ref="infoButtonRef">
-            <button
-              class="w-8 h-8 flex items-center justify-center bg-brand-light-gray hover:bg-brand-gray transition duration-150 rounded-full"
-              :class="{ 'bg-brand-gray': infoOpen }"
-              aria-haspopup="true"
-              @click.prevent="infoOpen = !infoOpen"
-              :aria-expanded="infoOpen"
-            >
-              <span class="sr-only">Info</span>
-              <svg class="w-4 h-4" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  class="fill-current text-gray-400"
-                  d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 12c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm1-3H7V4h2v5z"
-                />
-              </svg>
-            </button>
-            <transition
-              enter-active-class="transition ease-out duration-200 transform"
-              enter-from-class="opacity-0 -translate-y-2"
-              enter-to-class="opacity-100 translate-y-0"
-              leave-active-class="transition ease-out duration-200"
-              leave-from-class="opacity-100"
-              leave-to-class="opacity-0"
-            >
-              <div
-                v-show="infoOpen"
-                class="origin-top-right z-10 absolute top-full right-0 min-w-44 bg-brand-gray border border-gray-600 py-1.5 rounded shadow-lg overflow-hidden mt-1"
-              >
-                <div class="text-xs font-semibold text-gray-400 uppercase pt-1.5 pb-2 px-3">
-                  Need help?
-                </div>
-                <ul>
-                  <li>
-                    <a
-                      class="font-medium text-sm text-brand-yellow hover:text-yellow-400 flex items-center py-1 px-3"
-                      href="#0"
-                      @click="infoOpen = false"
-                    >
-                      <svg
-                        class="w-3 h-3 fill-current text-brand-yellow shrink-0 mr-2"
-                        viewBox="0 0 12 12"
-                      >
-                        <rect y="3" width="12" height="9" rx="1" />
-                        <path d="M2 0h8v2H2z" />
-                      </svg>
-                      <span>Documentation</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="font-medium text-sm text-brand-yellow hover:text-yellow-400 flex items-center py-1 px-3"
-                      href="#0"
-                      @click="infoOpen = false"
-                    >
-                      <svg
-                        class="w-3 h-3 fill-current text-brand-yellow shrink-0 mr-2"
-                        viewBox="0 0 12 12"
-                      >
-                        <path
-                          d="M10.5 0h-9A1.5 1.5 0 000 1.5v9A1.5 1.5 0 001.5 12h9a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0010.5 0zM10 7L8.207 5.207l-3 3-1.414-1.414 3-3L5 2h5v5z"
-                        />
-                      </svg>
-                      <span>Support Site</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="font-medium text-sm text-brand-yellow hover:text-yellow-400 flex items-center py-1 px-3"
-                      href="#0"
-                      @click="infoOpen = false"
-                    >
-                      <svg
-                        class="w-3 h-3 fill-current text-brand-yellow shrink-0 mr-2"
-                        viewBox="0 0 12 12"
-                      >
-                        <path
-                          d="M11.854.146a.5.5 0 00-.525-.116l-11 4a.5.5 0 00-.015.934l4.8 1.921 1.921 4.8A.5.5 0 007.5 12h.008a.5.5 0 00.462-.329l4-11a.5.5 0 00-.116-.525z"
-                        />
-                      </svg>
-                      <span>Contact us</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </transition>
           </div>
 
           <hr class="w-px h-6 bg-gray-600" />
 
+          <!-- User Menu -->
           <div class="relative inline-flex" ref="userButtonRef">
             <button
               class="inline-flex justify-center items-center group"
@@ -224,11 +53,12 @@
               :aria-expanded="userDropdownOpen"
             >
               <img
+                v-if="user"
                 class="w-8 h-8 rounded-full"
-                src="https://placehold.co/300x210/000000/FFF"
+                :src="`https://ui-avatars.com/api/?name=${user.full_name}&background=dfff00&color=0f172a`"
                 width="32"
                 height="32"
-                alt="User"
+                :alt="user.full_name"
               />
             </button>
             <transition
@@ -244,24 +74,22 @@
                 class="origin-top-right z-10 absolute top-full right-0 min-w-44 bg-brand-gray border border-gray-600 py-1.5 rounded shadow-lg overflow-hidden mt-1"
               >
                 <div class="pt-0.5 pb-2 px-3 mb-1 border-b border-gray-600">
-                  <div class="font-medium text-brand-text">Nu'man Nasyar MZ</div>
+                  <div class="font-medium text-brand-text">{{ user?.full_name }}</div>
                   <div class="text-xs text-gray-400 italic">Administrator</div>
                 </div>
                 <ul>
                   <li>
-                    <a
-                      class="font-medium text-sm text-brand-yellow hover:text-yellow-400 flex items-center py-1 px-3"
-                      href="settings.html"
-                      @click="userDropdownOpen = false"
-                      >Settings</a
+                    <button
+                      class="font-medium text-sm text-brand-yellow hover:text-yellow-400 flex items-center py-1 px-3 w-full"
+                      @click="openSettingsModal"
+                      >Settings</button
                     >
                   </li>
                   <li>
-                    <a
-                      class="font-medium text-sm text-brand-yellow hover:text-yellow-400 flex items-center py-1 px-3"
-                      href="login.html"
-                      @click="userDropdownOpen = false"
-                      >Sign Out</a
+                    <button
+                      class="font-medium text-sm text-brand-yellow hover:text-yellow-400 flex items-center py-1 px-3 w-full"
+                      @click="handleLogout"
+                      >Sign Out</button
                     >
                   </li>
                 </ul>
@@ -271,40 +99,86 @@
         </div>
       </div>
     </div>
+
+    <!-- Settings Modal -->
+    <BaseModal :show="showSettingsModal" @close="showSettingsModal = false" modal-class="max-w-2xl">
+        <template #header>User Settings</template>
+        <UserSettingsForm v-if="user" ref="settingsForm" :user="user" :errors="errors" @submit="handleProfileUpdate" />
+        <template #footer>
+            <button @click="showSettingsModal = false" class="btn btn-secondary">Cancel</button>
+            <ButtonSpinner @click="settingsForm?.handleSubmit()" :loading="formLoading" class="btn-primary">Save Changes</ButtonSpinner>
+        </template>
+    </BaseModal>
+
   </header>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { onClickOutside } from '@vueuse/core'
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { onClickOutside } from '@vueuse/core';
+import { useAuthStore } from '@/stores/auth';
+import { IconHome, IconBell } from '@tabler/icons-vue';
+import BaseModal from '@/components/ui/BaseModal.vue';
+import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
+import UserSettingsForm from '@/components/dashboard/UserSettingsForm.vue';
+import { useErrorHandler } from '@/composables/useErrorHandler';
+import swal from '@/utils/swal';
+import apiService from '@/services/apiService';
 
-const props = defineProps({
+defineProps({
   sidebarOpen: {
     type: Boolean,
     required: true,
   },
-})
+});
 
-const emit = defineEmits(['toggle-sidebar'])
 
-const notificationOpen = ref(false)
-const infoOpen = ref(false)
-const userDropdownOpen = ref(false)
+const authStore = useAuthStore();
+const router = useRouter();
+const { errors, processErrors, clearErrors } = useErrorHandler();
 
-const notificationButtonRef = ref(null)
-onClickOutside(notificationButtonRef, () => {
-  notificationOpen.value = false
-})
-const infoButtonRef = ref(null)
-onClickOutside(infoButtonRef, () => {
-  infoOpen.value = false
-})
-const userButtonRef = ref(null)
+const user = computed(() => authStore.currentUser);
+
+const userDropdownOpen = ref(false);
+const showSettingsModal = ref(false);
+const formLoading = ref(false);
+const settingsForm = ref(null);
+
+const userButtonRef = ref(null);
 onClickOutside(userButtonRef, () => {
-  userDropdownOpen.value = false
-})
-</script>
+  userDropdownOpen.value = false;
+});
 
-<style scoped>
-/* No specific scoped styles needed, relies on global/Tailwind */
-</style>
+const handleLogout = async () => {
+  userDropdownOpen.value = false;
+  await authStore.logout();
+  await router.push({ name: 'login' });
+};
+
+const openSettingsModal = () => {
+    clearErrors();
+    userDropdownOpen.value = false;
+    showSettingsModal.value = true;
+}
+
+const handleProfileUpdate = async (payload) => {
+    formLoading.value = true;
+    clearErrors();
+    try {
+        const response = await apiService.put('/profile', payload);
+        authStore.user = response.data.data; // Update user in store
+        localStorage.setItem('user', JSON.stringify(response.data.data)); // also update local storage
+        showSettingsModal.value = false;
+        swal.fire('Success', 'Your profile has been updated.', 'success');
+    } catch (error) {
+        processErrors(error);
+        if (error.response?.status !== 422) {
+            swal.fire('Error', 'An unexpected error occurred.', 'error');
+        }
+    } finally {
+        formLoading.value = false;
+    }
+};
+
+</script>

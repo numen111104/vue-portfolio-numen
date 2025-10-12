@@ -16,42 +16,42 @@ const Home = [
     children: [
       {
         path: '',
-        name: 'Home',
+        name: 'home',
         component: HomeView,
       },
       {
         path: 'about',
-        name: 'About',
+        name: 'about',
         component: AboutDetailView,
       },
       {
         path: 'project',
-        name: 'Project',
+        name: 'project',
         component: ProjectDetailView,
       },
       {
         path: 'experience',
-        name: 'Experience',
+        name: 'experience',
         component: ExperiencesDetailView,
       },
       {
         path: 'experience/:id',
-        name: 'SingleExperience',
+        name: 'single-experience',
         component: SingleExperienceView,
       },
       {
         path: 'testimonial',
-        name: 'Testimonial',
+        name: 'testimonial',
         component: TestimonialDetailView,
       },
       {
         path: 'certifications',
-        name: 'Certifications',
+        name: 'certifications',
         component: CertificationsView,
       },
       {
         path: 'tech-stacks',
-        name: 'TechStacks',
+        name: 'tech-stacks',
         component: TechStackView,
       },
     ],

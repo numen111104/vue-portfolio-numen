@@ -1,7 +1,7 @@
 <template>
   <!-- Header for Tablet and Desktop -->
   <header
-    class="fixed top-0 left-0 right-0 z-40 hidden px-4 py-2 md:block bg-brand-dark/80 backdrop-blur-md animate-on-load animate-page-load">
+    class="fixed top-0 left-0 right-0 z-40 hidden px-4 py-2 md:block backdrop-blur-md animate-on-load animate-page-load">
     <div class="container flex items-center justify-center mx-auto">
       <!-- Tablet Nav (Icon + Text, No Expand) -->
       <nav class="items-center hidden space-x-1 md:flex lg:hidden">
@@ -14,7 +14,7 @@
       </nav>
 
       <!-- Desktop Nav (Icon with Expand) -->
-      <nav class="items-center hidden p-1 space-x-1 rounded-full lg:flex bg-black/20">
+      <nav class="items-center hidden p-1 space-x-1 rounded-full lg:flex">
         <router-link v-for="item in navItems" :key="item.name" :to="item.path"
           class="flex items-center px-3 py-1.5 transition-all duration-300 rounded-full group text-white/70 hover:text-brand-yellow"
           exact-active-class="active-link">
@@ -29,9 +29,9 @@
 
   <!-- Mobile Bottom Nav (Icon Only) -->
   <nav
-    class="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around p-2 md:hidden bg-brand-dark/80 backdrop-blur-md">
+    class="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around p-2 md:hidden  backdrop-blur-md">
     <router-link v-for="item in navItems" :key="item.name" :to="item.path"
-      class="flex items-center justify-center w-12 h-12 transition-colors rounded-full text-white/70 hover:bg-brand-yellow hover:text-brand-yellow"
+      class="flex items-center justify-center w-12 h-12 transition-colors rounded-full text-white/70 hover:bg-brand-yellow hover:text-brand-dark"
       exact-active-class="active-link">
       <component :is="item.icon" class="w-7 h-7" />
     </router-link>
@@ -79,7 +79,6 @@ export default {
   margin-left: 0;
   white-space: nowrap;
   font-size: 0.875rem;
-  /* 14px */
   font-weight: 500;
 }
 
@@ -89,7 +88,6 @@ export default {
   margin-left: 0.5rem;
 }
 
-/* Common Active Link Style for All Views */
 .active-link {
   background-color: var(--color-brand-yellow);
   color: var(--color-brand-dark);

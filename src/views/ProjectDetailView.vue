@@ -90,53 +90,49 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import BaseModal from '@/components/common/BaseModal.vue'
-import HighlightedTitle from '@/components/common/HighlightedTitle.vue'
+import { ref, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router';
+import { useUiStore } from '@/stores/ui';
+import apiService from '@/services/apiService';
+import BaseModal from '@/components/ui/BaseModal.vue'
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
 
-const projects = ref([
-  {
-    id: 1,
-    title: 'PT Shafura Digital Indonesia',
-    short_description: 'Company Profile & Management System.',
-    full_description:
-      "A comprehensive company profile and internal management system built to streamline operations. Features include employee management, project tracking, and a client portal. Built with a team of two other developers.",
-    images: [
-      'https://placehold.co/800x600/1e293b/dfff00?text=Shafura+1',
-      'https://placehold.co/800x600/1e293b/dfff00?text=Shafura+2',
-      'https://placehold.co/800x600/1e293b/dfff00?text=Shafura+3',
-    ],
-    status: 'Completed',
-    stack: ['Vue.js', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
-    links: [
-      { name: 'Live Demo', url: '#' },
-      { name: 'GitHub', url: '#' },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Restaurant App',
-    short_description: 'Flutter app with Dicoding Restaurant API.',
-    full_description:
-      "A mobile application for browsing restaurants, viewing menus, and making reservations. Developed as part of a scholarship program, it integrates with a live restaurant API and features a clean, user-friendly interface.",
-    images: ['https://placehold.co/800x600/334155/dfff00?text=Restaurant+App'],
-    status: 'Completed',
-    stack: ['Flutter', 'Dart', 'REST API'],
-    links: [{ name: 'GitHub', url: '#' }],
-  },
-  {
-    id: 3,
-    title: 'Digital Things Developer',
-    short_description: 'An eLearning platform for developers.',
-    full_description:
-      'Digital Things Developer is an eLearning platform designed to help developers learn new skills. It features video courses, interactive exercises, and progress tracking.',
-    images: ['https://placehold.co/800x600/0f172a/dfff00?text=eLearning+Platform'],
-    status: 'In Progress',
-    stack: ['React', 'Next.js', 'Firebase', 'Stripe'],
-    links: [{ name: 'Live Demo', url: '#' }],
-  },
-  // Add more dummy projects as needed
-])
+const projects = ref([])
+const loading = ref(true); // This can be a local loading for the component content itself
+const route = useRoute();
+const uiStore = useUiStore();
+
+onMounted(async () => {
+  uiStore.startLoading();
+  try {
+    const response = await apiService.get('/projects');
+    projects.value = response.data.data;
+
+    // Check for query param to auto-open a modal
+    if (route.query.open) {
+      const projectToOpen = projects.value.find(p => p.id === route.query.open);
+      if (projectToOpen) {
+        openProjectModal(projectToOpen);
+      }
+    }
+
+  } catch (error) {
+    console.error("Failed to fetch projects:", error);
+  } finally {
+    loading.value = false;
+    uiStore.stopLoading();
+  }
+});
+
+// Watch for query changes to open modal without full page reload
+watch(() => route.query.open, (newId) => {
+    if (newId) {
+        const projectToOpen = projects.value.find(p => p.id === newId);
+        if (projectToOpen) {
+            openProjectModal(projectToOpen);
+        }
+    }
+});
 
 const isModalVisible = ref(false)
 const selectedProject = ref(null)

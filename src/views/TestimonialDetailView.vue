@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import HighlightedTitle from '@/components/common/HighlightedTitle.vue'
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
 
 export default {
   name: 'TestimonialDetailView',

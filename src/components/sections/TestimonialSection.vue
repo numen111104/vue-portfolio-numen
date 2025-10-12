@@ -1,7 +1,7 @@
 <template>
   <section
     id="testimonials"
-    class="container px-4 py-12 mx-auto text-white md:px-8 lg:px-16 bg-brand-dark"
+    class="container px-4 py-12 mx-auto text-white md:px-8 lg:px-16"
   >
     <div class="flex flex-col mb-10 md:flex-row md:justify-between md:items-start">
       <div class="max-w-3xl">
@@ -257,7 +257,7 @@
 </template>
 
 <script>
-import BaseModal from '@/components/common/BaseModal.vue' // Impor BaseModal
+import BaseModal from '@/components/ui/BaseModal.vue' // Impor BaseModal
 
 export default {
   name: 'TestimonialSection',

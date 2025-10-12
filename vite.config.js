@@ -14,7 +14,22 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['7598097070c9.ngrok-free.app'],
+    host: true, // Added to ensure it listens on all interfaces
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/storage': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/sanctum': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+    },
+    },
   },
-})
+)
 

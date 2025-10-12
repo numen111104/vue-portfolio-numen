@@ -38,7 +38,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { experiences } from '@/data/experiences.js'
-import HighlightedTitle from '@/components/common/HighlightedTitle.vue'
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
 
 const route = useRoute()
 const experience = ref(null)

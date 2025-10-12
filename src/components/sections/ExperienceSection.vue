@@ -163,7 +163,7 @@
 </template>
 
 <script>
-import HighlightedTitle from '../common/HighlightedTitle.vue'
+import HighlightedTitle from '../ui/HighlightedTitle.vue'
 
 export default {
   name: 'ExperienceSection',

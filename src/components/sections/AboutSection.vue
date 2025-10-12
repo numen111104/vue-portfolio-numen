@@ -1,5 +1,5 @@
 <template>
-  <section id="about" class="container px-4 py-8 mx-auto text-white md:px-8 lg:px-16">
+  <section id="about" class="container px-4 py-8 mx-auto text-white md:px-8 lg:px-16 bg-brand-dark">
     <h3 class="section-title md:hidden block hover:text-brand-yellow transition-all">About Me</h3>
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <div class="col-span-1 card-home fade-in-up-on-scroll" style="animation-delay: 0.2s">
@@ -38,55 +38,21 @@
               class="flex items-center justify-between space-x-2 btn btn-primary group"
             >
               <span>MORE ABOUT ME</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
-                />
-              </svg>
+              <IconArrowRight class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45" />
             </router-link>
           </div>
 
           <div class="flex justify-between gap-4 mt-4">
             <a
-              href="https://github.com/numen111104"
+              v-for="link in socialMediaLinks" :key="link.id"
+              :href="link.url"
               target="_blank"
               class="flex items-center justify-center p-4 transition duration-300 rounded-2xl hover:bg-brand-yellow/10"
             >
               <img
-                src="@/assets/images/icons/ic-github.png"
+                :src="getSocialIcon(link.platform_name)"
                 class="w-10 h-10 md:w-14 md:h-14"
-                alt="GitHub"
-              />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/numannasyarmz"
-              target="_blank"
-              class="flex items-center justify-center p-4 transition duration-300 rounded-2xl hover:bg-brand-yellow/10"
-            >
-              <img
-                src="@/assets/images/icons/ic-linkedin.png"
-                class="w-10 h-10 md:w-14 md:h-14"
-                alt="LinkedIn"
-              />
-            </a>
-            <a
-              href="mailto:numannasyarmz11@gmail.com"
-              target="_blank"
-              class="flex items-center justify-center p-4 transition duration-300 rounded-2xl hover:bg-brand-yellow/10"
-            >
-              <img
-                src="@/assets/images/icons/ic-gmail.png"
-                class="w-10 h-10 md:w-14 md:h-14"
-                alt="Email"
+                :alt="link.platform_name"
               />
             </a>
           </div>
@@ -125,47 +91,15 @@
               class="flex items-center justify-between transition-transform group hover:text-brand-yellow"
             >
               <span> Certifications </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
-                ></path>
-              </svg>
+              <IconArrowRight class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45" />
             </router-link>
           </h3>
           <div class="relative w-full overflow-hidden">
             <div class="flex items-center gap-8 mb-4 animate-marquee">
               <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Certificate 1"
-                class="shrink-0 object-cover rounded-lg w-28 sm:w-32 md:w-38"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Certificate 2"
-                class="shrink-0 object-cover rounded-lg w-28 sm:w-32 md:w-38"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Certificate 3"
-                class="shrink-0 object-cover rounded-lg w-28 sm:w-32 md:w-38"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Certificate 4"
-                class="shrink-0 object-cover rounded-lg w-28 sm:w-32 md:w-38"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Certificate 5"
+                v-for="cert in certifications" :key="cert.id"
+                :src="`/storage/${cert.credential_image_url}`"
+                :alt="cert.title"
                 class="shrink-0 object-cover rounded-lg w-28 sm:w-32 md:w-38"
               />
             </div>
@@ -182,20 +116,7 @@
           <h3 class="mb-2 text-xl font-semibold">
             <router-link to="/tech-stacks" class="flex items-center justify-between group">
               Techstacks
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewbox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
-                />
-              </svg>
+              <IconArrowRight class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45" />
             </router-link>
           </h3>
           <div class="relative w-full overflow-hidden">
@@ -204,64 +125,10 @@
               style="transition: all 500ms"
             >
               <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="JavaScript"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="TypeScript"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Vue.js"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Git"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Figma"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Chakra UI"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="JavaScript"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="TypeScript"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Vue.js"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Git"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Figma"
-                class="shrink-0 w-24 h-24"
-              />
-              <img
-                src="https://placehold.co/300x210/000000/FFF"
-                alt="Chakra UI"
-                class="shrink-0 w-24 h-24"
+                v-for="tech in technologies" :key="tech.id"
+                :src="`/storage/${tech.icon_url}`"
+                :alt="tech.name"
+                class="shrink-0 w-24 h-24 object-contain bg-white/10 p-2 rounded-full"
               />
             </div>
           </div>
@@ -275,14 +142,59 @@
   </section>
 </template>
 
-<script>
-export default {
-  name: 'AboutSection',
-  mounted() {
-    // Optionally re-initialize Intersection Observer specifically for this component if needed
-    // However, the global observer in App.vue should handle this.
-  },
-}
-</script>
+<script setup>
+import { ref, onMounted } from 'vue';
+import apiService from '@/services/apiService';
+import { IconArrowRight } from '@tabler/icons-vue';
 
-<style scoped></style>
+import { useUiStore } from '@/stores/ui';
+
+import githubIcon from '@/assets/images/icons/ic-github.png';
+import linkedinIcon from '@/assets/images/icons/ic-linkedin.png';
+import gmailIcon from '@/assets/images/icons/ic-gmail.png';
+
+const uiStore = useUiStore();
+
+// --- STATE ---
+const certifications = ref([]);
+const technologies = ref([]);
+const socialMediaLinks = ref([]);
+
+// --- ASSET HELPERS ---
+const socialIconMap = {
+  github: githubIcon,
+  linkedin: linkedinIcon,
+  gmail: gmailIcon,
+};
+
+const getSocialIcon = (platformName) => {
+  if (!platformName) return 'https://placehold.co/48'; // Return placeholder if name is null/undefined
+  const name = platformName.toLowerCase();
+  return socialIconMap[name] || 'https://placehold.co/48';
+};
+
+// --- DATA FETCHING ---
+const fetchData = async () => {
+  uiStore.startLoading(); // For certs
+  uiStore.startLoading(); // For techs
+  uiStore.startLoading(); // For socials
+  try {
+    const [certsRes, techsRes, socialsRes] = await Promise.all([
+      apiService.get('/certifications').finally(() => uiStore.stopLoading()),
+      apiService.get('/technologies').finally(() => uiStore.stopLoading()),
+      apiService.get('/social-media-links').finally(() => uiStore.stopLoading()),
+    ]);
+
+    certifications.value = certsRes.data.data;
+    technologies.value = techsRes.data.data;
+    socialMediaLinks.value = socialsRes.data.data;
+
+  } catch (error) {
+    console.error("Failed to fetch about section data:", error);
+    // Ensure loading is stopped even on error if any promises reject before all complete
+    // Note: The .finally() calls will handle stopping for each individual promise.
+  }
+};
+
+onMounted(fetchData);
+</script>

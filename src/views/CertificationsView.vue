@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import HighlightedTitle from '@/components/common/HighlightedTitle.vue'
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
 
 const certifications = ref([
   {
