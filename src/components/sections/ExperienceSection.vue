@@ -33,29 +33,36 @@
       </router-link>
     </div>
 
-    <div class="flex flex-col gap-8">
+    <div v-if="uiStore.isLoading && experiences.length === 0" class="text-center">
+        <IconLoader2 class="animate-spin inline-block w-8 h-8" />
+    </div>
+    <div v-else class="flex flex-col gap-8">
       <div
-        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home fade-in-up-on-scroll"
+        v-for="(exp, index) in experiences"
+        :key="exp.id"
+        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home"
+        :style="{ animationDelay: `${index * 0.1}s` }"
       >
         <img
-          src="https://placehold.co/300x210/000000/FFF"
-          alt="IDCamp 2024 Certificate"
-          class="shrink-0 object-cover w-full rounded-lg sm:w-28 sm:h-28"
+          v-if="exp.thumbnail_url"
+          :src="`/storage/${exp.thumbnail_url}`"
+          :alt="exp.title"
+          class="shrink-0 object-cover w-full rounded-lg sm:w-28 sm:h-28 bg-gray-800"
         />
+        <div v-else class="shrink-0 w-full sm:w-28 sm:h-28 rounded-lg bg-gray-800"></div>
+
         <div>
-          <span class="block mb-1 text-sm font-medium text-brand-yellow"
-            >September 2024 - March 2025</span
-          >
+          <span class="block mb-1 text-sm font-medium text-brand-yellow">
+            {{ formatDate(exp.start_date) }} - {{ exp.end_date ? formatDate(exp.end_date) : 'Present' }}
+          </span>
           <h3 class="mb-2 text-xl font-semibold text-white">
-            Multiplatform Participant - IDCamp 2024 by IDCamp & Dicoding
+            {{ exp.title }} - {{ exp.organization_name }}
           </h3>
           <p class="mb-4 text-sm leading-relaxed text-gray-400">
-            Mengawali tahun 2025, saya menerima kabar luar biasa: saya dinyatakan lolos ke tahap
-            Intermediate Program IDCamp 2024 kelas Multiplatform! Program yang diadakan oleh Indosat
-            Ooredoo Hutchison Digital Camp bersama Dicoding...
+            {{ exp.description?.substring(0, 200) }}...
           </p>
-          <a
-            href="#"
+          <router-link
+            :to="`/experience/${exp.id}`"
             class="inline-flex items-center text-brand-yellow hover:text-yellow-300 group"
           >
             <span>Read more</span>
@@ -73,111 +80,43 @@
                 d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
               />
             </svg>
-          </a>
-        </div>
-      </div>
-
-      <div
-        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home fade-in-up-on-scroll"
-        style="animation-delay: 0.1s"
-      >
-        <img
-          src="https://placehold.co/300x210/000000/FFF"
-          alt="IT Trainer SMK PGRI 3 Malang"
-          class="shrink-0 object-cover w-full rounded-lg sm:w-28 sm:h-28"
-        />
-        <div>
-          <span class="block mb-1 text-sm font-medium text-brand-yellow">October, 2024</span>
-          <h3 class="mb-2 text-xl font-semibold text-white">IT Trainer, SMK PGRI 3 Malang</h3>
-          <p class="mb-4 text-sm leading-relaxed text-gray-400">
-            Saya mendapat kesempatan berharga untuk menjadi seorang pengajar di SMK PGRI 3 Malang
-            bersama delapan orang teman saya. Dalam program ini, kami berbagi ilmu yang telah kami
-            pelajari selama di...
-          </p>
-          <a
-            href="#"
-            class="inline-flex items-center text-brand-yellow hover:text-yellow-300 group"
-          >
-            <span>Read more</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-4 h-4 ml-2 transition-transform duration-300 transform group-hover:translate-x-1"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <div
-        class="flex flex-col items-start gap-6 p-6 sm:flex-row rounded-xl bg-brand-gray card-home fade-in-up-on-scroll"
-        style="animation-delay: 0.2s"
-      >
-        <img
-          src="https://placehold.co/300x210/000000/FFF"
-          alt="UI UX Competition Winner"
-          class="shrink-0 object-cover w-full rounded-lg sm:w-28 sm:h-28"
-        />
-        <div>
-          <span class="block mb-1 text-sm font-medium text-brand-yellow">June, 2024</span>
-          <h3 class="mb-2 text-xl font-semibold text-white">
-            2nd Champion UI UX Competition, Universitas Dian Nuswantoro
-          </h3>
-          <p class="mb-4 text-sm leading-relaxed text-gray-400">
-            Saya berkesempatan mengikuti sebuah perlombaan di bidang UI/UX Design, sebuah hal yang
-            cukup berbeda dari jurusan saya. Namun, ketertarikan saya terhadap dunia desain membuat
-            saya yakin untuk mencoba tantangan baru...
-          </p>
-          <a
-            href="#"
-            class="inline-flex items-center text-brand-yellow hover:text-yellow-300 group"
-          >
-            <span>Read more</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-4 h-4 ml-2 transition-transform duration-300 transform group-hover:translate-x-1"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </a>
+          </router-link>
         </div>
       </div>
     </div>
   </section>
 </template>
 
-<script>
-import HighlightedTitle from '../ui/HighlightedTitle.vue'
+<script setup>
+import { ref, onMounted } from 'vue';
+import HighlightedTitle from '../ui/HighlightedTitle.vue';
+import apiService from '@/services/apiService';
+import { IconLoader2 } from '@tabler/icons-vue';
+import { useUiStore } from '@/stores/ui';
 
-export default {
-  name: 'ExperienceSection',
-  components: {
-    HighlightedTitle,
-  },
-}
+const experiences = ref([]);
+const uiStore = useUiStore();
+
+const formatDate = (dateString) => {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+};
+
+onMounted(async () => {
+    uiStore.startLoading();
+    try {
+        const response = await apiService.get('/experiences', { params: { latest: 3 } });
+        experiences.value = response.data.data;
+    } catch (error) {
+        console.error("Failed to fetch latest experiences:", error);
+    } finally {
+        uiStore.stopLoading();
+    }
+});
 </script>
 
 <style scoped>
-/* Scoped styles for the Experiences section if needed */
-/* Ensure your .card-home styles are defined in your global CSS or this component's style block */
 .card-home {
-  /* Add your card styles here, example from previous components: */
   background-color: var(--brand-gray);
   border-radius: 0.75rem;
   padding: 1.5rem;

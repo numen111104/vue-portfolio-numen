@@ -16,7 +16,7 @@
         <div v-for="(project, index) in projects" :key="project.id"
           class="overflow-hidden transition-all duration-500 transform rounded-lg cursor-pointer card hover:-translate-y-2"
           :class="`animate-on-load load-delay-${index + 2}`" @click="openProjectModal(project)">
-          <img class="object-cover w-full h-48" :src="project.images[0]" :alt="project.title" />
+          <img class="object-cover w-full h-48" :src="project.thumbnail_url" :alt="project.title" />
           <div class="p-6">
             <h5 class="mb-2 text-lg font-bold tracking-tight text-white">
               {{ project.title }}
@@ -37,47 +37,56 @@
         </h3>
       </template>
 
-      <div v-if="selectedProject" class="grid grid-cols-1 gap-8 md:grid-cols-2">
-        <!-- Image Slider -->
-        <div class="relative w-full">
-          <img :src="selectedProject.images[currentImageIndex]" :alt="selectedProject.title"
-            class="object-cover w-full rounded-lg h-80" />
-          <div v-if="selectedProject.images.length > 1" class="absolute inset-0 flex items-center justify-between px-4">
-            <button @click.stop="prevImage" class="p-2 text-white bg-black/30 rounded-full hover:bg-black/50">
-              &lt;
-            </button>
-            <button @click.stop="nextImage" class="p-2 text-white bg-black/30 rounded-full hover:bg-black/50">
-              &gt;
-            </button>
-          </div>
-        </div>
+      <div v-if="selectedProject" class="space-y-6">
+                <!-- Image Viewer -->
+                <div class="w-full">
+                  <ImageViewer :images="selectedProject.images" />
+                </div>
 
         <!-- Project Info -->
-        <div>
-          <span class="px-3 py-1 text-xs font-semibold rounded-full" :class="{
-            'bg-green-500/20 text-green-400': selectedProject.status === 'Completed',
-            'bg-blue-500/20 text-blue-400': selectedProject.status === 'In Progress',
-          }">{{ selectedProject.status }}</span>
-          <p class="mt-4 text-gray-300">{{ selectedProject.full_description }}</p>
-
-          <h5 class="mt-6 mb-2 font-semibold text-white">Tech Stack</h5>
-          <div class="flex flex-wrap gap-2">
-            <span v-for="stack in selectedProject.stack" :key="stack"
-              class="px-2 py-1 text-xs rounded bg-brand-light-gray text-gray-300">{{ stack }}</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="space-x-1">
+            <span class="px-3 py-1 text-xs font-semibold rounded-full" :class="{
+              'bg-green-500/20 text-green-400': selectedProject.status === 'Completed',
+              'bg-blue-500/20 text-blue-400': selectedProject.status === 'In Progress' || selectedProject.status === 'Ongoing',
+              'bg-red-500/20 text-red-400': selectedProject.status === 'Cancelled',
+              'bg-yellow-500/20 text-yellow-400': selectedProject.status === 'On Hold',
+              'bg-gray-500/20 text-gray-400': selectedProject.status === 'Planned',
+              'bg-gray-500/20 text-gray-400': !selectedProject.status
+            }">{{ selectedProject.status }}</span>
+            <span v-if="selectedProject.repository_url" class="px-3 py-1 text-xs font-semibold rounded-full bg-gray-500/20 text-gray-400">Open Source</span>
+            <span v-else class="px-3 py-1 text-xs font-semibold rounded-full bg-gray-500/20 text-gray-400">Private</span>
+            <p class="mt-4 text-gray-300">{{ selectedProject.description }}</p>
           </div>
 
-          <h5 class="mt-6 mb-2 font-semibold text-white">Resources</h5>
-          <div class="flex flex-wrap gap-4">
-            <a v-for="link in selectedProject.links" :key="link.name" :href="link.url" target="_blank"
-              class="inline-flex items-center gap-2 text-brand-yellow hover:text-yellow-400">
-              <span>{{ link.name }}</span>
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z">
-                </path>
-                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
-              </svg>
-            </a>
+          <div>
+            <h5 class="font-semibold text-white mb-3">Tech Stack</h5>
+            <div class="flex flex-wrap gap-2">
+              <span v-for="tech in selectedProject.technologies" :key="tech.id"
+                class="px-2 py-1 text-xs rounded flex items-center space-x-1 bg-brand-light-gray text-gray-300">
+                <img v-if="tech.icon_url" :src="`/storage/${tech.icon_url}`" class="w-4 h-4 object-contain" />
+                <span>{{ tech.name }}</span>
+              </span>
+            </div>
+
+            <h5 class="mt-6 mb-3 font-semibold text-white">Resources</h5>
+            <div class="space-y-2 space-x-3">
+              <a v-if="selectedProject.project_url" :href="selectedProject.project_url" target="_blank"
+                class="inline-flex items-center gap-2 text-brand-yellow hover:text-yellow-400">
+                <span>Live Project</span>
+                <IconExternalLink class="w-4 h-4" />
+              </a>
+              <a v-if="selectedProject.repository_url" :href="selectedProject.repository_url" target="_blank"
+                class="inline-flex items-center gap-2 text-brand-yellow hover:text-yellow-400">
+                <span>Code Repository</span>
+                <IconExternalLink class="w-4 h-4" />
+              </a>
+              <a v-for="link in selectedProject.links" :key="link.label" :href="link.url" target="_blank"
+                class="inline-flex items-center gap-2 text-brand-yellow hover:text-yellow-400">
+                <span>{{ link.label }}</span>
+                <IconExternalLink class="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -90,25 +99,33 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useUiStore } from '@/stores/ui';
 import apiService from '@/services/apiService';
-import BaseModal from '@/components/ui/BaseModal.vue'
-import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
+import BaseModal from '@/components/ui/BaseModal.vue';
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
+import { IconExternalLink } from '@tabler/icons-vue';
 
-const projects = ref([])
-const loading = ref(true); // This can be a local loading for the component content itself
+import ImageViewer from '@/components/ui/ImageViewer.vue';
+
+const projects = ref([]);
+const loading = ref(true);
 const route = useRoute();
 const uiStore = useUiStore();
+
+
 
 onMounted(async () => {
   uiStore.startLoading();
   try {
     const response = await apiService.get('/projects');
-    projects.value = response.data.data;
+    projects.value = response.data.data.map(project => ({
+      ...project,
+      thumbnail_url: project.thumbnail_url ? `/storage/${project.thumbnail_url}` : null,
+      images: project.images ? project.images.map(img => `/storage/${img}`) : [],
+    }));
 
-    // Check for query param to auto-open a modal
     if (route.query.open) {
       const projectToOpen = projects.value.find(p => p.id === route.query.open);
       if (projectToOpen) {
@@ -124,39 +141,35 @@ onMounted(async () => {
   }
 });
 
-// Watch for query changes to open modal without full page reload
 watch(() => route.query.open, (newId) => {
-    if (newId) {
-        const projectToOpen = projects.value.find(p => p.id === newId);
-        if (projectToOpen) {
-            openProjectModal(projectToOpen);
-        }
+  if (newId) {
+    const projectToOpen = projects.value.find(p => p.id === newId);
+    if (projectToOpen) {
+      openProjectModal(projectToOpen);
     }
+  } else {
+    closeModal();
+  }
 });
 
-const isModalVisible = ref(false)
-const selectedProject = ref(null)
-const currentImageIndex = ref(0)
+const isModalVisible = ref(false);
+const selectedProject = ref(null);
 
 const openProjectModal = (project) => {
-  selectedProject.value = project
-  currentImageIndex.value = 0
-  isModalVisible.value = true
-}
+  selectedProject.value = project;
+  isModalVisible.value = true;
+};
 
 const closeModal = () => {
-  isModalVisible.value = false
-}
-
-const nextImage = () => {
-  if (selectedProject.value) {
-    currentImageIndex.value = (currentImageIndex.value + 1) % selectedProject.value.images.length
+  isModalVisible.value = false;
+  selectedProject.value = null;
+  // Also update URL to remove query param
+  if (route.query.open) {
+    const router = useRoute().router;
+    router.replace({ query: {} });
   }
-}
+};
 
-const prevImage = () => {
-  if (selectedProject.value) {
-    currentImageIndex.value = (currentImageIndex.value - 1 + selectedProject.value.images.length) % selectedProject.value.images.length
-  }
-}
 </script>
+
+

@@ -2,8 +2,8 @@
   <div class="fade-in-down-on-scroll is-visible">
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h2 class="section-title !text-left !text-3xl">Certifications</h2>
-        <p class="section-subtitle !mx-0 !max-w-full !text-left !text-base">
+        <HighlightedTitle unlighter="My" lighter="Certifications" />
+        <p class="text-brand-text/80 !mx-0 !max-w-full !text-left !text-base">
           Manage your certifications and credentials.
         </p>
       </div>
@@ -41,27 +41,34 @@
             <tr v-else-if="certifications.length === 0">
               <td colspan="5" class="text-center py-8 text-gray-400">No certifications found.</td>
             </tr>
-            <tr v-for="cert in certifications" :key="cert.id" class="border-b border-brand-light-gray hover:bg-brand-dark/50">
+            <tr v-for="cert in certifications" :key="cert.id"
+              class="border-b border-brand-light-gray hover:bg-brand-dark/50">
               <td class="px-6 py-4">
-                <img :src="`/storage/${cert.credential_image_url}`" :alt="cert.title" class="h-10 w-auto object-contain bg-white/10 p-1 rounded-md">
+                <img :src="`/storage/${cert.credential_image_url}`" :alt="cert.title"
+                  class="h-10 w-auto object-contain bg-white/10 p-1 rounded-md">
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
                 {{ cert.title }}
               </th>
               <td class="px-6 py-4">{{ cert.issuing_organization }}</td>
               <td class="px-6 py-4">
-                <span v-if="cert.deleted_at" class="px-2 py-1 text-xs font-medium text-red-400 bg-red-900/50 rounded-full">Deleted</span>
-                <span v-else-if="cert.is_published" class="px-2 py-1 text-xs font-medium text-green-400 bg-green-900/50 rounded-full">Published</span>
+                <span v-if="cert.deleted_at"
+                  class="px-2 py-1 text-xs font-medium text-red-400 bg-red-900/50 rounded-full">Deleted</span>
+                <span v-else-if="cert.is_published"
+                  class="px-2 py-1 text-xs font-medium text-green-400 bg-green-900/50 rounded-full">Published</span>
                 <span v-else class="px-2 py-1 text-xs font-medium text-gray-400 bg-gray-700 rounded-full">Draft</span>
               </td>
               <td class="px-6 py-4 text-right space-x-4">
                 <template v-if="cert.deleted_at">
-                  <button @click="openConfirmModal('restore', cert)" class="font-medium text-green-400 hover:underline">Restore</button>
-                  <button @click="openConfirmModal('forceDelete', cert)" class="font-medium text-red-500 hover:underline">Delete Permanently</button>
+                  <button @click="openConfirmModal('restore', cert)"
+                    class="font-medium text-green-400 hover:underline">Restore</button>
+                  <button @click="openConfirmModal('forceDelete', cert)"
+                    class="font-medium text-red-500 hover:underline">Delete Permanently</button>
                 </template>
                 <template v-else>
                   <button @click="openFormModal(cert)" class="font-medium text-blue-400 hover:underline">Edit</button>
-                  <button @click="openConfirmModal('delete', cert)" class="font-medium text-red-500 hover:underline">Trash</button>
+                  <button @click="openConfirmModal('delete', cert)"
+                    class="font-medium text-red-500 hover:underline">Trash</button>
                 </template>
               </td>
             </tr>
@@ -108,6 +115,7 @@ import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import swal from '@/utils/swal';
 import { useErrorHandler } from '@/composables/useErrorHandler';
 import { IconPlus, IconLoader2 } from '@tabler/icons-vue';
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
 
 // State
 const { errors, processErrors, clearErrors } = useErrorHandler();
@@ -182,7 +190,7 @@ const handleFormSubmit = async (formData) => {
   } catch (error) {
     processErrors(error);
     if (error.response?.status !== 422) {
-        swal.fire('Error', 'An unexpected error occurred.', 'error');
+      swal.fire('Error', 'An unexpected error occurred.', 'error');
     }
   } finally {
     formLoading.value = false;

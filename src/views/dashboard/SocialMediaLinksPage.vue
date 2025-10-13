@@ -2,8 +2,8 @@
   <div class="fade-in-down-on-scroll is-visible">
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h2 class="section-title !text-left !text-3xl">Social Media Links</h2>
-        <p class="section-subtitle !mx-0 !max-w-full !text-left !text-base">
+        <HighlightedTitle unlighter="Social Media" lighter="Links" />
+        <p class="text-brand-text/80 !mx-0 !max-w-full !text-left !text-base">
           Manage your social media profile links.
         </p>
       </div>
@@ -48,17 +48,22 @@
               <td class="px-6 py-4 truncate max-w-xs">{{ link.url }}</td>
               <td class="px-6 py-4">{{ link.display_order }}</td>
               <td class="px-6 py-4">
-                <span v-if="link.deleted_at" class="px-2 py-1 text-xs font-medium text-red-400 bg-red-900/50 rounded-full">Deleted</span>
-                <span v-else class="px-2 py-1 text-xs font-medium text-green-400 bg-green-900/50 rounded-full">Active</span>
+                <span v-if="link.deleted_at"
+                  class="px-2 py-1 text-xs font-medium text-red-400 bg-red-900/50 rounded-full">Deleted</span>
+                <span v-else
+                  class="px-2 py-1 text-xs font-medium text-green-400 bg-green-900/50 rounded-full">Active</span>
               </td>
               <td class="px-6 py-4 text-right space-x-4">
                 <template v-if="link.deleted_at">
-                  <button @click="openConfirmModal('restore', link)" class="font-medium text-green-400 hover:underline">Restore</button>
-                  <button @click="openConfirmModal('forceDelete', link)" class="font-medium text-red-500 hover:underline">Delete Permanently</button>
+                  <button @click="openConfirmModal('restore', link)"
+                    class="font-medium text-green-400 hover:underline">Restore</button>
+                  <button @click="openConfirmModal('forceDelete', link)"
+                    class="font-medium text-red-500 hover:underline">Delete Permanently</button>
                 </template>
                 <template v-else>
                   <button @click="openFormModal(link)" class="font-medium text-blue-400 hover:underline">Edit</button>
-                  <button @click="openConfirmModal('delete', link)" class="font-medium text-red-500 hover:underline">Trash</button>
+                  <button @click="openConfirmModal('delete', link)"
+                    class="font-medium text-red-500 hover:underline">Trash</button>
                 </template>
               </td>
             </tr>
@@ -103,6 +108,8 @@ import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import swal from '@/utils/swal';
 import { useErrorHandler } from '@/composables/useErrorHandler';
 import { IconPlus, IconLoader2 } from '@tabler/icons-vue';
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
+
 
 // State
 const { errors, processErrors, clearErrors } = useErrorHandler();
@@ -173,7 +180,7 @@ const handleFormSubmit = async (formData) => {
   } catch (error) {
     processErrors(error);
     if (error.response?.status !== 422) {
-        swal.fire('Error', 'An unexpected error occurred.', 'error');
+      swal.fire('Error', 'An unexpected error occurred.', 'error');
     }
   } finally {
     formLoading.value = false;

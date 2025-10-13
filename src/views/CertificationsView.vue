@@ -9,64 +9,94 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      <div v-for="(cert, index) in certifications" :key="index" class="card animate-on-load"
-        :style="{ animationDelay: `${(index + 2) * 0.1}s` }">
-        <img :src="cert.image" :alt="cert.title" class="object-cover w-full h-48 rounded-t-lg" />
+    <div v-if="uiStore.isLoading && certifications.length === 0" class="text-center py-20">
+        <IconLoader2 class="animate-spin inline-block w-12 h-12" />
+    </div>
+
+    <div v-else class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div 
+        v-for="(cert, index) in certifications" 
+        :key="cert.id" 
+        class="card animate-on-load group cursor-pointer" 
+        :style="{ animationDelay: `${(index + 2) * 0.1}s` }"
+        @click="openModal(cert)"
+      >
+        <div class="overflow-hidden rounded-t-lg">
+            <img :src="`/storage/${cert.credential_image_url}`" :alt="cert.title" class="object-cover w-full h-48 transition-transform duration-300 group-hover:scale-110" />
+        </div>
         <div class="p-6">
           <h4 class="text-lg font-semibold text-brand-yellow">{{ cert.title }}</h4>
-          <p class="mt-2 text-sm text-gray-400">Issued by: {{ cert.issuer }}</p>
-          <p class="text-sm text-gray-400">Date: {{ cert.date }}</p>
+          <p class="mt-2 text-sm text-gray-400">Issued by: {{ cert.issuing_organization }}</p>
+          <p class="text-sm text-gray-400">Date: {{ formatDate(cert.issue_date) }}</p>
         </div>
       </div>
     </div>
+
+    <CertificationDetailModal 
+        v-if="selectedCertification" 
+        :show="isModalOpen" 
+        :certification="selectedCertification" 
+        @close="closeModal"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
+import { ref, onMounted, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
+import apiService from '@/services/apiService';
+import { useUiStore } from '@/stores/ui';
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
+import CertificationDetailModal from '@/components/ui/CertificationDetailModal.vue';
+import { IconLoader2 } from '@tabler/icons-vue';
 
-const certifications = ref([
-  {
-    title: 'Vue.js Certified Developer',
-    issuer: 'Vue School',
-    date: '2023-10-15',
-    image: 'https://placehold.co/600x400/dfff00/0f172a?text=Vue.js+Cert',
-  },
-  {
-    title: 'Tailwind CSS Fundamentals',
-    issuer: 'Tailwind Labs',
-    date: '2023-08-20',
-    image: 'https://placehold.co/600x400/dfff00/0f172a?text=Tailwind+Cert',
-  },
-  {
-    title: 'JavaScript Algorithms and Data Structures',
-    issuer: 'freeCodeCamp',
-    date: '2023-05-30',
-    image: 'https://placehold.co/600x400/dfff00/0f172a?text=JS+Cert',
-  },
-  {
-    title: 'Responsive Web Design',
-    issuer: 'freeCodeCamp',
-    date: '2023-03-10',
-    image: 'https://placehold.co/600x400/dfff00/0f172a?text=RWD+Cert',
-  },
-  {
-    title: 'UI/UX Design Principles',
-    issuer: 'Coursera',
-    date: '2022-12-05',
-    image: 'https://placehold.co/600x400/dfff00/0f172a?text=UI/UX+Cert',
-  },
-  {
-    title: 'Git Essential Training',
-    issuer: 'LinkedIn Learning',
-    date: '2022-11-20',
-    image: 'https://placehold.co/600x400/dfff00/0f172a?text=Git+Cert',
-  },
-])
+const uiStore = useUiStore();
+const route = useRoute();
+
+const certifications = ref([]);
+const selectedCertification = ref(null);
+const isModalOpen = ref(false);
+
+const openModal = (cert) => {
+    selectedCertification.value = cert;
+    isModalOpen.value = true;
+};
+
+const closeModal = () => {
+    isModalOpen.value = false;
+    // Optional: clear selected cert after transition
+    setTimeout(() => selectedCertification.value = null, 300);
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return 'N/A';
+  return new Date(dateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+};
+
+const fetchCertifications = async () => {
+    uiStore.startLoading();
+    try {
+        const response = await apiService.get('/certifications');
+        certifications.value = response.data.data;
+    } catch (error) {
+        console.error("Failed to fetch certifications:", error);
+    } finally {
+        uiStore.stopLoading();
+    }
+};
+
+onMounted(async () => {
+    await fetchCertifications();
+
+    // Check if we need to open a modal from URL query
+    watchEffect(() => {
+        const certIdToOpen = route.query.open;
+        if (certIdToOpen && certifications.value.length) {
+            const certToOpen = certifications.value.find(c => c.id === certIdToOpen);
+            if (certToOpen) {
+                openModal(certToOpen);
+            }
+        }
+    });
+});
 </script>
-
-<style scoped>
-/* The global styles from input.css will be applied */
-</style>

@@ -1,9 +1,9 @@
 <template>
   <div class="fade-in-down-on-scroll is-visible">
-    <h2 class="section-title !text-left !text-3xl">Hero Section</h2>
-    <p class="section-subtitle !mx-0 !max-w-full !text-left !text-base">
-      Customize the content of the main hero section on your homepage.
-    </p>
+     <HighlightedTitle unlighter="Hero" lighter="Section" />
+        <p class="text-brand-text/80 !mx-0 !max-w-full !text-left !text-base">
+           Customize the content of the main hero section on your homepage.
+        </p>
 
     <div class="card-home mt-6 bg-brand-gray p-6">
       <form @submit.prevent="saveSettings" class="space-y-6">
@@ -101,6 +101,7 @@ import { ref, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import swal from '@/utils/swal';
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
 
 const settings = ref({});
 const loading = ref(false);

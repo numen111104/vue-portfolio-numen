@@ -45,7 +45,7 @@
             <img
               :src="`/storage/${tech.icon_url}`"
               :alt="tech.name"
-              class="w-5 h-5 object-contain bg-white/10 rounded-full p-0.5"
+              class="w-5 h-5 object-contain"
             />
             <span class="text-sm font-medium">{{ tech.name }}</span>
           </div>

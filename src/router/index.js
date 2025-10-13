@@ -19,10 +19,9 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-  scrollBehavior(savedPosition) {
-    if (savedPosition) {
-      return savedPosition;
-    } else return { top: 0, behavior: 'smooth' };
+  scrollBehavior(to, from, savedPosition) {
+    // Selalu scroll ke atas dengan animasi smooth setiap kali route berganti.
+    return { top: 0, behavior: 'smooth' };
   },
 });
 

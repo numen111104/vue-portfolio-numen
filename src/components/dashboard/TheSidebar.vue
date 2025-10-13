@@ -7,13 +7,6 @@
     ]">
     <!-- Sidebar header -->
     <div class="mb-10 flex justify-end pr-3 sm:px-2">
-      <!-- Logo -->
-      <!-- <router-link class="block" to="/">
-        <h1 class="text-2xl font-bold text-white" :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">
-          Dash<span class="text-brand-yellow">Board</span>
-        </h1>
-      </router-link> -->
-
       <!-- Close button (mobile) -->
       <button class="text-gray-400 hover:text-brand-yellow lg:hidden" @click.stop="$emit('toggle-sidebar')"
         aria-controls="sidebar" :aria-expanded="sidebarOpen">
@@ -56,6 +49,40 @@
             </router-link>
           </li>
           <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
+            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/hero-settings') }">
+            <router-link class="block truncate transition duration-150 hover:text-gray-500"
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/hero-settings') }"
+              to="/admin/hero-settings">
+              <div class="flex items-center">
+                <IconHome class="h-6 w-6 shrink-0" />
+                <span class="ml-3 text-sm font-medium"
+                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Hero Settings</span>
+              </div>
+            </router-link>
+          </li>
+          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
+            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/about-content') }">
+            <router-link class="block truncate transition duration-150 hover:text-gray-500"
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/about-content') }" to="/admin/about-content">
+              <div class="flex items-center">
+                <IconUser class="h-6 w-6 shrink-0" />
+                <span class="ml-3 text-sm font-medium"
+                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">About Content</span>
+              </div>
+            </router-link>
+          </li>
+          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
+            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/experiences') }">
+            <router-link class="block truncate transition duration-150 hover:text-gray-500"
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/experiences') }" to="/admin/experiences">
+              <div class="flex items-center">
+                <IconBriefcase class="h-6 w-6 shrink-0" />
+                <span class="ml-3 text-sm font-medium"
+                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Experiences</span>
+              </div>
+            </router-link>
+          </li>
+          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
             :class="{ 'bg-brand-yellow': $route.path.includes('/admin/projects') }">
             <router-link class="block truncate transition duration-150 hover:text-gray-500"
               :class="{ 'text-brand-dark': $route.path.includes('/admin/projects') }"
@@ -68,14 +95,13 @@
             </router-link>
           </li>
           <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
-            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/hero-settings') }">
+            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/education') }">
             <router-link class="block truncate transition duration-150 hover:text-gray-500"
-              :class="{ 'text-brand-dark': $route.path.includes('/admin/hero-settings') }"
-              to="/admin/hero-settings">
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/education') }" to="/admin/education">
               <div class="flex items-center">
-                <IconHome class="h-6 w-6 shrink-0" />
+                <IconSchool class="h-6 w-6 shrink-0" />
                 <span class="ml-3 text-sm font-medium"
-                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Hero Settings</span>
+                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Education</span>
               </div>
             </router-link>
           </li>
@@ -131,7 +157,9 @@ import {
   IconHome,
   IconCode,
   IconCertificate,
-  IconLink
+  IconLink,
+  IconSchool,
+  IconUser
 } from '@tabler/icons-vue';
 
 defineProps({

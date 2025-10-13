@@ -6,7 +6,7 @@
   --color-brand-light-gray: #334155;
   --color-brand-text: #e2e8f0;
   --color-info-500: #0ea5e9;
-  --color-success-500: #10b98;
+  --color-success-500: #10b981;
   --color-warning-500: #f59e0b;
   --color-danger-500: #ef4444;
 
@@ -30,7 +30,7 @@
       transform: translateX(0%);
     }
     100% {
-      transform: translateX(-100%);
+      transform: translateX(-50%);
     }
   }
   @keyframes fadeInUp {
@@ -267,10 +267,9 @@ body::before {
   transform: translateX(0);
 }
 .animate-marquee {
-  animation: marquee 20s linear infinite;
+  animation: marquee 30s linear infinite;
   display: flex;
   flex-wrap: nowrap;
-  min-width: fit-content;
 }
 
 /* Scrollbar Styling (Webkit-based browsers: Chrome, Safari, Edge) */
@@ -295,10 +294,7 @@ body::before {
   border-color: var(--color-brand-gray);
 }
 
-/* Kalender (input type="date") - styling mostly handled by base input styles */
-/* Browser default date pickers are very hard to style with CSS.
-   For consistent design, a JS library (e.g., flatpickr, react-datepicker) is highly recommended.
-   We can apply basic font/color but the popup itself is browser-controlled. */
+
 input[type='date'] {
   color-scheme: dark;
 }

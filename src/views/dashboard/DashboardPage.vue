@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="fade-in-down-on-scroll">
-      <h2 class="section-title !text-left !text-3xl">Dashboard Overview</h2>
-      <p class="section-subtitle !mx-0 !max-w-full !text-left !text-base">
+      <HighlightedTitle unlighter="Dashboard" lighter="Overview" />
+      <p class="text-brand-text/80 !mx-0 !max-w-full !text-left !text-base">
         Welcome to your analytics dashboard.
       </p>
     </div>
@@ -118,6 +118,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
 
 onMounted(() => {
   const animatedElements = document.querySelectorAll(

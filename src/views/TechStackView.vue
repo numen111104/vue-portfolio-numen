@@ -11,34 +11,40 @@
 
     <!-- Tech Stacks Grid -->
     <div class="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
-      <div v-for="(stack, index) in techStacks" :key="stack.name"
+      <div v-for="(tech) in technologies" :key="tech.id"
         class="flex flex-col items-center justify-center p-6 text-center transition-all duration-300 rounded-lg cursor-pointer card hover:shadow-brand-yellow/20"
-        @click="openModal(stack)">
-        <img :src="stack.logo" :alt="stack.name" class="w-20 h-20 mb-4" />
-        <h4 class="text-lg font-semibold text-white">{{ stack.name }}</h4>
+        @click="openModal(tech)">
+        <img :src="`/storage/${tech.icon_url}`" :alt="tech.name" class="w-20 h-20 mb-4 object-contain" />
+        <h4 class="text-lg font-semibold text-white">{{ tech.name }}</h4>
       </div>
     </div>
 
     <!-- Tech Stack Detail Modal -->
     <BaseModal :show="isModalVisible" @close="closeModal" modal-class="max-w-2xl">
       <template #header>
-        <div v-if="selectedStack" class="flex items-center gap-4">
-          <img :src="selectedStack.logo" :alt="selectedStack.name" class="w-10 h-10" />
-          <span>{{ selectedStack.name }}</span>
+        <div v-if="selectedTech" class="flex items-center gap-4">
+          <img :src="`/storage/${selectedTech.icon_url}`" :alt="selectedTech.name" class="w-10 h-10 object-contain" />
+          <span>{{ selectedTech.name }}</span>
         </div>
       </template>
 
-      <div v-if="selectedStack">
-        <p class="text-gray-300">{{ selectedStack.description }}</p>
+      <div v-if="selectedTech">
+        <p class="text-gray-300">{{ selectedTech.description }}</p>
 
         <h5 class="mt-6 mb-4 text-xl font-semibold text-white">Related Projects</h5>
-        <ul class="space-y-4">
-          <li v-for="project in selectedStack.projects" :key="project.name"
-            class="p-4 transition-colors duration-300 rounded-lg bg-brand-light-gray hover:bg-brand-gray">
-            <h6 class="font-semibold text-brand-yellow">{{ project.name }}</h6>
-            <p class="text-sm text-gray-400">{{ project.description }}</p>
-          </li>
-        </ul>
+        <div v-if="selectedTech.projects && selectedTech.projects.length > 0" class="space-y-4">
+          <router-link
+            v-for="project in selectedTech.projects"
+            :key="project.id"
+            :to="{ name: 'project', query: { open: project.id } }"
+            class="block p-4 transition-colors duration-300 rounded-lg hover:bg-brand-light-gray bg-brand-gray">
+            <h6 class="font-semibold text-brand-yellow">{{ project.title }}</h6>
+            <p class="text-sm text-gray-400">{{ project.short_description }}</p>
+          </router-link>
+        </div>
+        <div v-else>
+            <p class="text-sm text-gray-400">No projects associated with this technology yet.</p>
+        </div>
       </div>
 
       <template #footer>
@@ -49,93 +55,68 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import BaseModal from '@/components/ui/BaseModal.vue'
-import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import apiService from '@/services/apiService';
+import BaseModal from '@/components/ui/BaseModal.vue';
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
 
-const isModalVisible = ref(false)
-const selectedStack = ref(null)
+const route = useRoute();
+const router = useRouter();
 
-const techStacks = ref([
-  {
-    name: 'Vue.js',
-    logo: 'https://placehold.co/100x100/000000/FFF?text=Vue',
-    description:
-      'An approachable, performant and versatile framework for building web user interfaces.',
-    projects: [
-      {
-        name: 'Portfolio Website',
-        description: 'This very website is built with Vue.js and Tailwind CSS.',
-      },
-      {
-        name: 'Project Management Tool',
-        description: 'A dashboard for managing projects and tasks, featuring a reactive UI.',
-      },
-    ],
-  },
-  {
-    name: 'React',
-    logo: 'https://placehold.co/100x100/000000/FFF?text=React',
-    description: 'A JavaScript library for building user interfaces, maintained by Facebook.',
-    projects: [
-      {
-        name: 'E-commerce Platform',
-        description: 'A full-featured online store with a shopping cart and payment integration.',
-      },
-    ],
-  },
-  {
-    name: 'Node.js',
-    logo: 'https://placehold.co/100x100/000000/FFF?text=Node',
-    description: "A JavaScript runtime built on Chrome's V8 JavaScript engine.",
-    projects: [
-      {
-        name: 'Real-time Chat Application',
-        description: 'A backend service using WebSockets for instant messaging.',
-      },
-    ],
-  },
-  {
-    name: 'Tailwind CSS',
-    logo: 'https://placehold.co/100x100/000000/FFF?text=TW',
-    description: 'A utility-first CSS framework for rapidly building custom user interfaces.',
-    projects: [
-      {
-        name: 'Portfolio Website',
-        description: 'The entire UI of this site is styled using Tailwind CSS.',
-      },
-    ],
-  },
-  {
-    name: 'Figma',
-    logo: 'https://placehold.co/100x100/000000/FFF?text=Figma',
-    description: 'A collaborative interface design tool for creating websites, apps, and more.',
-    projects: [
-      {
-        name: 'Mobile App Prototype',
-        description: 'Designed and prototyped a new mobile application for a client.',
-      },
-    ],
-  },
-  {
-    name: 'Git',
-    logo: 'https://placehold.co/100x100/000000/FFF?text=Git',
-    description: 'A free and open source distributed version control system.',
-    projects: [
-      {
-        name: 'All Projects',
-        description: 'Used for version control in every single project I have worked on.',
-      },
-    ],
-  },
-])
+const technologies = ref([]);
+const isModalVisible = ref(false);
+const selectedTech = ref(null);
 
-const openModal = (stack) => {
-  selectedStack.value = stack
-  isModalVisible.value = true
-}
+const fetchTechnologies = async () => {
+  try {
+    const response = await apiService.get('/technologies');
+    technologies.value = response.data.data;
+
+    // Check if a modal should be opened based on the query param
+    if (route.query.open) {
+      const techToOpen = technologies.value.find(t => t.id === route.query.open);
+      if (techToOpen) {
+        openModal(techToOpen);
+      }
+    }
+  } catch (error) {
+    console.error("Failed to fetch technologies:", error);
+  }
+};
+
+onMounted(fetchTechnologies);
+
+watch(() => route.query.open, (newId) => {
+  if (newId && technologies.value.length) {
+    const techToOpen = technologies.value.find(t => t.id === newId);
+    if (techToOpen) {
+      openModal(techToOpen);
+    }
+  } else {
+    closeModal();
+  }
+});
+
+const openModal = async (tech) => {
+  try {
+    // Fetch detailed info, including related projects
+    const response = await apiService.get(`/technologies/${tech.id}`);
+    selectedTech.value = response.data.data;
+    isModalVisible.value = true;
+    // Update URL without reloading page
+    router.replace({ query: { open: tech.id } });
+  } catch (error) {
+    console.error(`Failed to fetch details for ${tech.name}:`, error);
+  }
+};
 
 const closeModal = () => {
-  isModalVisible.value = false
-}
+  isModalVisible.value = false;
+  selectedTech.value = null;
+  // Clear the query parameter from the URL
+  if (route.query.open) {
+    router.replace({ query: {} });
+  }
+};
 </script>

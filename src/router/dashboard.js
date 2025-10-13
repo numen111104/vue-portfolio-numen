@@ -1,11 +1,14 @@
 import AdminLayout from '@/layouts/AdminLayout.vue'
 
-import DashboardView from '@/views/dashboard/DashboardView.vue'
-import ProjectsView from '@/views/dashboard/ProjectsView.vue'
-import HeroSettingView from '@/views/dashboard/HeroSetting.vue'
-import TechStacksView from '@/views/dashboard/TechStacks.vue'
-import CertificationsView from '@/views/dashboard/CertificationsView.vue'
-import SocialMediaLinksView from '@/views/dashboard/SocialMediaLinks.vue'
+import DashboardView from '@/views/dashboard/DashboardPage.vue'
+import ProjectsView from '@/views/dashboard/ProjectsPage.vue'
+import HeroSettingView from '@/views/dashboard/HeroSettingPage.vue'
+import TechStacksView from '@/views/dashboard/TechStacksPage.vue'
+import CertificationsView from '@/views/dashboard/CertificationsPage.vue'
+import SocialMediaLinksView from '@/views/dashboard/SocialMediaLinksPage.vue'
+import EducationPage from '@/views/dashboard/EducationPage.vue'
+import AboutContentPage from '@/views/dashboard/AboutContentPage.vue'
+import ExperiencesPage from '@/views/dashboard/ExperiencesPage.vue'
 
 const Dashboard = [
   {
@@ -20,14 +23,29 @@ const Dashboard = [
         component: DashboardView,
       },
       {
+        path: 'hero-settings',
+        name: 'dashboard-hero-settings',
+        component: HeroSettingView,
+      },
+      {
+        path: 'about-content',
+        name: 'dashboard-about-content',
+        component: AboutContentPage,
+      },
+      {
+        path: 'experiences',
+        name: 'dashboard-experiences',
+        component: ExperiencesPage,
+      },
+      {
         path: 'projects',
         name: 'dashboard-projects',
         component: ProjectsView,
       },
       {
-        path: 'hero-settings',
-        name: 'dashboard-hero-settings',
-        component: HeroSettingView,
+        path: 'education',
+        name: 'dashboard-education',
+        component: EducationPage,
       },
       {
         path: 'tech-stacks',
