@@ -1,155 +1,234 @@
 <template>
   <div>
-    <div class="fade-in-down-on-scroll">
-      <HighlightedTitle unlighter="Dashboard" lighter="Overview" />
+    <div class="animate-page-load load-delay-1">
+      <HighlightedTitle unlighter="Dashboard" lighter="Analytics Overview" />
       <p class="text-brand-text/80 !mx-0 !max-w-full !text-left !text-base">
-        Welcome to your analytics dashboard.
+        An overview of your website's traffic and security.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <div class="card-home fade-in-up-on-scroll bg-brand-gray p-6" style="animation-delay: 0.1s">
-        <h4 class="mb-2 font-semibold text-gray-400">Products Purchased</h4>
-        <p class="text-3xl font-bold text-white">$4,273</p>
-        <p class="mt-2 flex items-center text-sm text-green-400">
-          <svg class="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-              d="M10 17a.75.75 0 01-.75-.75V5.612L6.03 8.84a.75.75 0 11-1.06-1.06l4.25-4.25a.75.75 0 011.06 0l4.25 4.25a.75.75 0 11-1.06 1.06L10.75 5.612V16.25A.75.75 0 0110 17z"
-              clip-rule="evenodd" />
-          </svg>
-          <span>14 in last 30 days</span>
-        </p>
-      </div>
-
-      <div class="card-home fade-in-up-on-scroll bg-brand-gray p-6" style="animation-delay: 0.2s">
-        <h4 class="mb-2 font-semibold text-gray-400">Products Sold</h4>
-        <p class="text-3xl font-bold text-white">$6,237</p>
-        <p class="mt-2 flex items-center text-sm text-green-400">
-          <svg class="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-              d="M10 17a.75.75 0 01-.75-.75V5.612L6.03 8.84a.75.75 0 11-1.06-1.06l4.25-4.25a.75.75 0 011.06 0l4.25 4.25a.75.75 0 11-1.06 1.06L10.75 5.612V16.25A.75.75 0 0110 17z"
-              clip-rule="evenodd" />
-          </svg>
-          <span>18 in last 30 days</span>
-        </p>
-      </div>
-
-      <div class="card-home fade-in-up-on-scroll bg-brand-gray p-6" style="animation-delay: 0.3s">
-        <h4 class="mb-2 font-semibold text-gray-400">Total Purchases on Platform</h4>
-        <p class="text-3xl font-bold text-white">$7.8M</p>
-        <p class="mt-2 flex items-center text-sm text-green-400">
-          <svg class="mr-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-              d="M10 17a.75.75 0 01-.75-.75V5.612L6.03 8.84a.75.75 0 11-1.06-1.06l4.25-4.25a.75.75 0 011.06 0l4.25 4.25a.75.75 0 11-1.06 1.06L10.75 5.612V16.25A.75.75 0 0110 17z"
-              clip-rule="evenodd" />
-          </svg>
-          <span>9,118 in last 30 days</span>
-        </p>
-      </div>
-    </div>
-
-    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-5">
-      <div class="card-home fade-in-up-on-scroll bg-brand-gray p-6 lg:col-span-3" style="animation-delay: 0.4s">
-        <h4 class="mb-4 font-semibold text-white">Profit from Vendors</h4>
-        <div class="flex h-64 items-end justify-between gap-2">
-          <div class="chart-bar group" style="height: 80%"><span class="bar-label">$8000</span></div>
-          <div class="chart-bar group" style="height: 70%"><span class="bar-label">$6500</span></div>
-          <div class="chart-bar group" style="height: 78%"><span class="bar-label">$6100</span></div>
-          <div class="chart-bar group" style="height: 55%"><span class="bar-label">$4000</span></div>
-          <div class="chart-bar group" style="height: 20%"><span class="bar-label">$1000</span></div>
-          <div class="chart-bar group" style="height: 50%"><span class="bar-label">$3500</span></div>
-          <div class="chart-bar group" style="height: 30%"><span class="bar-label">$2000</span></div>
-        </div>
-        <div class="mt-2 flex justify-between border-t border-brand-light-gray pt-2 text-sm text-gray-400">
-          <span>NIKE</span>
-          <span>ADIDAS</span>
-          <span>YEEZY</span>
-          <span>JORDAN</span>
-          <span>PUMA</span>
-          <span>UNDER ARMOUR</span>
-          <span>NEW BALANCE</span>
+    <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Main column -->
+      <div class="lg:col-span-2">
+        <div class="card-home animate-page-load bg-brand-gray p-6" style="animation-delay: 0.3s">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+            <h4 class="font-semibold text-white mb-2 sm:mb-0">API Hits Over Time</h4>
+            <select v-model="chartPeriod" @change="fetchChartData" class="input-field bg-brand-light-gray w-full sm:w-auto">
+              <option value="day">Daily</option>
+              <option value="month">Monthly</option>
+              <option value="year">Yearly</option>
+            </select>
+          </div>
+          <apexchart type="area" height="350" :options="chartOptions" :series="chartSeries"></apexchart>
         </div>
       </div>
 
-      <div class="card-home fade-in-up-on-scroll bg-brand-gray p-6 lg:col-span-2" style="animation-delay: 0.5s">
-        <h4 class="mb-4 font-semibold text-white">Recent Purchases</h4>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm">
-            <thead>
-              <tr class="border-b border-brand-light-gray text-gray-400">
-                <th class="py-2">Date</th>
-                <th class="py-2">Vendor</th>
-                <th class="py-2">Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b border-brand-light-gray/50">
-                <td class="py-3">19 Aug</td>
-                <td class="py-3">Nike Air Zoom Pegasus 37</td>
-                <td class="py-3 font-medium text-white">$260</td>
-              </tr>
-              <tr class="border-b border-brand-light-gray/50">
-                <td class="py-3">19 Aug</td>
-                <td class="py-3">Adidas Ultra Boost</td>
-                <td class="py-3 font-medium text-white">$260</td>
-              </tr>
-              <tr class="border-b border-brand-light-gray/50">
-                <td class="py-3">17 Aug</td>
-                <td class="py-3">Under Armour Charged B...</td>
-                <td class="py-3 font-medium text-white">$260</td>
-              </tr>
-              <tr class="border-b border-brand-light-gray/50">
-                <td class="py-3">16 Aug</td>
-                <td class="py-3">Nike Air Max 270</td>
-                <td class="py-3 font-medium text-white">$260</td>
-              </tr>
-              <tr>
-                <td class="py-3">11 Aug</td>
-                <td class="py-3">Nike Air Force 1 07</td>
-                <td class="py-3 font-medium text-white">$200</td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- Side column -->
+      <div class="animate-page-load space-y-6" style="animation-delay: 0.1s">
+        <div class="card-home bg-brand-gray p-6">
+          <h4 class="mb-2 font-semibold text-gray-400">Total Hits</h4>
+          <p class="text-3xl font-bold text-white">{{ summary.total_hits ?? 'N/A' }}</p>
+        </div>
+        <div class="card-home bg-brand-gray p-6">
+          <h4 class="mb-2 font-semibold text-gray-400">Unique Visitors</h4>
+          <p class="text-3xl font-bold text-white">{{ summary.unique_visitors ?? 'N/A' }}</p>
+        </div>
+        <div class="card-home bg-brand-gray p-6">
+          <h4 class="mb-2 font-semibold text-gray-400">Hits Today</h4>
+          <p class="text-3xl font-bold text-white">{{ summary.hits_today ?? 'N/A' }}</p>
         </div>
       </div>
     </div>
+
+    <!-- Recent Hits Table -->
+    <div class="mt-6 card-home animate-page-load bg-brand-gray p-6" style="animation-delay: 0.4s">
+      <h4 class="mb-4 font-semibold text-white">Recent API Hits</h4>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left text-gray-300">
+          <thead class="text-xs text-gray-400 uppercase bg-brand-dark/50">
+            <tr>
+              <th scope="col" class="px-6 py-3">IP Address</th>
+              <th scope="col" class="px-6 py-3">Location</th>
+              <th scope="col" class="px-6 py-3">Action</th>
+              <th scope="col" class="px-6 py-3">User</th>
+              <th scope="col" class="px-6 py-3">Time</th>
+              <th scope="col" class="px-6 py-3"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+             <tr v-if="loadingHits">
+              <td colspan="6" class="text-center py-8">
+                <IconLoader2 class="animate-spin inline-block w-8 h-8" />
+              </td>
+            </tr>
+            <tr v-else-if="apiHits.length === 0">
+              <td colspan="6" class="text-center py-8 text-gray-400">No recent hits found.</td>
+            </tr>
+            <tr v-for="hit in apiHits" :key="hit.id" class="border-b border-brand-light-gray hover:bg-brand-dark/50">
+              <td class="px-6 py-4 font-medium text-white">{{ hit.ip_address }}</td>
+              <td class="px-6 py-4">{{ hit.location }}</td>
+              <td class="px-6 py-4 truncate max-w-xs" :title="hit.action">{{ hit.action.split('@')[1] || hit.action.split('\\').pop() }}</td>
+              <td class="px-6 py-4">{{ hit.user?.username || 'Guest' }}</td>
+              <td class="px-6 py-4">{{ new Date(hit.created_at).toLocaleString() }}</td>
+              <td class="px-6 py-4 text-right">
+                <button @click="openConfirmModal(hit.ip_address)" class="font-medium text-red-500 hover:underline">Block IP</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <BaseModal :show="showConfirmModal" @close="showConfirmModal = false">
+      <template #header>Confirm Action</template>
+      <p>{{ confirmText }}</p>
+      <template #footer>
+        <button @click="showConfirmModal = false" class="btn btn-secondary">Cancel</button>
+        <ButtonSpinner @click="handleConfirm" :loading="formLoading" class="btn-danger">Confirm</ButtonSpinner>
+      </template>
+    </BaseModal>
+
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import HighlightedTitle from '@/components/ui/HighlightedTitle.vue'
+import { ref, onMounted, computed } from 'vue';
+import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
+import BaseModal from '@/components/ui/BaseModal.vue';
+import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
+import apiService from '@/services/apiService';
+import swal from '@/utils/swal';
+import VueApexCharts from 'vue3-apexcharts';
+import { IconLoader2 } from '@tabler/icons-vue';
+
+const apexchart = VueApexCharts;
+
+// State
+const summary = ref({});
+const apiHits = ref([]);
+const chartPeriod = ref('day');
+const chartSeries = ref([{ name: 'API Hits', data: [] }]);
+const loadingHits = ref(true);
+const formLoading = ref(false);
+const showConfirmModal = ref(false);
+const confirmText = ref('');
+const ipToBlock = ref(null);
+
+const chartOptions = computed(() => ({
+  chart: {
+    type: 'area',
+    height: 350,
+    zoom: {
+      enabled: false
+    },
+    toolbar: {
+      show: false
+    },
+    foreColor: '#9CA3AF'
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'smooth'
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: [],
+  },
+  yaxis: {
+    labels: {
+      formatter: (val) => { return val.toFixed(0) }
+    }
+  },
+  tooltip: {
+    x: {
+      format: 'dd MMM yyyy'
+    },
+  },
+  grid: {
+    borderColor: '#374151',
+  },
+  theme: {
+    mode: 'dark'
+  }
+}));
+
+const fetchSummary = async () => {
+  try {
+    const response = await apiService.get('/admin/analytics/summary');
+    summary.value = response.data;
+  } catch (error) {
+    console.error('Failed to fetch summary:', error);
+  }
+};
+
+const fetchApiHits = async () => {
+  loadingHits.value = true;
+  try {
+    const response = await apiService.get('/admin/analytics/hits');
+    apiHits.value = response.data.data;
+  } catch (error) {
+    console.error('Failed to fetch API hits:', error);
+  } finally {
+    loadingHits.value = false;
+  }
+};
+
+const fetchChartData = async () => {
+  try {
+    const response = await apiService.get(`/admin/analytics/hits-by-period?period=${chartPeriod.value}`);
+    const data = response.data;
+    const categories = data.map(item => new Date(item.date).getTime());
+    const seriesData = data.map(item => item.hits);
+
+    chartSeries.value = [{ name: 'API Hits', data: seriesData }];
+    // A bit of a hack to force ApexCharts to re-render with new categories
+    chartOptions.value.xaxis.categories = []; 
+    setTimeout(() => {
+        chartOptions.value.xaxis.categories = categories;
+    }, 0);
+
+  } catch (error) {
+    console.error('Failed to fetch chart data:', error);
+  }
+};
+
+const openConfirmModal = (ip) => {
+  ipToBlock.value = ip;
+  confirmText.value = `Are you sure you want to block the IP address: ${ip}? This may prevent legitimate users from accessing the site.`;
+  showConfirmModal.value = true;
+};
+
+const handleConfirm = async () => {
+  formLoading.value = true;
+  try {
+    await apiService.post('/admin/blocked-ips', { ip_address: ipToBlock.value, reason: 'Blocked from dashboard' });
+    swal.fire('Blocked!', `IP address ${ipToBlock.value} has been blocked.`, 'success');
+    // Optional: remove the hit from the list
+    apiHits.value = apiHits.value.filter(hit => hit.ip_address !== ipToBlock.value);
+  } catch (error) {
+    swal.fire('Error', `Could not block IP address ${ipToBlock.value}. It might already be blocked.`, 'error');
+  } finally {
+    formLoading.value = false;
+    showConfirmModal.value = false;
+  }
+};
 
 onMounted(() => {
-  const animatedElements = document.querySelectorAll(
-    '.fade-in-up-on-scroll, .fade-in-down-on-scroll'
-  )
+  fetchSummary();
+  fetchApiHits();
+  fetchChartData();
+});
 
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      {
-        threshold: 0.1, // trigger when 10% of the element is visible
-      }
-    )
-
-    animatedElements.forEach((el) => {
-      observer.observe(el)
-    })
-  } else {
-    // Fallback untuk browser lama
-    animatedElements.forEach((el) => {
-      el.classList.add('is-visible')
-    })
-  }
-})
 </script>
 
-<style scoped></style>
+<style scoped>
+.card-home {
+  background-color: var(--brand-gray);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+</style>

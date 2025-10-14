@@ -16,7 +16,7 @@
         <div v-for="(project, index) in projects" :key="project.id"
           class="overflow-hidden transition-all duration-500 transform rounded-lg cursor-pointer card hover:-translate-y-2"
           :class="`animate-on-load load-delay-${index + 2}`" @click="openProjectModal(project)">
-          <img class="object-cover w-full h-48" :src="project.thumbnail_url" :alt="project.title" />
+          <img class="object-cover w-full h-48 rounded-lg" :src="project.thumbnail_url" :alt="project.title" />
           <div class="p-6">
             <h5 class="mb-2 text-lg font-bold tracking-tight text-white">
               {{ project.title }}

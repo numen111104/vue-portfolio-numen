@@ -29,6 +29,16 @@
     <div>
       <label class="block text-sm font-medium mb-1">Description</label>
       <textarea v-model="form.description" rows="4" class="input-field w-full"></textarea>
+      <div class="flex justify-end items-center gap-2 mt-2">
+        <ButtonSpinner
+          v-if="form.description && form.description.length >= 5"
+          @click.prevent="enhanceDescription"
+          :loading="isEnhancing"
+          class="btn btn-secondary"
+        >
+          Enhance with AI
+        </ButtonSpinner>
+      </div>
       <ErrorDisplay :errors="errors.description" />
     </div>
 
@@ -71,8 +81,11 @@
 <script setup>
 import { ref, watch } from 'vue';
 import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
+import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import { useFilePondServer } from '@/services/filePondService.js';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
+import apiService from '@/services/apiService';
+import swalMixin from '@/utils/swal.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -96,6 +109,8 @@ const form = ref({});
 const logoPond = ref(null);
 const docsPond = ref(null);
 const initialFiles = ref({ logo: [], docs: [] });
+const isEnhancing = ref(false);
+const isGenerating = ref(false); // Added for consistency, though no generate button exists yet
 
 const fileMapper = (url) => (url ? [{ source: `/storage/${url}`, options: { type: 'local' } }] : []);
 const multipleFileMapper = (urls) => (urls && urls.length ? urls.map(url => ({ source: `/storage/${url}`, options: { type: 'local' } })) : []);
@@ -116,6 +131,31 @@ watch(() => props.education, (newVal) => {
     initialFiles.value = { logo: [], docs: [] };
   }
 }, { immediate: true, deep: true });
+
+const enhanceDescription = async () => {
+  if (!form.value.description || form.value.description.length < 5) {
+    swalMixin.fire({
+      title: 'Input Too Short',
+      text: 'Description must be at least 5 characters long to enhance.',
+      icon: 'warning',
+    });
+    return;
+  }
+  isEnhancing.value = true;
+  try {
+    const response = await apiService.post('/ai/enhance-text', { text: form.value.description });
+    form.value.description = response.data.text;
+  } catch (error) {
+    console.error("Failed to enhance description:", error);
+    swalMixin.fire({
+      title: 'Enhancement Failed',
+      text: 'Could not enhance description. Please check the console for details.',
+      icon: 'error',
+    });
+  } finally {
+    isEnhancing.value = false;
+  }
+};
 
 const handleSubmit = () => {
     const getPondServerId = (pondRef) => pondRef.value?.getFile()?.serverId || null;

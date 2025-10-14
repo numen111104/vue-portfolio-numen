@@ -2,13 +2,24 @@
   <form @submit.prevent="handleSubmit" class="space-y-6">
     <!-- Bio Section -->
     <div>
-      <label class="block text-sm font-medium mb-1">Bio</label>
-      <div class="relative">
-        <textarea v-model="form.bio" rows="6" class="input-field w-full pr-28"></textarea>
-        <button @click.prevent="generateBio" :disabled="isGenerating" class="btn btn-secondary absolute top-2 right-2">
-          <span v-if="isGenerating">Generating...</span>
-          <span v-else>Generate AI</span>
-        </button>
+      <label for="bio-textarea" class="block text-sm font-medium mb-1">Bio</label>
+      <textarea id="bio-textarea" v-model="form.bio" rows="6" class="input-field w-full"></textarea>
+      <div class="flex justify-end items-center gap-2 mt-2">
+        <ButtonSpinner
+          v-if="form.bio && form.bio.length >= 5"
+          @click.prevent="enhanceBio"
+          :loading="isEnhancing"
+          class="btn btn-secondary"
+        >
+          Enhance with AI
+        </ButtonSpinner>
+        <ButtonSpinner
+          @click.prevent="generateBio"
+          :loading="isGenerating"
+          class="btn btn-primary"
+        >
+          Generate with AI
+        </ButtonSpinner>
       </div>
       <ErrorDisplay :errors="errors.bio" />
     </div>
@@ -105,7 +116,9 @@
 import { ref, watch, onBeforeUpdate } from 'vue';
 import apiService from '@/services/apiService';
 import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
+import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import { useFilePondServer } from '@/services/filePondService.js';
+import swalMixin from '@/utils/swal.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -132,6 +145,7 @@ const form = ref({
 });
 
 const isGenerating = ref(false);
+const isEnhancing = ref(false);
 
 // Filepond refs
 const image1Pond = ref(null);
@@ -201,9 +215,38 @@ const generateBio = async () => {
     form.value.bio = response.data.bio;
   } catch (error) {
     console.error("Failed to generate bio:", error);
-    alert('Could not generate bio. Please check the console.');
+    swalMixin.fire({
+      title: 'Generation Failed',
+      text: 'Could not generate bio. Please check the console for details.',
+      icon: 'error',
+    });
   } finally {
     isGenerating.value = false;
+  }
+};
+
+const enhanceBio = async () => {
+  if (!form.value.bio || form.value.bio.length < 5) {
+    swalMixin.fire({
+      title: 'Input Too Short',
+      text: 'Bio must be at least 5 characters long to enhance.',
+      icon: 'warning',
+    });
+    return;
+  }
+  isEnhancing.value = true;
+  try {
+    const response = await apiService.post('/ai/enhance-text', { text: form.value.bio });
+    form.value.bio = response.data.text;
+  } catch (error) {
+    console.error("Failed to enhance bio:", error);
+    swalMixin.fire({
+      title: 'Enhancement Failed',
+      text: 'Could not enhance bio. Please check the console for details.',
+      icon: 'error',
+    });
+  } finally {
+    isEnhancing.value = false;
   }
 };
 

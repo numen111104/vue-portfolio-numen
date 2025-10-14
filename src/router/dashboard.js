@@ -9,6 +9,7 @@ import SocialMediaLinksView from '@/views/dashboard/SocialMediaLinksPage.vue'
 import EducationPage from '@/views/dashboard/EducationPage.vue'
 import AboutContentPage from '@/views/dashboard/AboutContentPage.vue'
 import ExperiencesPage from '@/views/dashboard/ExperiencesPage.vue'
+import TestimonialsPage from '@/views/dashboard/TestimonialsPage.vue'
 
 const Dashboard = [
   {
@@ -56,6 +57,11 @@ const Dashboard = [
         path: 'certifications',
         name: 'dashboard-certifications',
         component: CertificationsView,
+      },
+      {
+        path: 'testimonials',
+        name: 'DashboardTestimonials',
+        component: TestimonialsPage,
       },
       {
         path: 'social-media-links',

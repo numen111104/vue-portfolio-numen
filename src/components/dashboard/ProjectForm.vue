@@ -18,11 +18,31 @@
       <div class="mt-4">
         <label class="block text-sm font-medium mb-1">Short Description</label>
         <textarea v-model="form.short_description" rows="3" class="input-field w-full"></textarea>
+        <div class="flex justify-end items-center gap-2 mt-2">
+            <ButtonSpinner
+              v-if="form.short_description && form.short_description.length >= 5"
+              @click.prevent="enhanceShortDescription"
+              :loading="isEnhancingShort"
+              class="btn btn-secondary"
+            >
+              Enhance with AI
+            </ButtonSpinner>
+        </div>
         <ErrorDisplay :errors="errors.short_description" />
       </div>
       <div class="mt-4">
         <label class="block text-sm font-medium mb-1">Full Description</label>
         <textarea v-model="form.description" rows="6" class="input-field w-full"></textarea>
+        <div class="flex justify-end items-center gap-2 mt-2">
+            <ButtonSpinner
+              v-if="form.description && form.description.length >= 5"
+              @click.prevent="enhanceFullDescription"
+              :loading="isEnhancingFull"
+              class="btn btn-secondary"
+            >
+              Enhance with AI
+            </ButtonSpinner>
+        </div>
         <ErrorDisplay :errors="errors.description" />
       </div>
       <div class="mt-4">
@@ -105,12 +125,13 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
 import MultiSelectInput from '@/components/ui/MultiSelectInput.vue';
 import Switch from '@/components/ui/Switch.vue';
+import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import apiService from '@/services/apiService';
 import { useFilePondServer } from '@/services/filePondService.js';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
+import swalMixin from '@/utils/swal.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -135,6 +156,8 @@ const techOptions = ref([]);
 const thumbnailPond = ref(null);
 const galleryPond = ref(null);
 const initialFiles = ref({ thumbnail: [], gallery: [] });
+const isEnhancingShort = ref(false);
+const isEnhancingFull = ref(false);
 
 const addLink = () => form.value.links.push({ label: '', url: '' });
 const removeLink = (index) => form.value.links.splice(index, 1);
@@ -172,6 +195,56 @@ watch(() => props.project, (newVal) => {
     initialFiles.value = { thumbnail: [], gallery: [] };
   }
 }, { immediate: true, deep: true });
+
+const enhanceShortDescription = async () => {
+  if (!form.value.short_description || form.value.short_description.length < 5) {
+    swalMixin.fire({
+      title: 'Input Too Short',
+      text: 'Short description must be at least 5 characters long to enhance.',
+      icon: 'warning',
+    });
+    return;
+  }
+  isEnhancingShort.value = true;
+  try {
+    const response = await apiService.post('/ai/enhance-text', { text: form.value.short_description });
+    form.value.short_description = response.data.text;
+  } catch (error) {
+    console.error("Failed to enhance description:", error);
+    swalMixin.fire({
+      title: 'Enhancement Failed',
+      text: 'Could not enhance short description. Please check the console for details.',
+      icon: 'error',
+    });
+  } finally {
+    isEnhancingShort.value = false;
+  }
+};
+
+const enhanceFullDescription = async () => {
+  if (!form.value.description || form.value.description.length < 5) {
+    swalMixin.fire({
+      title: 'Input Too Short',
+      text: 'Full description must be at least 5 characters long to enhance.',
+      icon: 'warning',
+    });
+    return;
+  }
+  isEnhancingFull.value = true;
+  try {
+    const response = await apiService.post('/ai/enhance-text', { text: form.value.description });
+    form.value.description = response.data.text;
+  } catch (error) {
+    console.error("Failed to enhance description:", error);
+    swalMixin.fire({
+      title: 'Enhancement Failed',
+      text: 'Could not enhance full description. Please check the console for details.',
+      icon: 'error',
+    });
+  } finally {
+    isEnhancingFull.value = false;
+  }
+};
 
 const handleSubmit = () => {
     const getPondServerId = (pondRef) => pondRef.value?.getFile()?.serverId || null;

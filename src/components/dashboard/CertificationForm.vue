@@ -33,12 +33,24 @@
 
     <div>
       <label class="block text-sm font-medium mb-1">Description</label>
-      <div class="relative">
-        <textarea v-model="form.description" rows="4" class="input-field w-full pr-28"></textarea>
-        <button @click.prevent="generateDescription" :disabled="isGenerating" class="btn btn-secondary absolute top-2 right-2">
-          <span v-if="isGenerating">Generating...</span>
-          <span v-else>Generate AI</span>
-        </button>
+      <textarea v-model="form.description" rows="4" class="input-field w-full"></textarea>
+      <div class="flex justify-end items-center gap-2 mt-2">
+        <ButtonSpinner
+          v-if="form.description && form.description.length >= 5"
+          @click.prevent="enhanceDescription"
+          :loading="isEnhancing"
+          class="btn btn-secondary"
+        >
+          Enhance with AI
+        </ButtonSpinner>
+        <ButtonSpinner
+          @click.prevent="generateDescription"
+          :loading="isGenerating"
+          class="btn btn-primary"
+          :disabled="!form.title"
+        >
+          Generate with AI
+        </ButtonSpinner>
       </div>
       <ErrorDisplay :errors="errors.description" />
     </div>
@@ -63,9 +75,11 @@
 import { ref, watch } from 'vue';
 import Switch from '@/components/ui/Switch.vue';
 import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
+import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import { useFilePondServer } from '@/services/filePondService.js';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
 import apiService from '@/services/apiService';
+import swalMixin from '@/utils/swal.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -89,6 +103,7 @@ const form = ref({ is_published: true, description: '' });
 const imagePond = ref(null);
 const initialFiles = ref([]);
 const isGenerating = ref(false);
+const isEnhancing = ref(false);
 
 watch(() => props.certification, (newVal) => {
   form.value = { is_published: true, description: '', ...newVal };
@@ -101,7 +116,11 @@ watch(() => props.certification, (newVal) => {
 
 const generateDescription = async () => {
   if (!form.value.title) {
-    alert('Please enter a certification title first.');
+    swalMixin.fire({
+      title: 'Missing Title',
+      text: 'Please enter a certification title first.',
+      icon: 'warning',
+    });
     return;
   }
   isGenerating.value = true;
@@ -110,9 +129,38 @@ const generateDescription = async () => {
     form.value.description = response.data.description;
   } catch (error) {
     console.error("Failed to generate description:", error);
-    alert('Could not generate description. Please check the console.');
+    swalMixin.fire({
+      title: 'Generation Failed',
+      text: 'Could not generate description. Please check the console for details.',
+      icon: 'error',
+    });
   } finally {
     isGenerating.value = false;
+  }
+};
+
+const enhanceDescription = async () => {
+  if (!form.value.description || form.value.description.length < 5) {
+    swalMixin.fire({
+      title: 'Input Too Short',
+      text: 'Description must be at least 5 characters long to enhance.',
+      icon: 'warning',
+    });
+    return;
+  }
+  isEnhancing.value = true;
+  try {
+    const response = await apiService.post('/ai/enhance-text', { text: form.value.description });
+    form.value.description = response.data.text;
+  } catch (error) {
+    console.error("Failed to enhance description:", error);
+    swalMixin.fire({
+      title: 'Enhancement Failed',
+      text: 'Could not enhance description. Please check the console for details.',
+      icon: 'error',
+    });
+  } finally {
+    isEnhancing.value = false;
   }
 };
 

@@ -13,7 +13,7 @@
         </p>
       </div>
       <div class="flex flex-col gap-4 mt-6 md:flex-row md:mt-0">
-        <a href="#" class="flex items-center justify-between space-x-2 btn btn-primary group">
+        <router-link to="/testimonial" class="flex items-center justify-between space-x-2 btn btn-primary group">
           <span>Discover More</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -29,8 +29,9 @@
               d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
             />
           </svg>
-        </a>
+        </router-link>
         <button
+          v-if="!hasSubmitted"
           @click="showTestimonialModal = true"
           class="flex items-center justify-between space-x-2 text-white bg-gray-600 btn hover:bg-gray-700 group"
         >
@@ -50,125 +51,21 @@
     </div>
 
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <div class="p-6 card-home fade-in-up-on-scroll">
+      <div v-for="(testimonial, index) in testimonials" :key="testimonial.id" class="p-6 card-home fade-in-up-on-scroll is-visible" :style="{ 'animation-delay': `${index * 0.1}s` }">
         <div class="flex items-center gap-4 mb-4">
           <img
-            alt="Ryan Florence"
-            src="https://placehold.co/300x210/000000/FFF"
+            :alt="testimonial.author_name"
+            :src="testimonial.author_avatar_url ? testimonial.author_avatar_url : 'https://placehold.co/100x100/000000/FFF?text=AV'"
             class="object-cover w-12 h-12 rounded-full"
           />
           <div>
-            <h4 class="font-semibold text-white">Ryan Florence</h4>
-            <p class="text-sm text-gray-400">Remix & React Training</p>
+            <h4 class="font-semibold text-white">{{ testimonial.author_name }}</h4>
+            <p class="text-sm text-gray-400">{{ testimonial.author_title }}</p>
           </div>
         </div>
         <p class="text-sm leading-relaxed text-white">
-          I feel like an idiot for not using Tailwind CSS until now.
+          {{ testimonial.testimonial_text }}
         </p>
-      </div>
-
-      <div class="p-6 card-home fade-in-up-on-scroll" style="animation-delay: 0.1s">
-        <div class="flex items-center gap-4 mb-4">
-          <img
-            alt="Debbie O'Brien"
-            src="https://placehold.co/300x210/000000/FFF"
-            class="object-cover w-12 h-12 rounded-full"
-          />
-          <div>
-            <h4 class="font-semibold text-white">Debbie O'Brien</h4>
-            <p class="text-sm text-gray-400">Senior Program Manager at Microsoft</p>
-          </div>
-        </div>
-        <p class="text-sm leading-relaxed text-white">
-          Have been working with CSS for over ten years and Tailwind just makes my life easier. It
-          is still CSS and you use flex, grid, etc. but just quicker to write and maintain.
-        </p>
-      </div>
-
-      <div class="p-6 card-home fade-in-up-on-scroll" style="animation-delay: 0.2s">
-        <div class="flex items-center gap-4 mb-4">
-          <img
-            alt="Kent C. Dodds"
-            src="https://placehold.co/300x210/000000/FFF"
-            class="object-cover w-12 h-12 rounded-full"
-          />
-          <div>
-            <h4 class="font-semibold text-white">Kent C. Dodds</h4>
-            <p class="text-sm text-gray-400">Developer and Educator</p>
-          </div>
-        </div>
-        <p class="text-sm leading-relaxed text-white">Skip to the end. Use @tailwindcss.</p>
-      </div>
-
-      <div class="p-6 card-home fade-in-up-on-scroll" style="animation-delay: 0.3s">
-        <div class="flex items-center gap-4 mb-4">
-          <img
-            alt="Guillermo Rauch"
-            src="https://placehold.co/300x210/000000/FFF"
-            class="object-cover w-12 h-12 rounded-full"
-          />
-          <div>
-            <h4 class="font-semibold text-white">Guillermo Rauch</h4>
-            <p class="text-sm text-gray-400">Vercel</p>
-          </div>
-        </div>
-        <p class="text-sm leading-relaxed text-white">
-          If I had to recommend a way of getting into programming today, it would be HTML + CSS with
-          Tailwind CSS.
-        </p>
-      </div>
-
-      <div
-        class="flex flex-col justify-between p-6 card-home fade-in-up-on-scroll"
-        style="animation-delay: 0.4s"
-      >
-        <div>
-          <div class="flex items-center gap-4 mb-4">
-            <img
-              alt="Ben Furfie"
-              src="https://placehold.co/300x210/000000/FFF"
-              class="object-cover w-12 h-12 rounded-full"
-            />
-            <div>
-              <h4 class="font-semibold text-white">Ben Furfie</h4>
-              <p class="text-sm text-gray-400">Developer</p>
-            </div>
-          </div>
-          <p
-            class="text-sm leading-relaxed text-white"
-            :class="{ 'line-clamp-3': !testimonialExpanded }"
-          >
-            I've been writing CSS for over 20 years, and up until 2017, the way I wrote it changed
-            frequently. It's not a coincidence Tailwind was released the same year. It might look
-            wrong, but spend time with it and you'll realize something... Tailwind is just CSS
-            without the pain, and it makes building UIs incredibly fast and enjoyable. It's truly a
-            game-changer for front-end development.
-          </p>
-        </div>
-      </div>
-
-      <div
-        class="flex flex-col justify-between p-6 card-home fade-in-up-on-scroll"
-        style="animation-delay: 0.5s"
-      >
-        <div>
-          <div class="flex items-center gap-4 mb-4">
-            <img
-              alt="Shruti Balasa"
-              src="https://placehold.co/300x210/000000/FFF"
-              class="object-cover w-12 h-12 rounded-full"
-            />
-            <div>
-              <h4 class="font-semibold text-white">Shruti Balasa</h4>
-              <p class="text-sm text-gray-400">Full Stack Web Developer & Tech Educator</p>
-            </div>
-          </div>
-          <p class="text-sm leading-relaxed text-white">
-            I was bad at front-end until I discovered Tailwind CSS. I have learnt a lot more about
-            design and CSS itself after I started working with Tailwind. Creating web pages is 5x
-            faster now.
-          </p>
-        </div>
       </div>
     </div>
 
@@ -185,53 +82,41 @@
           <input
             type="text"
             id="name"
-            v-model="formData.name"
-            class="w-full p-3 text-white border border-gray-600 rounded-md bg-brand-light-gray focus:ring-brand-yellow focus:border-brand-yellow"
+            v-model="form.author_name"
+            class="input-field w-full"
             placeholder="John Doe"
             required
           />
         </div>
         <div class="mb-4">
-          <label for="job" class="block mb-2 text-sm font-medium text-gray-300"
-            >Your Job/Title</label
-          >
+          <label for="job" class="block mb-2 text-sm font-medium text-gray-300">Your Job/Title</label>
           <input
             type="text"
             id="job"
-            v-model="formData.job"
-            class="w-full p-3 text-white border border-gray-600 rounded-md bg-brand-light-gray focus:ring-brand-yellow focus:border-brand-yellow"
+            v-model="form.author_title"
+            class="input-field w-full"
             placeholder="Software Engineer at Google"
             required
           />
         </div>
-        <div class="mb-4">
-          <label for="profile_image" class="block mb-2 text-sm font-medium text-gray-300"
-            >Profile Image</label
-          >
-          <input
-            type="file"
-            id="profile_image"
-            accept="image/*"
-            @change="handleImageUpload"
-            class="w-full text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-yellow file:text-brand-dark hover:file:bg-yellow-300"
+        <div class="mb-4 filepond-themed">
+          <label for="profile_image" class="block mb-2 text-sm font-medium text-gray-300">Profile Image (Optional)</label>
+          <FilePond
+            ref="avatarPond"
+            name="author_avatar"
+            label-idle="Drag & Drop or <span class='filepond--label-action'>Browse</span>"
+            :allow-multiple="false"
+            :accepted-file-types="acceptedFiles"
+            :server="publicFilePondServerOptions"
           />
-          <div v-if="profileImagePreview" class="mt-4">
-            <img
-              :src="profileImagePreview"
-              alt="Profile preview"
-              class="object-cover w-24 h-24 border-2 rounded-full border-brand-yellow"
-            />
-          </div>
         </div>
         <div class="mb-6">
-          <label for="testimonial_text" class="block mb-2 text-sm font-medium text-gray-300"
-            >Your Recommendation</label
-          >
+          <label for="testimonial_text" class="block mb-2 text-sm font-medium text-gray-300">Your Recommendation</label>
           <textarea
             id="testimonial_text"
-            v-model="formData.testimonialText"
+            v-model="form.testimonial_text"
             rows="5"
-            class="w-full p-3 text-white border border-gray-600 rounded-md bg-brand-light-gray focus:ring-brand-yellow focus:border-brand-yellow"
+            class="input-field w-full"
             placeholder="Share your thoughts about my work..."
             required
           ></textarea>
@@ -240,15 +125,17 @@
           <button
             type="button"
             @click="showTestimonialModal = false"
-            class="px-6 py-2 text-gray-300 transition-colors border border-gray-500 rounded-md hover:bg-gray-700"
+            class="btn btn-secondary"
           >
             Cancel
           </button>
           <button
             type="submit"
-            class="px-6 py-2 transition-colors rounded-md bg-brand-yellow text-brand-dark hover:bg-yellow-300"
+            :disabled="isSubmitting"
+            class="btn btn-primary"
           >
-            Submit
+            <span v-if="isSubmitting">Submitting...</span>
+            <span v-else>Submit</span>
           </button>
         </div>
       </form>
@@ -256,65 +143,102 @@
   </section>
 </template>
 
-<script>
-import BaseModal from '@/components/ui/BaseModal.vue' // Impor BaseModal
+<script setup>
+import { ref, onMounted } from 'vue';
+import BaseModal from '@/components/ui/BaseModal.vue';
+import apiService from '@/services/apiService';
+import swalMixin from '@/utils/swal.js';
 
-export default {
-  name: 'TestimonialSection',
-  components: {
-    BaseModal, // Daftar BaseModal sebagai komponen anak
-  },
-  data() {
-    return {
-      showTestimonialModal: false,
-      testimonialExpanded: false,
-      formData: {
-        name: '',
-        job: '',
-        profileImage: null, // Will hold File object
-        testimonialText: '',
-      },
-      profileImagePreview: null,
-    }
-  },
-  methods: {
-    handleImageUpload(event) {
-      const file = event.target.files[0]
-      if (file) {
-        this.formData.profileImage = file
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          this.profileImagePreview = e.target.result
-        }
-        reader.readAsDataURL(file)
-      } else {
-        this.formData.profileImage = null
-        this.profileImagePreview = null
-      }
+// Filepond
+import vueFilePond from "vue-filepond";
+import "filepond/dist/filepond.min.css";
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
+import { getAcceptedFileTypes } from '@/constants/fileTypes';
+// import router from '@/router';
+
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
+
+const testimonials = ref([]);
+const showTestimonialModal = ref(false);
+const hasSubmitted = ref(false);
+const form = ref({
+  author_name: '',
+  author_title: '',
+  testimonial_text: '',
+});
+const avatarPond = ref(null);
+const isSubmitting = ref(false);
+
+const acceptedFiles = getAcceptedFileTypes(['IMAGE']);
+
+// Public FilePond server options
+const publicFilePondServerOptions = {
+    url: '/api/files',
+    process: '/public/process',
+    revert: '/public/revert',
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
     },
-    handleSubmitTestimonial() {
-      console.log('Testimonial submitted:', this.formData)
-      // In a real application, you would send this data to a server
-      alert('Testimonial Submitted! (In a real app, this would send data to a server)')
+};
 
-      // Reset form fields after submission
-      this.formData = {
-        name: '',
-        job: '',
-        profileImage: null,
-        testimonialText: '',
-      }
-      this.profileImagePreview = null
-      // Clear file input manually (needed for <input type="file">)
-      const fileInput = this.$el.querySelector('#profile_image')
-      if (fileInput) {
-        fileInput.value = ''
-      }
+const fetchTestimonials = async () => {
+  try {
+    const response = await apiService.get('/testimonials');
+    testimonials.value = response.data.data;
+  } catch (error) {
+    console.error('Failed to fetch testimonials:', error);
+  }
+};
 
-      this.showTestimonialModal = false // Close modal
-    },
-  },
-}
+onMounted(() => {
+  fetchTestimonials();
+  if (localStorage.getItem('hasSubmittedTestimonial')) {
+    hasSubmitted.value = true;
+  }
+});
+
+const handleSubmitTestimonial = async () => {
+  isSubmitting.value = true;
+  const pondFile = avatarPond.value?.getFile();
+  const serverId = pondFile?.serverId;
+
+  const payload = {
+    ...form.value,
+    author_avatar: serverId ? JSON.parse(serverId) : null,
+  };
+
+  try {
+    await apiService.post('/testimonials', payload);
+
+    swalMixin.fire({
+      title: 'Success!',
+      text: 'Your testimonial has been submitted for review. Thank you!',
+      icon: 'success',
+    });
+
+    // Set flag in localStorage
+    localStorage.setItem('hasSubmittedTestimonial', 'true');
+    hasSubmitted.value = true;
+
+    // Reset form
+    form.value = { author_name: '', author_title: '', testimonial_text: '' };
+    avatarPond.value?.removeFiles();
+    showTestimonialModal.value = false;
+
+  } catch (error) {
+    console.error('Failed to submit testimonial:', error);
+    const errorMessage = error.response?.data?.message || 'An unexpected error occurred.';
+    swalMixin.fire({
+      title: 'Submission Failed',
+      text: `Could not submit your testimonial. ${errorMessage}`,
+      icon: 'error',
+    });
+  } finally {
+    isSubmitting.value = false;
+  }
+};
 </script>
 
 <style scoped>

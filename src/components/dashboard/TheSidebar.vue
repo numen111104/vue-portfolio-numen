@@ -25,11 +25,13 @@
     <!-- Links -->
     <div class="space-y-8">
       <div>
+
+        <!-- Links group -->
         <div class="px-3 py-2">
           <h3 class="text-xs font-semibold uppercase text-gray-500">
             <div class="flex items-center" :class="!sidebarExpanded && 'justify-start'">
               <span :class="sidebarExpanded ? 'block' : 'hidden group-hover:block'
-                ">Pages</span>
+                ">Portfolio</span>
               <span :class="sidebarExpanded ? 'hidden' : 'block group-hover:hidden'
                 ">
                 <IconDots class="h-6 w-6" />
@@ -37,37 +39,16 @@
             </div>
           </h3>
         </div>
-        <ul class="mt-3">
-          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0" :class="{ 'bg-brand-yellow': $route.path === '/admin/dashboard' }">
+
+        <ul class="space-y-2">
+          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
+            :class="{ 'bg-brand-yellow': $route.path === '/admin/dashboard' }">
             <router-link class="block truncate transition duration-150 hover:text-gray-500"
               :class="{ 'text-brand-dark': $route.path === '/admin/dashboard' }" to="/admin/dashboard">
               <div class="flex items-center">
                 <IconLayoutDashboard class="h-6 w-6 shrink-0" />
                 <span class="ml-3 text-sm font-medium"
                   :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Dashboard</span>
-              </div>
-            </router-link>
-          </li>
-          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
-            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/hero-settings') }">
-            <router-link class="block truncate transition duration-150 hover:text-gray-500"
-              :class="{ 'text-brand-dark': $route.path.includes('/admin/hero-settings') }"
-              to="/admin/hero-settings">
-              <div class="flex items-center">
-                <IconHome class="h-6 w-6 shrink-0" />
-                <span class="ml-3 text-sm font-medium"
-                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Hero Settings</span>
-              </div>
-            </router-link>
-          </li>
-          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
-            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/about-content') }">
-            <router-link class="block truncate transition duration-150 hover:text-gray-500"
-              :class="{ 'text-brand-dark': $route.path.includes('/admin/about-content') }" to="/admin/about-content">
-              <div class="flex items-center">
-                <IconUser class="h-6 w-6 shrink-0" />
-                <span class="ml-3 text-sm font-medium"
-                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">About Content</span>
               </div>
             </router-link>
           </li>
@@ -85,10 +66,9 @@
           <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
             :class="{ 'bg-brand-yellow': $route.path.includes('/admin/projects') }">
             <router-link class="block truncate transition duration-150 hover:text-gray-500"
-              :class="{ 'text-brand-dark': $route.path.includes('/admin/projects') }"
-              to="/admin/projects">
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/projects') }" to="/admin/projects">
               <div class="flex items-center">
-                <IconBriefcase class="h-6 w-6 shrink-0" />
+                <IconAssembly class="h-6 w-6 shrink-0" />
                 <span class="ml-3 text-sm font-medium"
                   :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Projects</span>
               </div>
@@ -108,8 +88,7 @@
           <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
             :class="{ 'bg-brand-yellow': $route.path.includes('/admin/tech-stacks') }">
             <router-link class="block truncate transition duration-150 hover:text-gray-500"
-              :class="{ 'text-brand-dark': $route.path.includes('/admin/tech-stacks') }"
-              to="/admin/tech-stacks">
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/tech-stacks') }" to="/admin/tech-stacks">
               <div class="flex items-center">
                 <IconCode class="h-6 w-6 shrink-0" />
                 <span class="ml-3 text-sm font-medium"
@@ -120,12 +99,22 @@
           <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
             :class="{ 'bg-brand-yellow': $route.path.includes('/admin/certifications') }">
             <router-link class="block truncate transition duration-150 hover:text-gray-500"
-              :class="{ 'text-brand-dark': $route.path.includes('/admin/certifications') }"
-              to="/admin/certifications">
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/certifications') }" to="/admin/certifications">
               <div class="flex items-center">
                 <IconCertificate class="h-6 w-6 shrink-0" />
                 <span class="ml-3 text-sm font-medium"
                   :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Certifications</span>
+              </div>
+            </router-link>
+          </li>
+          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
+            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/testimonials') }">
+            <router-link class="block truncate transition duration-150 hover:text-gray-500"
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/testimonials') }" to="/admin/testimonials">
+              <div class="flex items-center">
+                <IconMessageCircle class="h-6 w-6 shrink-0" />
+                <span class="ml-3 text-sm font-medium"
+                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Testimonials</span>
               </div>
             </router-link>
           </li>
@@ -142,6 +131,46 @@
             </router-link>
           </li>
         </ul>
+
+
+        <div class="px-3 py-2">
+          <h3 class="text-xs font-semibold uppercase text-gray-500">
+            <div class="flex items-center" :class="!sidebarExpanded && 'justify-start'">
+              <span :class="sidebarExpanded ? 'block' : 'hidden group-hover:block'
+                ">Settings</span>
+              <span :class="sidebarExpanded ? 'hidden' : 'block group-hover:hidden'
+                ">
+                <IconDots class="h-6 w-6" />
+              </span>
+            </div>
+          </h3>
+        </div>
+
+        <ul class="space-y-2">
+          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
+            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/hero-settings') }">
+            <router-link class="block truncate transition duration-150 hover:text-gray-500"
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/hero-settings') }" to="/admin/hero-settings">
+              <div class="flex items-center">
+                <IconHome class="h-6 w-6 shrink-0" />
+                <span class="ml-3 text-sm font-medium"
+                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">Hero Settings</span>
+              </div>
+            </router-link>
+          </li>
+          <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
+            :class="{ 'bg-brand-yellow': $route.path.includes('/admin/about-content') }">
+            <router-link class="block truncate transition duration-150 hover:text-gray-500"
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/about-content') }" to="/admin/about-content">
+              <div class="flex items-center">
+                <IconUser class="h-6 w-6 shrink-0" />
+                <span class="ml-3 text-sm font-medium"
+                  :class="!sidebarExpanded && 'lg:hidden lg:group-hover:block'">About Content</span>
+              </div>
+            </router-link>
+          </li>
+        </ul>
+
       </div>
     </div>
   </aside>
@@ -159,7 +188,9 @@ import {
   IconCertificate,
   IconLink,
   IconSchool,
-  IconUser
+  IconUser,
+  IconMessageCircle,
+  IconAssembly
 } from '@tabler/icons-vue';
 
 defineProps({

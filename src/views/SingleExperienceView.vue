@@ -10,9 +10,9 @@
       </section>
 
       <!-- Header -->
-      <section class="mb-8 text-center animate-on-load load-delay-1">
-        <p class="text-md text-gray-400">{{ experience.type }} Experience</p>
+      <section class="mb-8 animate-on-load load-delay-1">
         <HighlightedTitle :unlighter="experience.title" :lighter="experience.organization_name" />
+        <p class="text-md text-gray-400">{{ experience.type }} Experience</p>
         <p class="mt-2 text-lg text-brand-yellow">{{ formatDate(experience.start_date) }} - {{ experience.end_date ? formatDate(experience.end_date) : 'Present' }}</p>
       </section>
 
@@ -109,7 +109,7 @@ const breadcrumbs = computed(() => {
 const handleDocClick = (doc) => {
     switch (doc.type) {
         case 'Image':
-            const images = doc.url.map(path => `/storage/${path}`);
+            { const images = doc.url.map(path => `/storage/${path}`);
             ViewerApi({
                 options: {
                     inline: false, button: true, navbar: true, title: true, toolbar: true,
@@ -118,7 +118,7 @@ const handleDocClick = (doc) => {
                 },
                 images: images,
             });
-            break;
+            break; }
         case 'Docs':
             docsForModal.value = doc.url;
             isDocModalOpen.value = true;
