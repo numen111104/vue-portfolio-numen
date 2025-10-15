@@ -99,8 +99,8 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
-import Switch from '@/components/ui/Switch.vue';
-import Pagination from '@/components/ui/Pagination.vue';
+import Switch from '@/components/ui/SwitchComp.vue';
+import Pagination from '@/components/ui/PaginationComp.vue';
 import BaseModal from '@/components/ui/BaseModal.vue';
 import ExperienceForm from '@/components/dashboard/ExperienceForm.vue';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
@@ -136,7 +136,7 @@ const fetchExperiences = async (url = '/admin/experiences') => {
     const urlParams = new URLSearchParams(url.split('?')[1]);
     if (urlParams.has('page')) params.page = urlParams.get('page');
 
-    const response = await apiService.get('/admin/experiences', { params });
+    const response = await apiService.get('/admin/experiences',  params );
     experiences.value = response.data.data;
     meta.value = response.data.meta;
   } catch (error) {
@@ -182,7 +182,14 @@ const openConfirmModal = (actionType, exp) => {
       confirmText.value = `Are you sure you want to move '${exp.title}' to trash?`;
       confirmAction.value = () => apiService.destroy(`/experiences/${exp.id}`);
       break;
-    // Restore and ForceDelete actions can be added here if needed
+    case 'restore':
+      confirmText.value = `Are you sure you want to restore '${exp.title}'?`;
+      confirmAction.value = () => apiService.post(`/experiences/${exp.id}/restore`);
+      break;
+    case 'forceDelete':
+      confirmText.value = `Are you sure you want to permanently delete '${exp.title}'? This action cannot be undone.`;
+      confirmAction.value = () => apiService.destroy(`/experiences/${exp.id}/force`);
+      break;
   }
   showConfirmModal.value = true;
 };

@@ -48,7 +48,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import Switch from '@/components/ui/Switch.vue';
+import Switch from '@/components/ui/SwitchComp.vue';
 import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
 import { useFilePondServer } from '@/services/filePondService.js';

@@ -13,8 +13,8 @@ const route = useRoute();
 // --- Spotlight Effect ---
 const mouseX = ref(0);
 const mouseY = ref(0);
-const spotlightSize = 250; // Increased size for a more prominent effect
-const brandYellowRgba = 'rgba(223, 255, 0, 0.08)'; // Slightly more subtle
+const spotlightSize = 250;
+const brandYellowRgba = 'rgba(223, 255, 0, 0.08)';
 
 const throttle = (func, limit) => {
   let inThrottle;
@@ -36,7 +36,6 @@ const rawUpdateMousePosition = (event) => {
 
 const throttledUpdateMousePosition = throttle(rawUpdateMousePosition, 10);
 
-// --- Canvas Effects ---
 const particles = ref([]);
 let animationFrameId = null;
 const fireworksCanvasRef = ref(null);
@@ -44,7 +43,7 @@ const spotlightCanvasRef = ref(null);
 let fireworksCtx = null;
 let spotlightCtx = null;
 
-const fireworkColors = ['#dfff00', '#ffffff', '#facc15'];
+const fireworkColors = ['#dfff00', '#ffffff', '#facc15',];
 
 const setupCanvases = () => {
   // Fireworks Canvas
@@ -77,8 +76,8 @@ const handleClick = (event) => {
     endX,
     endY,
     progress: 0,
-    color: fireworkColors[0],
-    size: 2,
+    color: fireworkColors[Math.floor(Math.random() * fireworkColors.length)],
+    size: 3,
   });
 };
 

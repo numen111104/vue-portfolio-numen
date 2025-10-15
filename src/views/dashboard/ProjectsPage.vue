@@ -97,8 +97,8 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
-import Switch from '@/components/ui/Switch.vue';
-import Pagination from '@/components/ui/Pagination.vue';
+import Switch from '@/components/ui/SwitchComp.vue';
+import Pagination from '@/components/ui/PaginationComp.vue';
 import BaseModal from '@/components/ui/BaseModal.vue';
 import ProjectForm from '@/components/dashboard/ProjectForm.vue';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';

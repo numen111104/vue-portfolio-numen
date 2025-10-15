@@ -130,7 +130,7 @@
 <script setup>
 import { ref, watch, onBeforeUpdate } from 'vue';
 import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
-import Switch from '@/components/ui/Switch.vue';
+import Switch from '@/components/ui/SwitchComp.vue';
 import DatePicker from '@/components/ui/DatePicker.vue';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import { useFilePondServer } from '@/services/filePondService.js';
@@ -164,7 +164,6 @@ const thumbnailPond = ref(null);
 const docPonds = ref([]);
 const initialFiles = ref({ thumbnail: [], docs: [] });
 const isEnhancing = ref(false);
-const isGenerating = ref(false); // Added for consistency
 
 onBeforeUpdate(() => { docPonds.value = []; });
 

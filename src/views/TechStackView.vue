@@ -33,9 +33,7 @@
 
         <h5 class="mt-6 mb-4 text-xl font-semibold text-white">Related Projects</h5>
         <div v-if="selectedTech.projects && selectedTech.projects.length > 0" class="space-y-4">
-          <router-link
-            v-for="project in selectedTech.projects"
-            :key="project.id"
+          <router-link v-for="project in selectedTech.projects" :key="project.id"
             :to="{ name: 'project', query: { open: project.id } }"
             class="block p-4 transition-colors duration-300 rounded-lg hover:bg-brand-light-gray bg-brand-gray">
             <h6 class="font-semibold text-brand-yellow">{{ project.title }}</h6>
@@ -43,7 +41,7 @@
           </router-link>
         </div>
         <div v-else>
-            <p class="text-sm text-gray-400">No projects associated with this technology yet.</p>
+          <p class="text-sm text-gray-400">No projects associated with this technology yet.</p>
         </div>
       </div>
 
@@ -69,28 +67,7 @@ const technologies = computed(() => portfolioStore.technologies);
 const isModalVisible = ref(false);
 const selectedTech = ref(null);
 
-watch(() => route.query.open, (newId) => {
-  if (newId && technologies.value.length) {
-    const techToOpen = technologies.value.find(t => t.id === newId);
-    if (techToOpen) {
-      openModal(techToOpen);
-    }
-  } else {
-    closeModal();
-  }
-}, { immediate: true });
-
-watch(technologies, (newTechs) => {
-    if (route.query.open && newTechs.length) {
-        const techToOpen = newTechs.find(t => t.id === route.query.open);
-        if (techToOpen) {
-            openModal(techToOpen);
-        }
-    }
-});
-
 const openModal = (tech) => {
-  // The full tech object, including projects, is now available from the store.
   selectedTech.value = tech;
   isModalVisible.value = true;
   router.replace({ query: { open: tech.id } });
@@ -103,4 +80,27 @@ const closeModal = () => {
     router.replace({ query: {} });
   }
 };
+
+
+watch(() => route.query.open, (newId) => {
+  if (newId && technologies.value.length) {
+    const techToOpen = technologies.value.find(t => t.id === newId);
+    if (techToOpen) {
+      openModal(techToOpen);
+    }
+  } else {
+    closeModal();
+  }
+}, { immediate: true });
+
+watch(technologies, (newTechs) => {
+  if (route.query.open && newTechs.length) {
+    const techToOpen = newTechs.find(t => t.id === route.query.open);
+    if (techToOpen) {
+      openModal(techToOpen);
+    }
+  }
+});
+
+
 </script>

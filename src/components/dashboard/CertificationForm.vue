@@ -54,7 +54,7 @@
       </div>
       <ErrorDisplay :errors="errors.description" />
     </div>
-    
+
     <div class="filepond-themed">
       <label class="block text-sm font-medium mb-1">Credential Image</label>
       <FilePond
@@ -73,7 +73,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import Switch from '@/components/ui/Switch.vue';
+import Switch from '@/components/ui/SwitchComp.vue';
 import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import { useFilePondServer } from '@/services/filePondService.js';

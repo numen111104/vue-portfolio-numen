@@ -126,8 +126,8 @@ import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
 import BaseModal from '@/components/ui/BaseModal.vue';
 import TestimonialForm from '@/components/dashboard/TestimonialForm.vue';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
-import Switch from '@/components/ui/Switch.vue';
-import Pagination from '@/components/ui/Pagination.vue';
+import Switch from '@/components/ui/SwitchComp.vue';
+import Pagination from '@/components/ui/PaginationComp.vue';
 import { IconPlus, IconLoader2 } from '@tabler/icons-vue';
 
 // State
@@ -255,7 +255,7 @@ const handleConfirm = async () => {
     swal.fire('Success', `Testimonial from '${selectedTestimonial.value.author_name}' has been processed.`, 'success');
   } catch (error) {
     console.error(`Failed to ${confirmActionType.value} testimonial:`, error);
-    swal.fire('Error', 'An error occurred while processing the request.', 'error');
+    swal.fire('Error', 'An error occurred while processing the request.' + error, 'error');
   } finally {
     formLoading.value = false;
   }

@@ -257,6 +257,11 @@ const handleSubmit = () => {
         try {
             return JSON.parse(file.serverId);
         } catch (e) {
+          swalMixin.fire({
+            title: 'JSON Parse Error',
+            text: 'Could not parse serverId' + e,
+            icon: 'error',
+          })
             return file.serverId;
         }
     };

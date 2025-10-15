@@ -126,12 +126,11 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import MultiSelectInput from '@/components/ui/MultiSelectInput.vue';
-import Switch from '@/components/ui/Switch.vue';
+import Switch from '@/components/ui/SwitchComp.vue';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import apiService from '@/services/apiService';
 import { useFilePondServer } from '@/services/filePondService.js';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
-import swalMixin from '@/utils/swal.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -198,11 +197,7 @@ watch(() => props.project, (newVal) => {
 
 const enhanceShortDescription = async () => {
   if (!form.value.short_description || form.value.short_description.length < 5) {
-    swalMixin.fire({
-      title: 'Input Too Short',
-      text: 'Short description must be at least 5 characters long to enhance.',
-      icon: 'warning',
-    });
+    alert('Short description must be at least 5 characters long to enhance.');
     return;
   }
   isEnhancingShort.value = true;
@@ -211,11 +206,7 @@ const enhanceShortDescription = async () => {
     form.value.short_description = response.data.text;
   } catch (error) {
     console.error("Failed to enhance description:", error);
-    swalMixin.fire({
-      title: 'Enhancement Failed',
-      text: 'Could not enhance short description. Please check the console for details.',
-      icon: 'error',
-    });
+    alert('Could not enhance description. Please check the console.');
   } finally {
     isEnhancingShort.value = false;
   }
@@ -223,11 +214,7 @@ const enhanceShortDescription = async () => {
 
 const enhanceFullDescription = async () => {
   if (!form.value.description || form.value.description.length < 5) {
-    swalMixin.fire({
-      title: 'Input Too Short',
-      text: 'Full description must be at least 5 characters long to enhance.',
-      icon: 'warning',
-    });
+    alert('Full description must be at least 5 characters long to enhance.');
     return;
   }
   isEnhancingFull.value = true;
@@ -236,11 +223,7 @@ const enhanceFullDescription = async () => {
     form.value.description = response.data.text;
   } catch (error) {
     console.error("Failed to enhance description:", error);
-    swalMixin.fire({
-      title: 'Enhancement Failed',
-      text: 'Could not enhance full description. Please check the console for details.',
-      icon: 'error',
-    });
+    alert('Could not enhance description. Please check the console.');
   } finally {
     isEnhancingFull.value = false;
   }

@@ -1,16 +1,18 @@
 <template>
   <section id="about" class="container px-4 py-8 mx-auto text-white md:px-8 lg:px-16 bg-brand-dark">
-    <HighlightedTitle unlighter="About" lighter="Me" />
-    <p v-if="aboutContent" class="text-brand-text/80 mb-4">
-      {{ aboutContent.bio }}
-    </p>
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <div class="col-span-1 card-home fade-in-up-on-scroll" style="animation-delay: 0.2s">
+    <div class="animate-on-scroll fade-in-left-on-scroll">
+      <HighlightedTitle unlighter="About" lighter="Me" />
+      <p v-if="aboutContent" class="text-brand-text/80 mb-4">
+        {{ aboutContent.bio }}
+      </p>
+    </div>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 stagger-container">
+      <div class="col-span-1 card-home animate-on-scroll fade-in-up-on-scroll">
         <img src="@/assets/images/about.png" alt="Nu'man Nasyar MZ" class="object-cover w-full h-full rounded-lg" />
       </div>
 
       <div class="grid grid-cols-1 col-span-1 gap-8 md:grid-cols-1 lg:col-span-1">
-        <div class="card-home fade-in-up-on-scroll" style="animation-delay: 0.3s">
+        <div class="card-home animate-on-scroll fade-in-up-on-scroll">
           <div class="relative w-full overflow-hidden rounded-lg">
             <div class="relative">
               <img src="@/assets/images/tidore.png" alt="Map of Pulau Tidore"
@@ -39,26 +41,27 @@
           </div>
         </div>
 
-        <div v-if="latestEducation" class="card-home fade-in-up" style="animation-delay: 0.4s">
-          <h3 class="mb-2 text-xl font-semibold">Education</h3>
-
-          <div class="flex items-center justify-start gap-4 p-4">
-            <img v-if="latestEducation.logo_url" :src="`/storage/${latestEducation.logo_url}`" :alt="latestEducation.institution_name" class="w-20 h-20 object-contain p-1" />
-            <div v-else class="w-20 h-20 bg-brand-light-gray rounded-md"></div>
-            <div>
-              <h4 class="text-lg font-semibold text-brand-yellow">{{ formatYear(latestEducation.start_date) }} - {{ formatYear(latestEducation.end_date) }}</h4>
-              <p class="text-base text-white">{{ latestEducation.institution_name }}</p>
-              <p class="text-sm text-gray-400">{{ latestEducation.major }}</p>
+        <div v-if="latestEducation" class="card-home">
+          <div class="animate-on-scroll fade-in-up-on-scroll">
+            <h3 class="mb-2 text-xl font-semibold">Education</h3>
+            <div class="flex items-center justify-start gap-4 p-4">
+              <img v-if="latestEducation.logo_url" :src="`/storage/${latestEducation.logo_url}`" :alt="latestEducation.institution_name" class="w-20 h-20 object-contain p-1" />
+              <div v-else class="w-20 h-20 bg-brand-light-gray rounded-md"></div>
+              <div>
+                <h4 class="text-lg font-semibold text-brand-yellow">{{ formatYear(latestEducation.start_date) }} - {{ formatYear(latestEducation.end_date) }}</h4>
+                <p class="text-base text-white">{{ latestEducation.institution_name }}</p>
+                <p class="text-sm text-gray-400">{{ latestEducation.major }}</p>
+              </div>
             </div>
+            <p class="self-end text-sm text-gray-400">
+              {{ latestEducation.description }}
+            </p>
           </div>
-          <p class="self-end text-sm text-gray-400">
-            {{ latestEducation.description }}
-          </p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 col-span-1 gap-8 md:col-span-2 lg:col-span-1">
-        <div class="flex flex-col justify-between card-home fade-in-up-on-scroll" style="animation-delay: 0.4s">
+        <div class="flex flex-col justify-between card-home animate-on-scroll fade-in-up-on-scroll">
           <h3 class="mb-2 text-xl font-semibold">
             <router-link to="/certifications"
               class="flex items-center justify-between transition-transform group hover:text-brand-yellow">
@@ -90,7 +93,7 @@
             journey.
           </p>
         </div>
-        <div class="flex flex-col justify-between card-home fade-in-up-on-scroll" style="animation-delay: 0.5s">
+        <div class="flex flex-col justify-between card-home animate-on-scroll fade-in-up-on-scroll">
           <h3 class="mb-2 text-xl font-semibold">
             <router-link to="/tech-stacks" class="flex items-center justify-between group">
               Techstacks
@@ -123,41 +126,127 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+
+import { computed, ref, watch, nextTick } from 'vue';
+
 import { IconArrowRight } from '@tabler/icons-vue';
+
 import { usePortfolioStore } from '@/stores/portfolio';
 
+import { useIntersectionObserver } from '@/composables/useIntersectionObserver';
+
+
+
 import githubIcon from '@/assets/images/icons/ic-github.png';
+
 import linkedinIcon from '@/assets/images/icons/ic-linkedin.png';
+
 import gmailIcon from '@/assets/images/icons/ic-gmail.png';
+
+
 
 import HighlightedTitle from '../ui/HighlightedTitle.vue';
 
+
+
 const portfolioStore = usePortfolioStore();
 
-// --- STATE --- 
+
+
+// --- STATE ---
+
 const certifications = computed(() => portfolioStore.certifications);
+
 const technologies = computed(() => portfolioStore.technologies);
+
 const socialMediaLinks = computed(() => portfolioStore.socials);
+
 const aboutContent = computed(() => portfolioStore.about);
+
 const latestEducation = computed(() => portfolioStore.educations?.[0]);
 
+
+
+// --- ANIMATION ---
+
+const sectionRoot = ref(null);
+
+const { observe } = useIntersectionObserver();
+
+watch([aboutContent, latestEducation], async ([newAbout, newEdu]) => {
+
+  if (newAbout && newEdu) {
+
+    await nextTick();
+
+    if (sectionRoot.value) {
+
+      const staggerContainers = sectionRoot.value.querySelectorAll('.stagger-container');
+
+      staggerContainers.forEach((container) => {
+
+        // Use .children to only get direct descendants for staggering
+
+        for (let i = 0; i < container.children.length; i++) {
+
+          const el = container.children[i];
+
+          el.style.transitionDelay = `${i * 100}ms`;
+
+        }
+
+      });
+
+      const elementsToAnimate = sectionRoot.value.querySelectorAll('.animate-on-scroll');
+
+      elementsToAnimate.forEach(el => { observe(el); });
+
+    }
+
+  }
+
+}, { immediate: true });
+
+
+
+
+
 // --- ASSET HELPERS ---
+
 const socialIconMap = {
+
   github: githubIcon,
+
   linkedin: linkedinIcon,
+
   gmail: gmailIcon,
+
 };
+
+
 
 const getSocialIcon = (platformName) => {
-  if (!platformName) return 'https://placehold.co/48'; // Return placeholder if name is null/undefined
+
+  if (!platformName) return 'https://placehold.co/48';
+
   const name = platformName.toLowerCase();
+
   return socialIconMap[name] || 'https://placehold.co/48';
+
 };
 
+
+
 const formatYear = (dateString) => {
+
     if (!dateString) return 'Now';
+
     return new Date(dateString).getFullYear();
+
 }
 
+
+
 </script>
+
+

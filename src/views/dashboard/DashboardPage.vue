@@ -1,102 +1,143 @@
 <template>
   <div>
     <div class="animate-page-load load-delay-1">
-      <HighlightedTitle unlighter="Dashboard" lighter="Analytics Overview" />
+      <HighlightedTitle unlighter="Welcome Back," lighter="Here is Your Dashboard" />
       <p class="text-brand-text/80 !mx-0 !max-w-full !text-left !text-base">
-        An overview of your website's traffic and security.
+        A complete overview of your portfolio's analytics, content, and system health.
       </p>
     </div>
 
-    <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Main column -->
-      <div class="lg:col-span-2">
-        <div class="card-home animate-page-load bg-brand-gray p-6" style="animation-delay: 0.3s">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-            <h4 class="font-semibold text-white mb-2 sm:mb-0">API Hits Over Time</h4>
-            <select v-model="chartPeriod" @change="fetchChartData" class="input-field bg-brand-light-gray w-full sm:w-auto">
-              <option value="day">Daily</option>
-              <option value="month">Monthly</option>
-              <option value="year">Yearly</option>
-            </select>
+    <div v-if="loading" class="text-center py-24">
+      <IconLoader2 class="animate-spin inline-block w-12 h-12 text-brand-yellow" />
+      <p class="mt-4 text-gray-400">Loading dashboard data...</p>
+    </div>
+
+    <div v-else class="mt-6 space-y-12">
+      <!-- Area 1: Visitor & Engagement Analytics -->
+      <section class="animate-page-load load-delay-2">
+        <h2 class="text-2xl font-bold text-white mb-4">Visitor & Engagement Analytics</h2>
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="card-home bg-brand-gray p-6">
+            <h4 class="mb-2 font-semibold text-gray-400">Total Visits (30 Days)</h4>
+            <p class="text-4xl font-bold text-white">{{ data.analytics.total_hits_30d ?? 'N/A' }}</p>
           </div>
-          <apexchart type="area" height="350" :options="chartOptions" :series="chartSeries"></apexchart>
+          <div class="card-home bg-brand-gray p-6">
+            <h4 class="mb-2 font-semibold text-gray-400">Unique Visitors (30 Days)</h4>
+            <p class="text-4xl font-bold text-white">{{ data.analytics.unique_visitors_30d ?? 'N/A' }}</p>
+          </div>
+          <div class="card-home bg-brand-gray p-6">
+            <h4 class="mb-2 font-semibold text-gray-400">Hits Today</h4>
+            <p class="text-4xl font-bold text-white">{{ data.analytics.hits_today ?? 'N/A' }}</p>
+          </div>
         </div>
-      </div>
+        <!-- Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-6">
+          <div class="lg:col-span-3 card-home bg-brand-gray p-6">
+            <h4 class="font-semibold text-white mb-4">Daily Visit Trend (30 Days)</h4>
+            <apexchart type="area" height="350" :options="dailyVisitsChart.options" :series="dailyVisitsChart.series"></apexchart>
+          </div>
+          <div class="lg:col-span-2 card-home bg-brand-gray p-6">
+            <h4 class="font-semibold text-white mb-4">Device Sources</h4>
+            <apexchart type="donut" height="350" :options="deviceSourceChart.options" :series="deviceSourceChart.series"></apexchart>
+          </div>
+        </div>
+         <div class="mt-6 card-home bg-brand-gray p-6">
+            <h4 class="font-semibold text-white mb-4">Top 5 Popular Pages</h4>
+            <apexchart type="bar" height="350" :options="popularPagesChart.options" :series="popularPagesChart.series"></apexchart>
+        </div>
+      </section>
 
-      <!-- Side column -->
-      <div class="animate-page-load space-y-6" style="animation-delay: 0.1s">
-        <div class="card-home bg-brand-gray p-6">
-          <h4 class="mb-2 font-semibold text-gray-400">Total Hits</h4>
-          <p class="text-3xl font-bold text-white">{{ summary.total_hits ?? 'N/A' }}</p>
+      <!-- Area 2: Content Summary -->
+      <section class="animate-page-load load-delay-3">
+        <h2 class="text-2xl font-bold text-white mb-4">Content Summary</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="card-home bg-brand-gray p-6">
+            <h4 class="mb-2 font-semibold text-gray-400">Published Projects</h4>
+            <p class="text-4xl font-bold text-white">{{ data.content.published_projects ?? 'N/A' }}</p>
+          </div>
+          <div class="card-home bg-brand-gray p-6">
+            <h4 class="mb-2 font-semibold text-gray-400">Total Technologies</h4>
+            <p class="text-4xl font-bold text-white">{{ data.content.total_technologies ?? 'N/A' }}</p>
+          </div>
+          <div class="card-home bg-brand-gray p-6">
+            <h4 class="mb-2 font-semibold text-gray-400">Testimonials Awaiting Approval</h4>
+            <p class="text-4xl font-bold text-white">{{ data.content.pending_testimonials_count ?? 'N/A' }}</p>
+          </div>
         </div>
-        <div class="card-home bg-brand-gray p-6">
-          <h4 class="mb-2 font-semibold text-gray-400">Unique Visitors</h4>
-          <p class="text-3xl font-bold text-white">{{ summary.unique_visitors ?? 'N/A' }}</p>
+        <div v-if="data.content.pending_testimonials_count > 0" class="mt-6 card-home bg-brand-gray p-6">
+            <h4 class="font-semibold text-white mb-4">Testimonials for Review</h4>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm text-left text-gray-300">
+                    <thead class="text-xs text-gray-400 uppercase bg-brand-dark/50">
+                        <tr>
+                            <th class="px-6 py-3">Author</th>
+                            <th class="px-6 py-3">Testimonial</th>
+                            <th class="px-6 py-3"><span class="sr-only">Actions</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="testimonial in data.content.testimonials_for_review" :key="testimonial.id" class="border-b border-brand-light-gray hover:bg-brand-dark/50">
+                            <td class="px-6 py-4 font-medium text-white">{{ testimonial.author_name }}</td>
+                            <td class="px-6 py-4 truncate max-w-md">{{ testimonial.testimonial_text }}</td>
+                            <td class="px-6 py-4 text-right">
+                                <button @click="publishTestimonial(testimonial.id)" class="btn btn-sm btn-primary">Publish</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="card-home bg-brand-gray p-6">
-          <h4 class="mb-2 font-semibold text-gray-400">Hits Today</h4>
-          <p class="text-3xl font-bold text-white">{{ summary.hits_today ?? 'N/A' }}</p>
+      </section>
+
+      <!-- Area 3: System Health & Security -->
+      <section class="animate-page-load load-delay-4">
+        <h2 class="text-2xl font-bold text-white mb-4">System Health & Security</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+          <div class="card-home bg-brand-gray p-6">
+            <h4 class="mb-2 font-semibold text-gray-400">Failed Jobs</h4>
+            <p class="text-4xl font-bold" :class="data.health.failed_jobs > 0 ? 'text-red-500' : 'text-white'">{{ data.health.failed_jobs ?? 'N/A' }}</p>
+          </div>
+          <div class="card-home bg-brand-gray p-6">
+            <h4 class="mb-2 font-semibold text-gray-400">Blocked IPs</h4>
+            <p class="text-4xl font-bold text-white">{{ data.health.blocked_ips ?? 'N/A' }}</p>
+          </div>
         </div>
-      </div>
+        <div class="mt-6 card-home bg-brand-gray p-6">
+            <h4 class="font-semibold text-white mb-4">Recent Activity Log</h4>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm text-left text-gray-300">
+                    <thead class="text-xs text-gray-400 uppercase bg-brand-dark/50">
+                        <tr>
+                            <th class="px-6 py-3">IP Address</th>
+                            <th class="px-6 py-3">Action</th>
+                            <th class="px-6 py-3">Device</th>
+                            <th class="px-6 py-3">Time</th>
+                            <th class="px-6 py-3"><span class="sr-only">Actions</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="hit in data.health.recent_hits" :key="hit.id" class="border-b border-brand-light-gray hover:bg-brand-dark/50">
+                            <td class="px-6 py-4 font-medium text-white">{{ hit.ip_address }}</td>
+                            <td class="px-6 py-4 truncate max-w-sm" :title="hit.action">{{ hit.action.split('@')[1] || hit.action.split('\\').pop() }}</td>
+                            <td class="px-6 py-4">{{ hit.device }}</td>
+                            <td class="px-6 py-4">{{ new Date(hit.created_at).toLocaleString() }}</td>
+                            <td class="px-6 py-4 text-right">
+                                <button @click="blockIp(hit.ip_address)" class="font-medium text-red-500 hover:underline">Block IP</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </section>
     </div>
-
-    <!-- Recent Hits Table -->
-    <div class="mt-6 card-home animate-page-load bg-brand-gray p-6" style="animation-delay: 0.4s">
-      <h4 class="mb-4 font-semibold text-white">Recent API Hits</h4>
-      <div class="overflow-x-auto">
-        <table class="min-w-full text-sm text-left text-gray-300">
-          <thead class="text-xs text-gray-400 uppercase bg-brand-dark/50">
-            <tr>
-              <th scope="col" class="px-6 py-3">IP Address</th>
-              <th scope="col" class="px-6 py-3">Location</th>
-              <th scope="col" class="px-6 py-3">Action</th>
-              <th scope="col" class="px-6 py-3">User</th>
-              <th scope="col" class="px-6 py-3">Time</th>
-              <th scope="col" class="px-6 py-3"><span class="sr-only">Actions</span></th>
-            </tr>
-          </thead>
-          <tbody>
-             <tr v-if="loadingHits">
-              <td colspan="6" class="text-center py-8">
-                <IconLoader2 class="animate-spin inline-block w-8 h-8" />
-              </td>
-            </tr>
-            <tr v-else-if="apiHits.length === 0">
-              <td colspan="6" class="text-center py-8 text-gray-400">No recent hits found.</td>
-            </tr>
-            <tr v-for="hit in apiHits" :key="hit.id" class="border-b border-brand-light-gray hover:bg-brand-dark/50">
-              <td class="px-6 py-4 font-medium text-white">{{ hit.ip_address }}</td>
-              <td class="px-6 py-4">{{ hit.location }}</td>
-              <td class="px-6 py-4 truncate max-w-xs" :title="hit.action">{{ hit.action.split('@')[1] || hit.action.split('\\').pop() }}</td>
-              <td class="px-6 py-4">{{ hit.user?.username || 'Guest' }}</td>
-              <td class="px-6 py-4">{{ new Date(hit.created_at).toLocaleString() }}</td>
-              <td class="px-6 py-4 text-right">
-                <button @click="openConfirmModal(hit.ip_address)" class="font-medium text-red-500 hover:underline">Block IP</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Confirmation Modal -->
-    <BaseModal :show="showConfirmModal" @close="showConfirmModal = false">
-      <template #header>Confirm Action</template>
-      <p>{{ confirmText }}</p>
-      <template #footer>
-        <button @click="showConfirmModal = false" class="btn btn-secondary">Cancel</button>
-        <ButtonSpinner @click="handleConfirm" :loading="formLoading" class="btn-danger">Confirm</ButtonSpinner>
-      </template>
-    </BaseModal>
-
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
-import BaseModal from '@/components/ui/BaseModal.vue';
-import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import apiService from '@/services/apiService';
 import swal from '@/utils/swal';
 import VueApexCharts from 'vue3-apexcharts';
@@ -105,130 +146,109 @@ import { IconLoader2 } from '@tabler/icons-vue';
 const apexchart = VueApexCharts;
 
 // State
-const summary = ref({});
-const apiHits = ref([]);
-const chartPeriod = ref('day');
-const chartSeries = ref([{ name: 'API Hits', data: [] }]);
-const loadingHits = ref(true);
-const formLoading = ref(false);
-const showConfirmModal = ref(false);
-const confirmText = ref('');
-const ipToBlock = ref(null);
+const loading = ref(true);
+const data = ref(null);
 
-const chartOptions = computed(() => ({
-  chart: {
-    type: 'area',
-    height: 350,
-    zoom: {
-      enabled: false
-    },
-    toolbar: {
-      show: false
-    },
-    foreColor: '#9CA3AF'
-  },
-  dataLabels: {
-    enabled: false
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  xaxis: {
-    type: 'datetime',
-    categories: [],
-  },
-  yaxis: {
-    labels: {
-      formatter: (val) => { return val.toFixed(0) }
-    }
-  },
-  tooltip: {
-    x: {
-      format: 'dd MMM yyyy'
-    },
-  },
-  grid: {
-    borderColor: '#374151',
-  },
-  theme: {
-    mode: 'dark'
-  }
-}));
-
-const fetchSummary = async () => {
-  try {
-    const response = await apiService.get('/admin/analytics/summary');
-    summary.value = response.data;
-  } catch (error) {
-    console.error('Failed to fetch summary:', error);
-  }
+const baseChartOptions = {
+  chart: { zoom: { enabled: false }, toolbar: { show: false }, foreColor: '#dfff00', background: 'transparent' },
+  dataLabels: { enabled: false },
+  stroke: { curve: 'smooth' },
+  grid: { borderColor: '#374151' },
+  theme: { mode: 'dark' },
+  tooltip: { theme: 'dark' }
 };
 
-const fetchApiHits = async () => {
-  loadingHits.value = true;
-  try {
-    const response = await apiService.get('/admin/analytics/hits');
-    apiHits.value = response.data.data;
-  } catch (error) {
-    console.error('Failed to fetch API hits:', error);
-  } finally {
-    loadingHits.value = false;
-  }
-};
-
-const fetchChartData = async () => {
-  try {
-    const response = await apiService.get(`/admin/analytics/hits-by-period?period=${chartPeriod.value}`);
-    const data = response.data;
-    const categories = data.map(item => new Date(item.date).getTime());
-    const seriesData = data.map(item => item.hits);
-
-    chartSeries.value = [{ name: 'API Hits', data: seriesData }];
-    // A bit of a hack to force ApexCharts to re-render with new categories
-    chartOptions.value.xaxis.categories = []; 
-    setTimeout(() => {
-        chartOptions.value.xaxis.categories = categories;
-    }, 0);
-
-  } catch (error) {
-    console.error('Failed to fetch chart data:', error);
-  }
-};
-
-const openConfirmModal = (ip) => {
-  ipToBlock.value = ip;
-  confirmText.value = `Are you sure you want to block the IP address: ${ip}? This may prevent legitimate users from accessing the site.`;
-  showConfirmModal.value = true;
-};
-
-const handleConfirm = async () => {
-  formLoading.value = true;
-  try {
-    await apiService.post('/admin/blocked-ips', { ip_address: ipToBlock.value, reason: 'Blocked from dashboard' });
-    swal.fire('Blocked!', `IP address ${ipToBlock.value} has been blocked.`, 'success');
-    // Optional: remove the hit from the list
-    apiHits.value = apiHits.value.filter(hit => hit.ip_address !== ipToBlock.value);
-  } catch (error) {
-    swal.fire('Error', `Could not block IP address ${ipToBlock.value}. It might already be blocked.`, 'error');
-  } finally {
-    formLoading.value = false;
-    showConfirmModal.value = false;
-  }
-};
-
-onMounted(() => {
-  fetchSummary();
-  fetchApiHits();
-  fetchChartData();
+const dailyVisitsChart = computed(() => {
+    if (!data.value) return { options: {}, series: [] };
+    const seriesData = data.value.analytics.daily_visits.map(item => item.hits);
+    const categories = data.value.analytics.daily_visits.map(item => new Date(item.date).getTime());
+    return {
+        series: [{ name: 'Visits', data: seriesData }],
+        options: {
+            ...baseChartOptions,
+            xaxis: { type: 'datetime', categories },
+            tooltip: { x: { format: 'dd MMM yyyy' } }
+        }
+    };
 });
 
-</script>
+const deviceSourceChart = computed(() => {
+    if (!data.value) return { options: {}, series: [] };
+    const seriesData = data.value.analytics.device_sources.map(item => item.count);
+    const labels = data.value.analytics.device_sources.map(item => item.device);
+    return {
+        series: seriesData,
+        options: {
+            ...baseChartOptions,
+            chart: { ...baseChartOptions.chart, type: 'donut' },
+            labels: labels,
+            legend: { position: 'bottom' }
+        }
+    };
+});
 
-<style scoped>
-.card-home {
-  background-color: var(--brand-gray);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-</style>
+const popularPagesChart = computed(() => {
+    if (!data.value) return { options: {}, series: [] };
+    const seriesData = data.value.analytics.popular_pages.map(item => item.count);
+    const categories = data.value.analytics.popular_pages.map(item => item.action.split('\\').pop().replace('Controller', ''));
+    return {
+        series: [{ name: 'Hits', data: seriesData }],
+        options: {
+            ...baseChartOptions,
+            chart: { ...baseChartOptions.chart, type: 'bar' },
+            xaxis: { categories: categories },
+            plotOptions: { bar: { horizontal: true, borderRadius: 4 } },
+        }
+    };
+});
+
+const fetchData = async () => {
+  loading.value = true;
+  try {
+    const response = await apiService.get('/admin/dashboard');
+    data.value = response.data;
+  } catch (error) {
+    console.error('Failed to fetch dashboard data:', error);
+    swal.fire('Error', 'Could not load dashboard data.', 'error');
+  } finally {
+    loading.value = false;
+  }
+};
+
+const publishTestimonial = async (id) => {
+    try {
+        // Using the new dedicated endpoint for a safe partial update
+        await apiService.post(`/admin/testimonials/${id}/publish`, { is_published: true });
+        swal.fire('Published!', 'The testimonial has been published.', 'success');
+        fetchData(); // Refresh all dashboard data
+    } catch (error) {
+        console.error('Failed to publish testimonial:', error);
+        swal.fire('Error', 'Could not publish the testimonial.', 'error');
+    }
+};
+
+const blockIp = async (ip) => {
+    const result = await swal.fire({
+        title: 'Block IP?',
+        text: `Are you sure you want to block ${ip}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, block it!',
+        confirmButtonColor: '#ef4444',
+        cancelButtonText: 'Cancel'
+    });
+
+    if (result.isConfirmed) {
+        try {
+            await apiService.post('/admin/blocked-ips', { ip_address: ip, reason: 'Blocked from dashboard' });
+            swal.fire('Blocked!', `IP address ${ip} has been blocked.`, 'success');
+            fetchData(); // Refresh data
+        } catch (error) {
+            swal.fire('Error', `Could not block IP. It might already be blocked.`, 'error');
+        }
+    }
+};
+
+onMounted(fetchData);
+
+</script>

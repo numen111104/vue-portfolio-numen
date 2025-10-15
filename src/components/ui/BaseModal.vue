@@ -26,13 +26,13 @@
     >
       <div
         v-if="isVisible"
-        class="fixed inset-0 z-[51] flex items-center justify-center p-4"
+        class="fixed inset-0 z-[51] flex items-center justify-center p-4 overflow-y-auto"
         role="dialog"
         aria-modal="true"
         :aria-labelledby="modalId + '-title'"
       >
-        <div class="w-full p-6 rounded-2xl shadow-xl bg-brand-gray" :class="modalClass" @click.stop="">
-          <div class="flex justify-between items-center mb-4">
+        <div class="w-full p-6 rounded-2xl shadow-xl bg-brand-gray flex flex-col max-h-[90vh]" :class="modalClass" @click.stop="">
+          <div class="flex justify-between items-center mb-4 flex-shrink-0">
             <h3 :id="modalId + '-title'" class="text-2xl font-bold text-white">
               <slot name="header"></slot>
             </h3>
@@ -55,11 +55,11 @@
             </button>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body overflow-y-auto">
             <slot></slot>
           </div>
 
-          <div v-if="$slots.footer" class="modal-footer mt-6 flex justify-end gap-4">
+          <div v-if="$slots.footer" class="modal-footer mt-6 flex justify-end gap-4 flex-shrink-0">
             <slot name="footer"></slot>
           </div>
         </div>
@@ -133,9 +133,4 @@ export default {
 </script>
 
 <style scoped>
-.modal-body {
-  /* padding: 1rem; */ /* Padding is now handled by the parent div */
-  max-height: 80vh;
-  overflow-y: auto;
-}
 </style>

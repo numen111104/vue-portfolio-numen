@@ -91,7 +91,7 @@
             target="_blank"
             class="flex items-center gap-2 p-3 text-white transition-colors rounded-lg bg-brand-light-gray hover:bg-brand-yellow hover:text-brand-dark"
           >
-            <img src="@/assets/images/icons/ic-github.png" alt="GitHub" class="w-5 h-5" />
+            <img src="@/assets/images/icons/ic-github.png" alt="GitHub" class="w-5 h-5" width="20" height="20" />
             <span>GitHub</span>
           </a>
 
@@ -100,7 +100,7 @@
             target="_blank"
             class="flex items-center gap-2 p-3 text-white transition-colors rounded-lg bg-brand-light-gray hover:bg-brand-yellow hover:text-brand-dark"
           >
-            <img src="@/assets/images/icons/ic-linkedin.png" alt="LinkedIn" class="w-5 h-5" />
+            <img src="@/assets/images/icons/ic-linkedin.png" alt="LinkedIn" class="w-5 h-5" width="20" height="20" />
             <span>LinkedIn</span>
           </a>
         </div>

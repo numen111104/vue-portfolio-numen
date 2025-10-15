@@ -10,6 +10,8 @@ import EducationPage from '@/views/dashboard/EducationPage.vue'
 import AboutContentPage from '@/views/dashboard/AboutContentPage.vue'
 import ExperiencesPage from '@/views/dashboard/ExperiencesPage.vue'
 import TestimonialsPage from '@/views/dashboard/TestimonialsPage.vue'
+import CacheManagementPage from '@/views/dashboard/CacheManagementPage.vue'
+import SiteSettingsPage from '@/views/dashboard/SiteSettingsPage.vue'
 
 const Dashboard = [
   {
@@ -67,6 +69,16 @@ const Dashboard = [
         path: 'social-media-links',
         name: 'dashboard-social-media-links',
         component: SocialMediaLinksView,
+      },
+      {
+        path: 'cache-management',
+        name: 'dashboard-cache-management',
+        component: CacheManagementPage,
+      },
+      {
+        path: 'site-settings',
+        name: 'dashboard-site-settings',
+        component: SiteSettingsPage,
       },
     ],
   },

@@ -119,7 +119,7 @@ select::-ms-expand {
     @apply text-brand-text/80 mb-8 md:mb-2 mx-auto;
   }
   .btn {
-    @apply lg:px-6 lg:py-3 px-4 py-2 rounded-xl font-semibold transition-all duration-300;
+    @apply lg:px-6 lg:py-3 px-4 py-2 rounded-xl font-semibold transition-all duration-300 sm:text-sm text-base;
   }
   .btn-primary {
     @apply bg-brand-yellow text-brand-dark hover:bg-yellow-400 hover:shadow-lg;
