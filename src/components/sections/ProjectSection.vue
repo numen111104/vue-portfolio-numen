@@ -64,23 +64,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useUiStore } from '@/stores/ui';
-import apiService from '@/services/apiService';
+import { computed } from 'vue';
+import { usePortfolioStore } from '@/stores/portfolio';
 import { IconArrowRight } from '@tabler/icons-vue';
 
-const uiStore = useUiStore();
-const projects = ref([]);
-
-onMounted(async () => {
-  uiStore.startLoading();
-  try {
-    const response = await apiService.get('/projects', { limit: 3 });
-    projects.value = response.data.data;
-  } catch (error) {
-    console.error("Failed to fetch projects:", error);
-  } finally {
-    uiStore.stopLoading();
-  }
-});
+const portfolioStore = usePortfolioStore();
+const projects = computed(() => portfolioStore.projects.slice(0, 3));
 </script>

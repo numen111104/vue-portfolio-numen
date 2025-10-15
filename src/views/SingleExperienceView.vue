@@ -73,9 +73,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, shallowRef, computed } from 'vue';
+import { ref, shallowRef, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import apiService from '@/services/apiService';
+import { usePortfolioStore } from '@/stores/portfolio';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
 import Breadcrumb from '@/components/ui/Breadcrumb.vue';
 import DocListModal from '@/components/ui/DocListModal.vue';
@@ -88,8 +88,12 @@ import { api as ViewerApi } from "v-viewer";
 import { useUiStore } from '@/stores/ui';
 
 const route = useRoute();
-const experience = ref(null);
+const portfolioStore = usePortfolioStore();
 const uiStore = useUiStore();
+
+const experience = computed(() => {
+  return portfolioStore.experiences.find(exp => exp.id === route.params.id);
+});
 
 // Modals State
 const isDocModalOpen = ref(false);
@@ -134,19 +138,6 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
 };
 
-onMounted(async () => {
-  const experienceId = route.params.id;
-  uiStore.startLoading();
-  try {
-      const response = await apiService.get(`/experiences/${experienceId}`);
-      experience.value = response.data.data;
-  } catch (error) {
-      console.error("Failed to fetch experience:", error);
-      experience.value = null;
-  } finally {
-      uiStore.stopLoading();
-  }
-});
 </script>
 
 <style scoped>

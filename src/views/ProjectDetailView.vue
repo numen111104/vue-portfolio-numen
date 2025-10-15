@@ -99,58 +99,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useUiStore } from '@/stores/ui';
-import apiService from '@/services/apiService';
+import { ref, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { usePortfolioStore } from '@/stores/portfolio';
 import BaseModal from '@/components/ui/BaseModal.vue';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
 import { IconExternalLink } from '@tabler/icons-vue';
-
 import ImageViewer from '@/components/ui/ImageViewer.vue';
 
-const projects = ref([]);
-const loading = ref(true);
 const route = useRoute();
-const uiStore = useUiStore();
+const router = useRouter();
+const portfolioStore = usePortfolioStore();
 
-
-
-onMounted(async () => {
-  uiStore.startLoading();
-  try {
-    const response = await apiService.get('/projects');
-    projects.value = response.data.data.map(project => ({
-      ...project,
-      thumbnail_url: project.thumbnail_url ? `/storage/${project.thumbnail_url}` : null,
-      images: project.images ? project.images.map(img => `/storage/${img}`) : [],
-    }));
-
-    if (route.query.open) {
-      const projectToOpen = projects.value.find(p => p.id === route.query.open);
-      if (projectToOpen) {
-        openProjectModal(projectToOpen);
-      }
-    }
-
-  } catch (error) {
-    console.error("Failed to fetch projects:", error);
-  } finally {
-    loading.value = false;
-    uiStore.stopLoading();
-  }
-});
-
-watch(() => route.query.open, (newId) => {
-  if (newId) {
-    const projectToOpen = projects.value.find(p => p.id === newId);
-    if (projectToOpen) {
-      openProjectModal(projectToOpen);
-    }
-  } else {
-    closeModal();
-  }
-});
+const projects = computed(() =>
+  portfolioStore.projects.map(project => ({
+    ...project,
+    thumbnail_url: project.thumbnail_url ? `/storage/${project.thumbnail_url}` : null,
+    images: project.images ? project.images.map(img => `/storage/${img}`) : [],
+  }))
+);
 
 const isModalVisible = ref(false);
 const selectedProject = ref(null);
@@ -163,12 +130,30 @@ const openProjectModal = (project) => {
 const closeModal = () => {
   isModalVisible.value = false;
   selectedProject.value = null;
-  // Also update URL to remove query param
   if (route.query.open) {
-    const router = useRoute().router;
     router.replace({ query: {} });
   }
 };
+
+watch(() => route.query.open, (newId) => {
+  if (newId && projects.value.length) {
+    const projectToOpen = projects.value.find(p => p.id === newId);
+    if (projectToOpen) {
+      openProjectModal(projectToOpen);
+    }
+  } else {
+    closeModal();
+  }
+}, { immediate: true });
+
+watch(projects, (newProjects) => {
+    if (route.query.open && newProjects.length) {
+        const projectToOpen = newProjects.find(p => p.id === route.query.open);
+        if (projectToOpen) {
+            openProjectModal(projectToOpen);
+        }
+    }
+});
 
 </script>
 

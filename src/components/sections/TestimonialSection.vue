@@ -144,10 +144,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import BaseModal from '@/components/ui/BaseModal.vue';
-import apiService from '@/services/apiService';
 import swalMixin from '@/utils/swal.js';
+import { usePortfolioStore } from '@/stores/portfolio';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -156,11 +156,13 @@ import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
-// import router from '@/router';
+import apiService from '@/services/apiService';
 
 const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
-const testimonials = ref([]);
+const portfolioStore = usePortfolioStore();
+const testimonials = computed(() => portfolioStore.testimonials);
+
 const showTestimonialModal = ref(false);
 const hasSubmitted = ref(false);
 const form = ref({
@@ -176,24 +178,14 @@ const acceptedFiles = getAcceptedFileTypes(['IMAGE']);
 // Public FilePond server options
 const publicFilePondServerOptions = {
     url: '/api/files',
-    process: '/public/process',
-    revert: '/public/revert',
+    process: './public/process',
+    revert: './public/revert',
     headers: {
         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
     },
 };
 
-const fetchTestimonials = async () => {
-  try {
-    const response = await apiService.get('/testimonials');
-    testimonials.value = response.data.data;
-  } catch (error) {
-    console.error('Failed to fetch testimonials:', error);
-  }
-};
-
 onMounted(() => {
-  fetchTestimonials();
   if (localStorage.getItem('hasSubmittedTestimonial')) {
     hasSubmitted.value = true;
   }

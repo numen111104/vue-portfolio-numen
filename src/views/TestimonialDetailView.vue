@@ -25,22 +25,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed } from 'vue';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
-import apiService from '@/services/apiService';
+import { usePortfolioStore } from '@/stores/portfolio';
 
-const testimonials = ref([]);
+const portfolioStore = usePortfolioStore();
+const testimonials = computed(() => portfolioStore.testimonials);
 
-const fetchTestimonials = async () => {
-  try {
-    const response = await apiService.get('/testimonials');
-    testimonials.value = response.data.data ;
-  } catch (error) {
-    console.error('Failed to fetch testimonials:', error);
-  }
-};
-
-onMounted(() => {
-  fetchTestimonials();
-});
 </script>

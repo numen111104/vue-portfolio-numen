@@ -42,61 +42,89 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect } from 'vue';
+
+import { ref, watchEffect, computed } from 'vue';
+
 import { useRoute } from 'vue-router';
-import apiService from '@/services/apiService';
+
 import { useUiStore } from '@/stores/ui';
+
+import { usePortfolioStore } from '@/stores/portfolio';
+
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
+
 import CertificationDetailModal from '@/components/ui/CertificationDetailModal.vue';
+
 import { IconLoader2 } from '@tabler/icons-vue';
 
+
+
 const uiStore = useUiStore();
+
 const route = useRoute();
 
-const certifications = ref([]);
+const portfolioStore = usePortfolioStore();
+
+
+
+const certifications = computed(() => portfolioStore.certifications);
+
 const selectedCertification = ref(null);
+
 const isModalOpen = ref(false);
 
+
+
 const openModal = (cert) => {
+
     selectedCertification.value = cert;
+
     isModalOpen.value = true;
+
 };
+
+
 
 const closeModal = () => {
+
     isModalOpen.value = false;
+
     // Optional: clear selected cert after transition
+
     setTimeout(() => selectedCertification.value = null, 300);
+
 };
+
+
 
 const formatDate = (dateString) => {
+
   if (!dateString) return 'N/A';
+
   return new Date(dateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
 };
 
-const fetchCertifications = async () => {
-    uiStore.startLoading();
-    try {
-        const response = await apiService.get('/certifications');
-        certifications.value = response.data.data;
-    } catch (error) {
-        console.error("Failed to fetch certifications:", error);
-    } finally {
-        uiStore.stopLoading();
-    }
-};
 
-onMounted(async () => {
-    await fetchCertifications();
 
-    // Check if we need to open a modal from URL query
-    watchEffect(() => {
-        const certIdToOpen = route.query.open;
-        if (certIdToOpen && certifications.value.length) {
-            const certToOpen = certifications.value.find(c => c.id === certIdToOpen);
-            if (certToOpen) {
-                openModal(certToOpen);
-            }
+// Check if we need to open a modal from URL query
+
+watchEffect(() => {
+
+    const certIdToOpen = route.query.open;
+
+    if (certIdToOpen && certifications.value.length) {
+
+        const certToOpen = certifications.value.find(c => c.id === certIdToOpen);
+
+        if (certToOpen) {
+
+            openModal(certToOpen);
+
         }
-    });
+
+    }
+
 });
+
 </script>

@@ -123,11 +123,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import apiService from '@/services/apiService';
+import { computed } from 'vue';
 import { IconArrowRight } from '@tabler/icons-vue';
-
-import { useUiStore } from '@/stores/ui';
+import { usePortfolioStore } from '@/stores/portfolio';
 
 import githubIcon from '@/assets/images/icons/ic-github.png';
 import linkedinIcon from '@/assets/images/icons/ic-linkedin.png';
@@ -135,14 +133,14 @@ import gmailIcon from '@/assets/images/icons/ic-gmail.png';
 
 import HighlightedTitle from '../ui/HighlightedTitle.vue';
 
-const uiStore = useUiStore();
+const portfolioStore = usePortfolioStore();
 
-// --- STATE ---
-const certifications = ref([]);
-const technologies = ref([]);
-const socialMediaLinks = ref([]);
-const aboutContent = ref(null);
-const latestEducation = ref(null);
+// --- STATE --- 
+const certifications = computed(() => portfolioStore.certifications);
+const technologies = computed(() => portfolioStore.technologies);
+const socialMediaLinks = computed(() => portfolioStore.socials);
+const aboutContent = computed(() => portfolioStore.about);
+const latestEducation = computed(() => portfolioStore.educations?.[0]);
 
 // --- ASSET HELPERS ---
 const socialIconMap = {
@@ -162,35 +160,4 @@ const formatYear = (dateString) => {
     return new Date(dateString).getFullYear();
 }
 
-// --- DATA FETCHING ---
-const fetchData = async () => {
-  uiStore.startLoading(); // For certs
-  uiStore.startLoading(); // For techs
-  uiStore.startLoading(); // For socials
-  uiStore.startLoading(); // For about
-  uiStore.startLoading(); // For education
-
-  try {
-    const [certsRes, techsRes, socialsRes, aboutRes, eduRes] = await Promise.all([
-      apiService.get('/certifications').finally(() => uiStore.stopLoading()),
-      apiService.get('/technologies').finally(() => uiStore.stopLoading()),
-      apiService.get('/social-media-links').finally(() => uiStore.stopLoading()),
-      apiService.get('/about-content').finally(() => uiStore.stopLoading()),
-      apiService.get('/educations').finally(() => uiStore.stopLoading()),
-    ]);
-
-    certifications.value = certsRes.data.data;
-    technologies.value = techsRes.data.data;
-    socialMediaLinks.value = socialsRes.data.data;
-    aboutContent.value = aboutRes.data.data;
-    if (eduRes.data.data && eduRes.data.data.length > 0) {
-        latestEducation.value = eduRes.data.data[0];
-    }
-
-  } catch (error) {
-    console.error("Failed to fetch about section data:", error);
-  }
-};
-
-onMounted(fetchData);
 </script>

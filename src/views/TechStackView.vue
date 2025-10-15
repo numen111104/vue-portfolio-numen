@@ -55,37 +55,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import apiService from '@/services/apiService';
+import { usePortfolioStore } from '@/stores/portfolio';
 import BaseModal from '@/components/ui/BaseModal.vue';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
 
 const route = useRoute();
 const router = useRouter();
+const portfolioStore = usePortfolioStore();
 
-const technologies = ref([]);
+const technologies = computed(() => portfolioStore.technologies);
 const isModalVisible = ref(false);
 const selectedTech = ref(null);
-
-const fetchTechnologies = async () => {
-  try {
-    const response = await apiService.get('/technologies');
-    technologies.value = response.data.data;
-
-    // Check if a modal should be opened based on the query param
-    if (route.query.open) {
-      const techToOpen = technologies.value.find(t => t.id === route.query.open);
-      if (techToOpen) {
-        openModal(techToOpen);
-      }
-    }
-  } catch (error) {
-    console.error("Failed to fetch technologies:", error);
-  }
-};
-
-onMounted(fetchTechnologies);
 
 watch(() => route.query.open, (newId) => {
   if (newId && technologies.value.length) {
@@ -96,25 +78,27 @@ watch(() => route.query.open, (newId) => {
   } else {
     closeModal();
   }
+}, { immediate: true });
+
+watch(technologies, (newTechs) => {
+    if (route.query.open && newTechs.length) {
+        const techToOpen = newTechs.find(t => t.id === route.query.open);
+        if (techToOpen) {
+            openModal(techToOpen);
+        }
+    }
 });
 
-const openModal = async (tech) => {
-  try {
-    // Fetch detailed info, including related projects
-    const response = await apiService.get(`/technologies/${tech.id}`);
-    selectedTech.value = response.data.data;
-    isModalVisible.value = true;
-    // Update URL without reloading page
-    router.replace({ query: { open: tech.id } });
-  } catch (error) {
-    console.error(`Failed to fetch details for ${tech.name}:`, error);
-  }
+const openModal = (tech) => {
+  // The full tech object, including projects, is now available from the store.
+  selectedTech.value = tech;
+  isModalVisible.value = true;
+  router.replace({ query: { open: tech.id } });
 };
 
 const closeModal = () => {
   isModalVisible.value = false;
   selectedTech.value = null;
-  // Clear the query parameter from the URL
   if (route.query.open) {
     router.replace({ query: {} });
   }

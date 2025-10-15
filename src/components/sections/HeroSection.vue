@@ -71,25 +71,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useUiStore } from '@/stores/ui';
-import apiService from '@/services/apiService';
+import { computed } from 'vue';
+import { usePortfolioStore } from '@/stores/portfolio';
 import { IconArrowRight } from '@tabler/icons-vue';
 
-const uiStore = useUiStore();
-const settings = ref({});
-
-const fetchSettings = async () => {
-  uiStore.startLoading();
-  try {
-    const response = await apiService.get('/hero-settings');
-    settings.value = response.data.data;
-  } catch (error) {
-    console.error('Failed to fetch hero settings:', error);
-  } finally {
-    uiStore.stopLoading();
-  }
-};
-
-onMounted(fetchSettings);
+const portfolioStore = usePortfolioStore();
+const settings = computed(() => portfolioStore.hero);
 </script>

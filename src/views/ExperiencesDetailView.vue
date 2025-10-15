@@ -44,29 +44,33 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+
+import { computed } from 'vue';
+
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
-import apiService from '@/services/apiService';
+
 import { IconLoader2 } from '@tabler/icons-vue';
+
 import { useUiStore } from '@/stores/ui';
 
-const experiences = ref([]);
+import { usePortfolioStore } from '@/stores/portfolio';
+
+
+
+const portfolioStore = usePortfolioStore();
+
+const experiences = computed(() => portfolioStore.experiences);
+
 const uiStore = useUiStore();
 
+
+
 const formatDate = (dateString) => {
+
     if (!dateString) return '';
+
     return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+
 };
 
-onMounted(async () => {
-    uiStore.startLoading();
-    try {
-        const response = await apiService.get('/experiences');
-        experiences.value = response.data.data;
-    } catch (error) {
-        console.error("Failed to fetch experiences:", error);
-    } finally {
-        uiStore.stopLoading();
-    }
-});
 </script>

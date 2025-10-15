@@ -67,59 +67,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import apiService from '@/services/apiService';
+import { computed } from 'vue';
 import EducationTimeline from '@/components/timelines/EducationTimeline.vue';
 import { IconLoader2 } from '@tabler/icons-vue';
 import { useUiStore } from '@/stores/ui';
+import { usePortfolioStore } from '@/stores/portfolio';
 
 const uiStore = useUiStore();
-const aboutContent = ref(null);
-const educations = ref([]);
+const portfolioStore = usePortfolioStore();
 
-const fetchData = async () => {
-  uiStore.startLoading(); // for about
-  uiStore.startLoading(); // for educations
-  try {
-    const [aboutRes, eduRes] = await Promise.all([
-      apiService.get('/about-content').finally(() => uiStore.stopLoading()),
-      apiService.get('/educations').finally(() => uiStore.stopLoading()),
-    ]);
+const aboutContent = computed(() => portfolioStore.about);
+const educations = computed(() => portfolioStore.educations);
 
-    const rawContent = aboutRes.data.data;
-
-    // Safely parse passions
-    let passions = [];
-    if (rawContent.passions) {
-        try {
-            passions = typeof rawContent.passions === 'string' ? JSON.parse(rawContent.passions) : rawContent.passions;
-        } catch (e) {
-            console.error("Failed to parse passions:", e);
-        }
-    }
-
-    // Safely parse languages
-    let languages = [];
-    if (rawContent.languages) {
-        try {
-            languages = typeof rawContent.languages === 'string' ? JSON.parse(rawContent.languages) : rawContent.languages;
-        } catch (e) {
-            console.error("Failed to parse languages:", e);
-        }
-    }
-
-    aboutContent.value = {
-        ...rawContent,
-        passions: Array.isArray(passions) ? passions : [],
-        languages: Array.isArray(languages) ? languages : [],
-    };
-
-    educations.value = eduRes.data.data;
-
-  } catch (error) {
-    console.error('Failed to fetch about detail data:', error);
-  }
-};
-
-onMounted(fetchData);
 </script>
