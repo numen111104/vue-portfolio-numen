@@ -165,8 +165,7 @@ const handleFormSubmit = async (formData) => {
   clearErrors();
   try {
     if (editingLink.value) {
-      // Laravel needs POST for FormData, but we can spoof PUT
-      formData.append('_method', 'PUT');
+      formData.append('_method', 'POST');
       const response = await apiService.post(`/social-media-links/${editingLink.value.id}`, formData);
       const index = links.value.findIndex(l => l.id === editingLink.value.id);
       if (index !== -1) links.value[index] = response.data.data;

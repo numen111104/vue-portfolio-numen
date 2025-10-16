@@ -1,10 +1,16 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, provide } from 'vue';
 import { usePortfolioStore } from '@/stores/portfolio';
 import { useAppSettingsStore } from '@/stores/appSettings';
+import { useIntersectionObserver } from '@/composables/useIntersectionObserver';
 
 const portfolioStore = usePortfolioStore();
 const appSettingsStore = useAppSettingsStore();
+
+const { observe } = useIntersectionObserver();
+
+// Provide the 'observe' function to all child components
+provide('observer', { observe });
 
 onMounted(() => {
   portfolioStore.fetchAllData();

@@ -21,11 +21,12 @@ export function useIntersectionObserver(options = { threshold: 0.1, rootMargin: 
   };
 
   onMounted(() => {
-    observer.value = new IntersectionObserver((entries, obs) => {
+    observer.value = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          obs.unobserve(entry.target);
+        } else {
+          entry.target.classList.remove('is-visible');
         }
       });
     }, options);

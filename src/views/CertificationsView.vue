@@ -1,6 +1,6 @@
 <template>
-  <div class="container px-4 py-16 mx-auto text-white md:px-8 lg:px-16">
-    <div class="flex sm:flex-row flex-col justify-between animate-on-load load-delay-1">
+  <div ref="viewRoot" class="container px-4 py-16 mx-auto text-white md:px-8 lg:px-16">
+    <div class="animate-on-scroll fade-in-down-on-scroll">
       <div class="mb-1">
         <HighlightedTitle unlighter="My" lighter="Certifications" />
         <p class="section-subtitle">
@@ -10,121 +10,89 @@
     </div>
 
     <div v-if="uiStore.isLoading && certifications.length === 0" class="text-center py-20">
-        <IconLoader2 class="animate-spin inline-block w-12 h-12" />
+      <IconLoader2 class="animate-spin inline-block w-12 h-12" />
     </div>
 
     <div v-else class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      <div 
-        v-for="(cert, index) in certifications" 
-        :key="cert.id" 
-        class="card animate-on-load group cursor-pointer" 
-        :style="{ animationDelay: `${(index + 2) * 0.1}s` }"
-        @click="openModal(cert)"
-      >
-        <div class="overflow-hidden rounded-t-lg">
-            <img :src="`/storage/${cert.credential_image_url}`" :alt="cert.title" class="object-cover w-full h-48 transition-transform duration-300 group-hover:scale-110" />
-        </div>
-        <div class="p-6">
-          <h4 class="text-lg font-semibold text-brand-yellow">{{ cert.title }}</h4>
-          <p class="mt-2 text-sm text-gray-400">Issued by: {{ cert.issuing_organization }}</p>
-          <p class="text-sm text-gray-400">Date: {{ formatDate(cert.issue_date) }}</p>
-        </div>
-      </div>
+      <CertificationCard
+        v-for="(cert, index) in certifications"
+        :key="cert.id"
+        :certification="cert"
+        :observe="observe"
+        :delay="index * 100"
+        @open="openModal"
+      />
     </div>
 
-    <CertificationDetailModal 
-        v-if="selectedCertification" 
-        :show="isModalOpen" 
-        :certification="selectedCertification" 
-        @close="closeModal"
+    <CertificationDetailModal
+      v-if="selectedCertification"
+      :show="isModalOpen"
+      :certification="selectedCertification"
+      @close="closeModal"
     />
   </div>
 </template>
 
 <script setup>
-
-import { ref, watchEffect, computed } from 'vue';
-
+import { ref, watchEffect, computed, onMounted, inject } from 'vue';
 import { useRoute } from 'vue-router';
-
 import { useUiStore } from '@/stores/ui';
-
 import { usePortfolioStore } from '@/stores/portfolio';
-
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
-
 import CertificationDetailModal from '@/components/ui/CertificationDetailModal.vue';
-
 import { IconLoader2 } from '@tabler/icons-vue';
-
-
+import CertificationCard from '@/components/cards/CertificationCard.vue';
 
 const uiStore = useUiStore();
-
 const route = useRoute();
-
 const portfolioStore = usePortfolioStore();
-
-
 
 const certifications = computed(() => portfolioStore.certifications);
 
-const selectedCertification = ref(null);
+// --- Animation Logic ---
+const { observe } = inject('observer');
+const viewRoot = ref(null);
+const isMounted = ref(false);
+onMounted(() => { isMounted.value = true; });
 
-const isModalOpen = ref(false);
+const isDataReady = computed(() => certifications.value && certifications.value.length > 0);
 
-
-
-const openModal = (cert) => {
-
-    selectedCertification.value = cert;
-
-    isModalOpen.value = true;
-
+const setupAnimations = () => {
+  if (viewRoot.value) {
+    const header = viewRoot.value.querySelector('.animate-on-scroll');
+    if (header) {
+      observe(header);
+    }
+  }
 };
-
-
-
-const closeModal = () => {
-
-    isModalOpen.value = false;
-
-    // Optional: clear selected cert after transition
-
-    setTimeout(() => selectedCertification.value = null, 300);
-
-};
-
-
-
-const formatDate = (dateString) => {
-
-  if (!dateString) return 'N/A';
-
-  return new Date(dateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-};
-
-
-
-// Check if we need to open a modal from URL query
 
 watchEffect(() => {
-
-    const certIdToOpen = route.query.open;
-
-    if (certIdToOpen && certifications.value.length) {
-
-        const certToOpen = certifications.value.find(c => c.id === certIdToOpen);
-
-        if (certToOpen) {
-
-            openModal(certToOpen);
-
-        }
-
-    }
-
+  if (isMounted.value && isDataReady.value) {
+    setupAnimations();
+  }
 });
+// --- End Animation Logic ---
 
+const selectedCertification = ref(null);
+const isModalOpen = ref(false);
+
+const openModal = (cert) => {
+  selectedCertification.value = cert;
+  isModalOpen.value = true;
+};
+
+const closeModal = () => {
+  isModalOpen.value = false;
+  setTimeout(() => selectedCertification.value = null, 300);
+};
+
+watchEffect(() => {
+  const certIdToOpen = route.query.open;
+  if (certIdToOpen && certifications.value.length) {
+    const certToOpen = certifications.value.find(c => c.id == certIdToOpen);
+    if (certToOpen) {
+      openModal(certToOpen);
+    }
+  }
+});
 </script>

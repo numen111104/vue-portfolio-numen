@@ -176,43 +176,6 @@ const animationLoop = () => {
 // --- Page Loader & Route Change Logic ---
 const pageLoaded = ref(false)
 
-watch(
-  () => route.path,
-  async (newPath, oldPath) => {
-    if (newPath !== oldPath) {
-      await nextTick();
-      initIntersectionObserver();
-    }
-  },
-  { immediate: true },
-)
-
-// --- Intersection Observer Logic ---
-const initIntersectionObserver = () => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible')
-        } else {
-          entry.target.classList.remove('is-visible')
-        }
-      })
-    },
-    { threshold: 0.01 },
-  )
-
-  const elementsToObserve = document.querySelectorAll(
-    '.fade-in-up-on-scroll, .fade-in-down-on-scroll, .fade-in-left-on-scroll, .fade-in-right-on-scroll',
-  )
-
-  elementsToObserve.forEach((el) => {
-    el.classList.remove('is-visible')
-    observer.unobserve(el)
-    observer.observe(el)
-  })
-}
-
 // --- Lifecycle Hooks ---
 onMounted(() => {
   setupCanvases();

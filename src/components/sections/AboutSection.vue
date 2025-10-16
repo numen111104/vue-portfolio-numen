@@ -1,5 +1,5 @@
 <template>
-  <section id="about" class="container px-4 py-8 mx-auto text-white md:px-8 lg:px-16 bg-brand-dark">
+  <section ref="sectionRoot" id="about" class="container px-4 py-8 mx-auto text-white md:px-8 lg:px-16 bg-brand-dark">
     <div class="animate-on-scroll fade-in-left-on-scroll">
       <HighlightedTitle unlighter="About" lighter="Me" />
       <p v-if="aboutContent" class="text-brand-text/80 mb-4">
@@ -126,127 +126,67 @@
 </template>
 
 <script setup>
-
-import { computed, ref, watch, nextTick } from 'vue';
-
+import { computed, ref, watch, nextTick, inject } from 'vue';
 import { IconArrowRight } from '@tabler/icons-vue';
-
 import { usePortfolioStore } from '@/stores/portfolio';
-
-import { useIntersectionObserver } from '@/composables/useIntersectionObserver';
-
-
-
 import githubIcon from '@/assets/images/icons/ic-github.png';
-
 import linkedinIcon from '@/assets/images/icons/ic-linkedin.png';
-
 import gmailIcon from '@/assets/images/icons/ic-gmail.png';
-
-
-
 import HighlightedTitle from '../ui/HighlightedTitle.vue';
-
-
 
 const portfolioStore = usePortfolioStore();
 
-
-
-// --- STATE ---
-
 const certifications = computed(() => portfolioStore.certifications);
-
 const technologies = computed(() => portfolioStore.technologies);
-
 const socialMediaLinks = computed(() => portfolioStore.socials);
-
 const aboutContent = computed(() => portfolioStore.about);
-
 const latestEducation = computed(() => portfolioStore.educations?.[0]);
 
-
-
-// --- ANIMATION ---
-
+const { observe } = inject('observer');
 const sectionRoot = ref(null);
 
-const { observe } = useIntersectionObserver();
-
-watch([aboutContent, latestEducation], async ([newAbout, newEdu]) => {
-
-  if (newAbout && newEdu) {
-
-    await nextTick();
-
-    if (sectionRoot.value) {
-
-      const staggerContainers = sectionRoot.value.querySelectorAll('.stagger-container');
-
-      staggerContainers.forEach((container) => {
-
-        // Use .children to only get direct descendants for staggering
-
-        for (let i = 0; i < container.children.length; i++) {
-
-          const el = container.children[i];
-
-          el.style.transitionDelay = `${i * 100}ms`;
-
+const setupAnimations = () => {
+  if (sectionRoot.value) {
+    const staggerContainers = sectionRoot.value.querySelectorAll('.stagger-container');
+    staggerContainers.forEach((container) => {
+      const elements = Array.from(container.children);
+      elements.forEach((el, index) => {
+        if (el.matches('.animate-on-scroll')) {
+          el.style.transitionDelay = `${index * 100}ms`;
         }
-
       });
-
-      const elementsToAnimate = sectionRoot.value.querySelectorAll('.animate-on-scroll');
-
-      elementsToAnimate.forEach(el => { observe(el); });
-
-    }
-
+    });
+    const elementsToAnimate = sectionRoot.value.querySelectorAll('.animate-on-scroll');
+    elementsToAnimate.forEach(el => {
+      observe(el);
+    });
   }
+};
 
+// Ganti onMounted dengan watch yang mengamati data yang relevan
+watch([aboutContent, latestEducation], (newData) => {
+  const [about, education] = newData;
+  if (about || education) { // Jalankan jika salah satu data sudah tiba
+    nextTick(setupAnimations);
+  }
 }, { immediate: true });
 
-
-
-
-
-// --- ASSET HELPERS ---
-
 const socialIconMap = {
-
   github: githubIcon,
-
   linkedin: linkedinIcon,
-
   gmail: gmailIcon,
-
 };
-
-
 
 const getSocialIcon = (platformName) => {
-
   if (!platformName) return 'https://placehold.co/48';
-
   const name = platformName.toLowerCase();
-
   return socialIconMap[name] || 'https://placehold.co/48';
-
 };
 
-
-
 const formatYear = (dateString) => {
-
     if (!dateString) return 'Now';
-
     return new Date(dateString).getFullYear();
-
 }
-
-
-
 </script>
 
 
