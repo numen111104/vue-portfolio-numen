@@ -1,7 +1,7 @@
 <template>
-  <footer class="px-4 py-12 text-white bg-brand-gray md:px-8 lg:px-16">
+  <footer ref="footerRoot" class="px-4 py-12 text-white bg-brand-gray md:px-8 lg:px-16">
     <div class="container grid grid-cols-1 gap-8 mx-auto md:grid-cols-2 lg:grid-cols-4">
-      <div ref="col1" class="animate-on-scroll fade-in-up-on-scroll">
+      <div class="animate-on-scroll fade-in-up-on-scroll">
         <h3 class="mb-4 text-xl font-bold text-brand-yellow">Nu'man Nasyar MZ</h3>
         <p class="text-sm leading-relaxed text-gray-400">
           Crafting innovative solutions with a passion for clean code and impactful design. Let's
@@ -9,7 +9,7 @@
         </p>
       </div>
 
-      <div ref="col2" class="animate-on-scroll fade-in-up-on-scroll" style="transition-delay: 100ms">
+      <div class="animate-on-scroll fade-in-up-on-scroll" style="transition-delay: 100ms">
         <h4 class="mb-4 text-lg font-semibold text-white">Quick Links</h4>
         <ul class="space-y-2">
           <li>
@@ -35,7 +35,7 @@
         </ul>
       </div>
 
-      <div ref="col3" class="animate-on-scroll fade-in-up-on-scroll" style="transition-delay: 200ms">
+      <div class="animate-on-scroll fade-in-up-on-scroll" style="transition-delay: 200ms">
         <h4 class="mb-4 text-lg font-semibold text-white">Contact Info</h4>
         <p class="mb-2 text-sm text-gray-400">
           Email:
@@ -46,7 +46,7 @@
         <p class="text-sm text-gray-400">Phone: +62 812 1131 8956 (WhatsApp)</p>
       </div>
 
-      <div ref="col4" class="animate-on-scroll fade-in-up-on-scroll" style="transition-delay: 300ms">
+      <div class="animate-on-scroll fade-in-up-on-scroll" style="transition-delay: 300ms">
         <h4 class="mb-4 text-lg font-semibold text-white">Let's Connect!</h4>
         <div class="flex flex-col gap-3">
           <button @click="copyEmail"
@@ -58,13 +58,11 @@
             </svg>
             <span>{{ copied ? 'Email Copied!' : 'Email Me' }}</span>
           </button>
-
           <a href="https://github.com/numen111104" target="_blank"
             class="flex items-center gap-2 p-3 text-white transition-colors rounded-lg bg-brand-light-gray hover:bg-brand-yellow hover:text-brand-dark">
             <img src="@/assets/images/icons/ic-github.png" alt="GitHub" class="w-5 h-5" width="20" height="20" />
             <span>GitHub</span>
           </a>
-
           <a href="https://www.linkedin.com/in/numannasyarmz" target="_blank"
             class="flex items-center gap-2 p-3 text-white transition-colors rounded-lg bg-brand-light-gray hover:bg-brand-yellow hover:text-brand-dark">
             <img src="@/assets/images/icons/ic-linkedin.png" alt="LinkedIn" class="w-5 h-5" width="20" height="20" />
@@ -73,7 +71,6 @@
         </div>
       </div>
     </div>
-
     <div class="pt-6 mt-10 text-sm text-center text-gray-500 border-t border-gray-700">
       &copy; {{ currentYear }} Nu'man Nasyar MZ. All rights reserved.
     </div>
@@ -81,9 +78,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, inject } from 'vue';
+import { ref, computed, onMounted, inject, nextTick } from 'vue'; // 3. Import nextTick
 
-// --- Logika Asli (dikonversi ke Composition API) ---
 const copied = ref(false);
 const email = 'numannasyarmz11@gmail.com';
 const currentYear = computed(() => new Date().getFullYear());
@@ -100,18 +96,20 @@ const copyEmail = async () => {
   }
 };
 
-// --- Logika Animasi ---
+// --- Logika Animasi yang Diperbaiki ---
 const { observe } = inject('observer');
-const col1 = ref(null);
-const col2 = ref(null);
-const col3 = ref(null);
-const col4 = ref(null);
+const footerRoot = ref(null);
 
 onMounted(() => {
-  if (col1.value) observe(col1.value);
-  if (col2.value) observe(col2.value);
-  if (col3.value) observe(col3.value);
-  if (col4.value) observe(col4.value);
+  // 4. Gunakan nextTick untuk menunda eksekusi
+  nextTick(() => {
+    if (footerRoot.value) {
+      const elementsToAnimate = footerRoot.value.querySelectorAll('.animate-on-scroll');
+      elementsToAnimate.forEach(el => {
+        observe(el);
+      });
+    }
+  });
 });
 </script>
 

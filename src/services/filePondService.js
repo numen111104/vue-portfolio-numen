@@ -45,7 +45,7 @@ export function useFilePondServer() {
         headers: {
           Accept: 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
-          'X-XSRF-TOKEN': xsrfToken, // ⬅️ kirim juga pas revert
+          'X-XSRF-TOKEN': xsrfToken,
         },
         onerror: (response) => {
           console.error('FilePond revert error:', response)
