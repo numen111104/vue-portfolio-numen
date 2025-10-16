@@ -3,7 +3,7 @@ import apiSessionClient from './apiSession';
 
 export default {
   login: (credentials) => apiSessionClient.post('/login', credentials),
-  logout: () => apiClient.post('/logout'),
+  logout: () => apiSessionClient.post('/logout'),
 
   getUser: () => apiClient.get('/user'),
   get: (url, params) => apiClient.get(url, { params }),
