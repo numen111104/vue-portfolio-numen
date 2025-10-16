@@ -1,32 +1,35 @@
-import axios from 'axios';
+import axios from 'axios'
+import { appHelper } from '@/utils/appHelper.js'
+import { useAuthStore } from '@/stores/auth'
 
 const apiClient = axios.create({
-  baseURL: '/api',
-});
+  baseURL: appHelper.url.base,
+})
 
 apiClient.interceptors.request.use(async (config) => {
-  const { useAuthStore } = await import('@/stores/auth');
-  const authStore = useAuthStore();
+  const authStore = useAuthStore()
 
-  config.headers['Accept'] = 'application/json';
+  config.headers['Accept'] = 'application/json'
   if (authStore.token) {
-    config.headers.Authorization = `Bearer ${authStore.token}`;
+    config.headers.Authorization = `Bearer ${authStore.token}`
   }
-  return config;
-});
+  return config
+})
 
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
-    // Prevent recursive logout loops
-    if (error.response && [401, 419].includes(error.response.status) && originalRequest.url !== '/logout') {
-      const { useAuthStore } = await import('@/stores/auth');
-      const authStore = useAuthStore();
-      authStore.logout();
+    const originalRequest = error.config
+    if (
+      error.response &&
+      [401, 419].includes(error.response.status) &&
+      originalRequest.url !== '/logout'
+    ) {
+      const authStore = useAuthStore()
+      authStore.logout()
     }
-    return Promise.reject(error);
-  }
-);
+    return Promise.reject(error)
+  },
+)
 
-export default apiClient;
+export default apiClient

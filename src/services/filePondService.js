@@ -1,12 +1,13 @@
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
+import { appHelper } from '@/utils/appHelper';
 
 export function useFilePondServer() {
     const authStore = useAuthStore();
 
     const filePondServerOptions = computed(() => {
         return {
-            url: '/api',
+            url: appHelper.url.base,
             process: {
                 url: '/files/process',
                 headers: {
