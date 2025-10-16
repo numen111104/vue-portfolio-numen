@@ -15,7 +15,7 @@
                   <label for="login" class="block mb-2 text-sm font-medium text-gray-300">Email / Username / Full
                     Name</label>
                   <input v-model="login" type="text" id="login" required
-                    placeholder="Enter your email, username, or full name"
+                    placeholder="Enter your email or username"
                     class="w-full p-3 rounded-lg bg-brand-light-gray text-brand-text border border-gray-600 focus:ring-2 focus:ring-brand-yellow focus:border-brand-yellow placeholder-gray-400 outline-none transition-all duration-300" />
                 </div>
                 <div>
@@ -90,7 +90,15 @@ const authStore = useAuthStore();
 const handleLogin = async () => {
   loading.value = true;
   error.value = null;
-  const result = await authStore.login({ login: login.value, password: password.value });
+
+  // Determine if the login input is an email or username
+  const isEmail = login.value.includes('@');
+  const credentials = {
+    [isEmail ? 'email' : 'username']: login.value,
+    password: password.value,
+  };
+
+  const result = await authStore.login(credentials);
   loading.value = false;
 
   if (result.success) {
