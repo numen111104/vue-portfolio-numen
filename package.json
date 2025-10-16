@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "watch": "npx @tailwindcss/cli -i ./src/assets/input.css -o ./src/assets/style.css --watch",
+    "watch": "npx @tailwindcss/cli -i ./src/assets/input.css -o ./src/assets/output.css --watch",
+    "minify": "npx @tailwindcss/cli -i ./src/assets/input.css -o ./src/assets/style.css --minify",
     "build": "vite build",
     "preview": "vite preview",
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",

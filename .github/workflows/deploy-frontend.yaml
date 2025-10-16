@@ -20,10 +20,11 @@ jobs:
         with:
           node-version: '18' # Sesuaikan dengan versi Node.js Anda
 
-      # 3. Install dependencies & Build
+      # 3. Install dependencies, minify tailwind & build frontend
       - name: Install and Build
         run: |
           npm install
+          npm run minify
           npm run build
 
       # 4. Deploy file menggunakan FTP
@@ -36,4 +37,4 @@ jobs:
           local-dir: ./dist/ # Upload isi dari folder 'dist'
           server-dir: /public_html/
           # Opsi tambahan untuk membersihkan file lama di server
-          dangerous-clean-slate: true
+          # dangerous-clean-slate: true
