@@ -16,12 +16,12 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-medium mb-1">Start Date</label>
-        <input v-model="form.start_date" type="date" required class="input-field w-full" />
+        <DatePicker v-model="form.start_date" required placeholder="Select start date" />
         <ErrorDisplay :errors="errors.start_date" />
       </div>
       <div>
         <label class="block text-sm font-medium mb-1">End Date (leave blank if current)</label>
-        <input v-model="form.end_date" type="date" class="input-field w-full" />
+        <DatePicker v-model="form.end_date" placeholder="Select end date" :clearable="true" />
         <ErrorDisplay :errors="errors.end_date" />
       </div>
     </div>
@@ -82,6 +82,7 @@
 import { ref, watch } from 'vue';
 import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
+import DatePicker from '@/components/ui/DatePicker.vue';
 import { useFilePondServer } from '@/services/filePondService.js';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
 import apiService from '@/services/apiService';

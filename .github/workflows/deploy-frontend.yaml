@@ -1,0 +1,38 @@
+name: Deploy Vue Frontend to numenide.id
+
+on:
+  push:
+    branches:
+      - main # Atau branch production Anda
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checkout kode
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Sesuaikan dengan versi Node.js Anda
+
+      # 3. Install dependencies & Build
+      - name: Install and Build
+        run: |
+          npm install
+          npm run build
+
+      # 4. Deploy file menggunakan FTP
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/ # Upload isi dari folder 'dist'
+          server-dir: /public_html/
+          # Opsi tambahan untuk membersihkan file lama di server
+          dangerous-clean-slate: true
