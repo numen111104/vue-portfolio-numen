@@ -31,7 +31,7 @@
     </div>
     <div class="relative justify-center flex md:w-1/2 animate-on-scroll zoom-in-on-scroll"
       style="transition-delay: 200ms;">
-      <img v-if="settings.image_url" :src="`/storage/${settings.image_url}`" alt="Programmer" class="w-full max-w-sm" />
+      <img v-if="settings.image_url" :src="$storage(settings.image_url)" alt="Programmer" class="w-full max-w-sm" />
       <div v-if="settings.metric_1_value"
         class="absolute left-0 p-4 shadow-lg -bottom-8 md:bottom-82 md:left-16 bg-brand-gray rounded-xl animate-float animate-on-scroll fade-in-up-on-scroll"
         style="animation-duration: 3.5s; transition-delay: 400ms;">

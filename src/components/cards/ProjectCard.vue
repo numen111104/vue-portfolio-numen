@@ -1,7 +1,7 @@
 <template>
   <div ref="cardElement" class="project-card card-home animate-on-scroll fade-in-up-on-scroll"
     :style="{ transitionDelay: `${delay}ms` }">
-    <img v-if="project.thumbnail_url" :src="`/storage/${project.thumbnail_url}`" :alt="project.title"
+    <img v-if="project.thumbnail_url" :src="$storage(project.thumbnail_url)" :alt="project.title"
       class="object-cover w-full h-48 mb-4 rounded-lg" />
     <div v-else class="w-full h-48 mb-4 rounded-lg bg-brand-gray"></div>
 
