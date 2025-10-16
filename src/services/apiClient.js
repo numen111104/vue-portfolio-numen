@@ -5,6 +5,8 @@ import { useAuthStore } from '@/stores/auth'
 const apiClient = axios.create({
   baseURL: appHelper.url.base,
   withCredentials: true,
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
 })
 
 apiClient.interceptors.request.use(async (config) => {
