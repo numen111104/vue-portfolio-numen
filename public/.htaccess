@@ -5,8 +5,8 @@
   # Reverse Proxy Rules
   # --------------------------------
   # Proxy auth and API requests to the backend service
-  RewriteRule ^(login|logout|sanctum/csrf-cookie)$ https://api.numenide.id/$1 [P,L]
-  RewriteRule ^api/(.*)$ https://api.numenide.id/api/$1 [P,L]
+  RewriteRule ^(login|logout|sanctum/csrf-cookie)$ http://api.numenide.id/$1 [P,L]
+  RewriteRule ^api/(.*)$ http://api.numenide.id/api/$1 [P,L]
   # --------------------------------
 
   RewriteRule ^index\.html$ - [L]
