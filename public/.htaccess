@@ -2,13 +2,7 @@
   RewriteEngine On
   RewriteBase /
 
-  # Reverse Proxy Rules
-  # --------------------------------
-  # Proxy auth and API requests to the backend service
-  RewriteRule ^(login|logout|sanctum/csrf-cookie)$ http://api.numenide.id/$1 [P,L]
-  RewriteRule ^api/(.*)$ http://api.numenide.id/api/$1 [P,L]
-  # --------------------------------
-
+  # ⚡️ Handle SPA (Vue Router)
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
