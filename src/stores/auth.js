@@ -1,53 +1,63 @@
+// src/stores/auth.js
+
 import { defineStore } from 'pinia'
 import apiService from '@/services/apiService'
+import router from '@/router'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: JSON.parse(localStorage.getItem('user')),
-    token: localStorage.getItem('token'),
+    user: JSON.parse(localStorage.getItem('user')) || null,
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.token && !!state.user,
+    isAuthenticated: (state) => !!state.user,
     currentUser: (state) => state.user,
   },
 
   actions: {
-    async login(credentials) {
+    async fetchUser() {
       try {
-        const response = await apiService.login(credentials)
-        const { user, token } = response.data
+        const response = await apiService.getUser()
+        this.user = response.data.data
+        localStorage.setItem('user', JSON.stringify(this.user))
+      } catch (error) {
+        this.user = null
+        localStorage.removeItem('user')
+      }
+    },
 
-        // Update state
-        this.user = user
-        this.token = token
-
-        // Store in localStorage
-        localStorage.setItem('user', JSON.stringify(user))
-        localStorage.setItem('token', token)
-
+    // Aksi login yang baru
+   async login(credentials) {
+      try {
+        await apiService.login(credentials)
+        await this.fetchUser()
         return { success: true }
       } catch (error) {
-        // Clear state on failure
-        this.user = null
-        this.token = null
-        localStorage.removeItem('user')
-        localStorage.removeItem('token')
-        return { success: false, error: error.response?.data?.message || 'Login failed' }
+        // Cetak seluruh detail error ke console untuk debugging
+        console.error('Login Gagal! Respons dari server:', error.response);
+
+        // Ambil pesan error yang lebih spesifik jika ada
+        const errorMessage = error.response?.data?.errors
+          ? Object.values(error.response.data.errors).flat().join(' ')
+          : error.response?.data?.message || 'Login failed. Periksa kredensial Anda.';
+
+        this.user = null;
+        localStorage.removeItem('user');
+        return { success: false, error: errorMessage }
       }
     },
 
     async logout() {
+      this.user = null
+      localStorage.removeItem('user')
+
       try {
         await apiService.logout()
+        await router.push({ name: 'login' })
       } catch (error) {
-        console.error('Error during API logout', error)
+        console.error('Error during API logout:', error)
+        await router.push({ name: 'login' })
       }
-
-      this.user = null
-      this.token = null
-      localStorage.removeItem('user')
-      localStorage.removeItem('token')
     },
   },
 })

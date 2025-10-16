@@ -4,15 +4,11 @@ import { useAuthStore } from '@/stores/auth'
 
 const apiClient = axios.create({
   baseURL: appHelper.url.base,
+  withCredentials: true,
 })
 
 apiClient.interceptors.request.use(async (config) => {
-  const authStore = useAuthStore()
-
   config.headers['Accept'] = 'application/json'
-  if (authStore.token) {
-    config.headers.Authorization = `Bearer ${authStore.token}`
-  }
   return config
 })
 
@@ -26,7 +22,9 @@ apiClient.interceptors.response.use(
       originalRequest.url !== '/logout'
     ) {
       const authStore = useAuthStore()
-      authStore.logout()
+      if (authStore.isAuthenticated) {
+        authStore.logout()
+      }
     }
     return Promise.reject(error)
   },

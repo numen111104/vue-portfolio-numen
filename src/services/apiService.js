@@ -1,7 +1,8 @@
 import apiClient from './apiClient';
+import apiSessionClient from './apiSession';
 
 export default {
-  login: (credentials) => apiClient.post('/login', credentials),
+  login: (credentials) => apiSessionClient.post('/login', credentials),
   logout: () => apiClient.post('/logout'),
 
   getUser: () => apiClient.get('/user'),

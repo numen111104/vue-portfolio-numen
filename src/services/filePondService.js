@@ -1,6 +1,7 @@
 import { computed } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { appHelper } from '@/utils/appHelper';
+import swalMixin from '@/utils/swal';
 
 export function useFilePondServer() {
     const authStore = useAuthStore();
@@ -11,7 +12,7 @@ export function useFilePondServer() {
             process: {
                 url: '/files/process',
                 headers: {
-                    'Authorization': `Bearer ${authStore.token}`,
+                    // 'Authorization': `Bearer ${authStore.token}`,
                     'Accept': 'application/json',
                 },
                 onerror: (response) => {
@@ -26,10 +27,16 @@ export function useFilePondServer() {
             revert: {
                 url: '/files/revert',
                 headers: {
-                    'Authorization': `Bearer ${authStore.token}`,
+                  // 'Authorization': `Bearer ${authStore.token}`,
+                  'Accept': 'application/json',
                 },
                 onerror: (response) => {
-                     console.error('FilePond revert error:', response);
+                  console.error('FilePond revert error:', response);
+                  swalMixin.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Could not revert file. Please try again later.',
+                  })
                 },
             },
             load: (source, load, error, progress, abort, headers) => {

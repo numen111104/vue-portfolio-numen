@@ -26,21 +26,21 @@ export default defineConfig({
     }
   },
   server: {
-    host: true, // Added to ensure it listens on all interfaces
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-      },
-      '/storage': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-      },
-      '/sanctum': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-      },
-    },
+    host: true,
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:8000',
+    //     changeOrigin: true,
+    //   },
+    //   '/storage': {
+    //     target: 'http://localhost:8000',
+    //     changeOrigin: true,
+    //   },
+    //   '/sanctum': {
+    //     target: 'http://localhost:8000',
+    //     changeOrigin: true,
+    //   },
+    // },
     },
   },
 )
