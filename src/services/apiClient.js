@@ -1,16 +1,19 @@
 import axios from 'axios'
 import { appHelper } from '@/utils/appHelper.js'
 import { useAuthStore } from '@/stores/auth'
+import Cookies from 'js-cookie'
 
 const apiClient = axios.create({
   baseURL: appHelper.url.base,
   withCredentials: true,
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
 })
 
 apiClient.interceptors.request.use(async (config) => {
   config.headers['Accept'] = 'application/json'
+  const token = Cookies.get('XSRF-TOKEN')
+  if (token) {
+    config.headers['X-XSRF-TOKEN'] = token
+  }
   return config
 })
 
