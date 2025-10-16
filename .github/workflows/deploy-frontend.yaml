@@ -3,7 +3,7 @@ name: Deploy Vue Frontend to numenide.id
 on:
   push:
     branches:
-      - main # Atau branch production Anda
+      - master
 
 jobs:
   deploy:
