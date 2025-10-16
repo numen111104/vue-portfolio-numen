@@ -42,7 +42,7 @@
             </tr>
             <tr v-for="project in projects" :key="project.id" class="border-b border-brand-light-gray hover:bg-brand-dark/50">
               <td class="px-6 py-4">
-                <img v-if="project.thumbnail_url" :src="`/storage/${project.thumbnail_url}`" :alt="project.title" class="h-10 w-16 object-cover bg-white/10 p-1 rounded-md">
+                <img v-if="project.thumbnail_url" :src="$storage(project.thumbnail_url)" :alt="project.title" class="h-10 w-16 object-cover bg-white/10 p-1 rounded-md">
                 <div v-else class="h-10 w-16 bg-brand-light-gray rounded-md"></div>
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">

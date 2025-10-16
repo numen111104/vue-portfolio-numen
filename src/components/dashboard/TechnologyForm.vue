@@ -59,6 +59,7 @@ import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import { useFilePondServer } from '@/services/filePondService.js';
 import swalMixin from '@/utils/swal.js';
+import { appHelper } from '@/utils/appHelper.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -97,7 +98,7 @@ watch(() => props.technology, (newVal) => {
 
   // Set initial files for FilePond separately
   if (newVal && newVal.icon_url) {
-      initialFiles.value = [{ source: `/storage/${newVal.icon_url}`, options: { type: 'local' } }];
+      initialFiles.value = [{ source: appHelper.url.storage(newVal.icon_url), options: { type: 'local' } }];
   } else {
       initialFiles.value = [];
   }

@@ -11,7 +11,7 @@
 
     <div class="flex items-center gap-3 mb-4 flex-wrap">
       <div v-for="tech in project.technologies" :key="tech.id" class="inline-flex items-center space-x-2 bg-brand-light-gray text-brand-text rounded px-2 py-1">
-        <img :src="`/storage/${tech.icon_url}`" :alt="tech.name" class="w-5 h-5 object-contain" />
+        <img :src="$storage(tech.icon_url)" :alt="tech.name" class="w-5 h-5 object-contain" />
         <span class="text-sm">{{ tech.name }}</span>
       </div>
     </div>

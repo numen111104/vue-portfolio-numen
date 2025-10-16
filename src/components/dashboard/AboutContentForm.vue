@@ -119,6 +119,7 @@ import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
 import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import { useFilePondServer } from '@/services/filePondService.js';
 import swalMixin from '@/utils/swal.js';
+import { storage } from '@/utils/appHelper.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -169,7 +170,7 @@ const safeParse = (jsonString, fallback = []) => {
     }
 };
 
-const fileMapper = (url) => (url ? [{ source: `/storage/${url}`, options: { type: 'local' } }] : []);
+const fileMapper = (url) => (url ? [{ source: storage(url), options: { type: 'local' } }] : []);
 
 watch(() => props.content, (newVal) => {
   if (newVal) {

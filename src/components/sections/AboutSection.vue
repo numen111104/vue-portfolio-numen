@@ -45,7 +45,7 @@
           <div class="animate-on-scroll fade-in-up-on-scroll">
             <h3 class="mb-2 text-xl font-semibold">Education</h3>
             <div class="flex items-center justify-start gap-4 p-4">
-              <img v-if="latestEducation.logo_url" :src="`/storage/${latestEducation.logo_url}`" :alt="latestEducation.institution_name" class="w-20 h-20 object-contain p-1" />
+              <img v-if="latestEducation.logo_url" :src="$storage(latestEducation.logo_url)" :alt="latestEducation.institution_name" class="w-20 h-20 object-contain p-1" />
               <div v-else class="w-20 h-20 bg-brand-light-gray rounded-md"></div>
               <div>
                 <h4 class="text-lg font-semibold text-brand-yellow">{{ formatYear(latestEducation.start_date) }} - {{ formatYear(latestEducation.end_date) }}</h4>
@@ -73,7 +73,7 @@
             <div class="flex items-center gap-8 mb-4 animate-marquee">
               <router-link v-for="cert in certifications" :key="cert.id" :to="{ path: '/certifications', query: { open: cert.id } }">
                 <img
-                  :src="`/storage/${cert.credential_image_url}`"
+                  :src="$storage(cert.credential_image_url)"
                   :alt="cert.title"
                   class="shrink-0 object-cover w-28 sm:w-32 md:w-38 cursor-pointer transition-transform hover:scale-105"
                 />
@@ -81,7 +81,7 @@
               <!-- Cloned for seamless animation -->
               <router-link v-for="cert in certifications" :key="`${cert.id}-clone`" :to="{ path: '/certifications', query: { open: cert.id } }" aria-hidden="true">
                 <img
-                  :src="`/storage/${cert.credential_image_url}`"
+                  :src="$storage(cert.credential_image_url)"
                   :alt="cert.title"
                   class="shrink-0 object-cover w-28 sm:w-32 md:w-38 cursor-pointer transition-transform hover:scale-105"
                 />
@@ -104,13 +104,13 @@
             <div class="flex items-center justify-center gap-4 animate-marquee" style="transition: all 500ms">
               <router-link v-for="tech in technologies" :key="tech.id"
                 :to="{ path: '/tech-stacks', query: { open: tech.id } }" class="shrink-0">
-                <img :src="`/storage/${tech.icon_url}`" :alt="tech.name"
+                <img :src="$storage(tech.icon_url)" :alt="tech.name"
                   class="shrink-0 w-16 h-16 py-2 md:w-24 md:h-24 object-contain" />
               </router-link>
               <!-- Cloned for seamless animation -->
               <router-link v-for="tech in technologies" :key="`${tech.id}-clone`"
                 :to="{ path: '/tech-stacks', query: { open: tech.id } }" aria-hidden="true" class="shrink-0">
-                <img :src="`/storage/${tech.icon_url}`" :alt="tech.name"
+                <img :src="$storage(tech.icon_url)" :alt="tech.name"
                   class="shrink-0 w-16 h-16 py-2 md:w-24 md:h-24 object-contain" />
               </router-link>
             </div>
@@ -188,5 +188,3 @@ const formatYear = (dateString) => {
     return new Date(dateString).getFullYear();
 }
 </script>
-
-

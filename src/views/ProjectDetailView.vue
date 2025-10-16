@@ -48,7 +48,7 @@
             <div class="flex flex-wrap gap-2">
               <span v-for="tech in selectedProject.technologies" :key="tech.id"
                 class="px-2 py-1 text-xs rounded flex items-center space-x-1 bg-brand-light-gray text-brand-text">
-                <img v-if="tech.icon_url" :src="`/storage/${tech.icon_url}`" class="w-5 h-5 object-contain" />
+                <img v-if="tech.icon_url" :src="$storage(tech.icon_url)" class="w-5 h-5 object-contain" />
                 <span>{{ tech.name }}</span>
               </span>
             </div>
@@ -89,6 +89,7 @@ import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
 import { IconExternalLink } from '@tabler/icons-vue';
 import ImageViewer from '@/components/ui/ImageViewer.vue';
 import ProjectGridCard from '@/components/cards/ProjectGridCard.vue';
+import { storage } from '@/utils/appHelper.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -121,8 +122,8 @@ watchEffect(() => {
 const projects = computed(() =>
   portfolioStore.projects.map(project => ({
     ...project,
-    thumbnail_url: project.thumbnail_url ? `/storage/${project.thumbnail_url}` : null,
-    images: project.images ? project.images.map(img => `/storage/${img}`) : [],
+    thumbnail_url: project.thumbnail_url ? storage(project.thumbnail_url) : null,
+    images: project.images ? project.images.map(img => storage(img)) : [],
   }))
 );
 

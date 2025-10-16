@@ -30,7 +30,7 @@
               </p>
             </div>
             <div class="flex flex-col md:flex-row md:items-start gap-4 mb-3">
-              <img :src="`/storage/${edu.logo_url}`" :alt="edu.institution_name"
+              <img :src="$storage(edu.logo_url)" :alt="edu.institution_name"
                 class="md:w-20 md:h-20 w-16 h-16 object-contain rounded-md text-center mx-auto md:mx-0p-1" />
               <div>
                 <h3 class="mb-2 text-xl font-semibold text-white text-center md:text-left">
@@ -56,6 +56,7 @@ import { ref, onMounted, computed, inject, watchEffect } from 'vue'; // Import h
 import HighlightedTitle from '../ui/HighlightedTitle.vue';
 import ImageViewer from '../ui/ImageViewer.vue';
 import { IconCalendar } from '@tabler/icons-vue';
+import { storage } from '@/utils/appHelper.js';
 
 const props = defineProps({
   class: { type: String, default: '' },
@@ -97,7 +98,7 @@ const formatPeriod = (start, end) => {
 
 const fullImageUrls = (documentations) => {
   if (!documentations) return [];
-  return documentations.map(path => `/storage/${path}`);
+  return documentations.map(path => storage(path));
 }
 </script>
 
@@ -201,7 +202,7 @@ const fullImageUrls = (documentations) => {
     display: none;
   }
 
-  .timeline-item>.card {
+  .timeline-item > .card {
     margin-left: 0;
     margin-top: 20px;
     width: 90%;
@@ -223,11 +224,11 @@ const fullImageUrls = (documentations) => {
     margin-right: auto !important;
   }
 
-  .timeline-item .card .flex>div {
+  .timeline-item .card .flex > div {
     text-align: center !important;
   }
 
-  .timeline-item .card .flex>div p {
+  .timeline-item .card .flex > div p {
     text-align: center !important;
   }
 }

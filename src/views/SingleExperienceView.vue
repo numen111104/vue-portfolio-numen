@@ -16,7 +16,7 @@
       </section>
 
       <section class="mb-8 animate-on-scroll zoom-in-on-scroll" style="transition-delay: 200ms;">
-        <img v-if="experience.thumbnail_url" :src="`/storage/${experience.thumbnail_url}`" :alt="experience.title"
+        <img v-if="experience.thumbnail_url" :src="$storage(experience.thumbnail_url)" :alt="experience.title"
           class="object-cover w-full rounded-lg shadow-lg max-h-96 bg-gray-800" />
       </section>
 
@@ -79,6 +79,7 @@ import { IconLoader2, IconLink, IconPhoto, IconFileText } from '@tabler/icons-vu
 import 'viewerjs/dist/viewer.css';
 import { api as ViewerApi } from "v-viewer";
 import { useUiStore } from '@/stores/ui';
+import { storage } from '@/utils/appHelper.js';
 
 const route = useRoute();
 const portfolioStore = usePortfolioStore();
@@ -129,7 +130,7 @@ const handleDocClick = (doc) => {
   switch (doc.type) {
     case 'Image':
       {
-        const images = doc.url.map(path => `/storage/${path}`);
+        const images = doc.url.map(path => storage(path));
         ViewerApi({
           options: { inline: false, button: true, navbar: true, title: true, toolbar: true, tooltip: true, movable: true, zoomable: true, rotatable: true, scalable: true, transition: true, fullscreen: true, keyboard: true },
           images: images,

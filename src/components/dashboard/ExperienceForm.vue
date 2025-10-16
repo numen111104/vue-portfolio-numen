@@ -137,6 +137,7 @@ import { useFilePondServer } from '@/services/filePondService.js';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
 import apiService from '@/services/apiService';
 import swalMixin from '@/utils/swal.js';
+import { storage } from '@/utils/appHelper.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -167,8 +168,8 @@ const isEnhancing = ref(false);
 
 onBeforeUpdate(() => { docPonds.value = []; });
 
-const fileMapper = (url) => (url ? [{ source: `/storage/${url}`, options: { type: 'local' } }] : []);
-const multipleFileMapper = (urls) => (urls && urls.length ? urls.map(url => ({ source: `/storage/${url}`, options: { type: 'local' } })) : []);
+const fileMapper = (url) => (url ? [{ source: storage(url), options: { type: 'local' } }] : []);
+const multipleFileMapper = (urls) => (urls && urls.length ? urls.map(url => ({ source: storage(url), options: { type: 'local' } })) : []);
 
 watch(() => props.experience, (newVal) => {
   if (newVal) {

@@ -80,6 +80,7 @@ import { useFilePondServer } from '@/services/filePondService.js';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
 import apiService from '@/services/apiService';
 import swalMixin from '@/utils/swal.js';
+import { appHelper } from '@/utils/appHelper.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -108,7 +109,7 @@ const isEnhancing = ref(false);
 watch(() => props.certification, (newVal) => {
   form.value = { is_published: true, description: '', ...newVal };
   if (newVal && newVal.credential_image_url) {
-      initialFiles.value = [{ source: `/storage/${newVal.credential_image_url}`, options: { type: 'local' } }];
+      initialFiles.value = [{ source: appHelper.url.storage(newVal.credential_image_url), options: { type: 'local' } }];
   } else {
       initialFiles.value = [];
   }

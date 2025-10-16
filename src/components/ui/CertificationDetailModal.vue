@@ -3,7 +3,7 @@
         <template #header>{{ certification.title }}</template>
         
         <div v-if="certification">
-            <img :src="`/storage/${certification.credential_image_url}`" :alt="certification.title" class="w-full h-auto object-contain rounded-lg mb-4 bg-gray-800">
+            <img :src="$storage(certification.credential_image_url)" :alt="certification.title" class="w-full h-auto object-contain rounded-lg mb-4 bg-gray-800">
             
             <div class="space-y-2">
                 <p class="text-brand-yellow">Issued by: {{ certification.issuing_organization }}</p>

@@ -44,7 +44,7 @@
             <tr v-for="cert in certifications" :key="cert.id"
               class="border-b border-brand-light-gray hover:bg-brand-dark/50">
               <td class="px-6 py-4">
-                <img :src="`/storage/${cert.credential_image_url}`" :alt="cert.title"
+                <img :src="$storage(cert.credential_image_url)" :alt="cert.title"
                   class="h-10 w-auto object-contain bg-white/10 p-1 rounded-md">
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">

@@ -43,7 +43,7 @@
             </tr>
             <tr v-for="edu in educations" :key="edu.id" class="border-b border-brand-light-gray hover:bg-brand-dark/50">
               <td class="px-6 py-4">
-                <img v-if="edu.logo_url" :src="`/storage/${edu.logo_url}`" :alt="edu.institution_name" class="h-10 w-10 object-contain bg-white/10 p-1 rounded-full">
+                <img v-if="edu.logo_url" :src="$storage(edu.logo_url)" :alt="edu.institution_name" class="h-10 w-10 object-contain bg-white/10 p-1 rounded-full">
                 <div v-else class="h-10 w-10 bg-brand-light-gray rounded-full"></div>
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">

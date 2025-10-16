@@ -7,10 +7,10 @@
       <section class="min-h-[20rem] h-[30rem] grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <div v-if="aboutContent.image_1_url"
           class="w-full hidden md:block bg-center bg-cover rounded-2xl brand-border card-home animate-on-scroll fade-in-left-on-scroll"
-          :style="{ backgroundImage: `url(/storage/${aboutContent.image_1_url})` }"></div>
+          :style="{ backgroundImage: `url(${$storage(aboutContent.image_1_url)})` }"></div>
         <div v-if="aboutContent.image_2_url"
           class="w-full bg-top bg-cover rounded-2xl brand-border card-home animate-on-scroll fade-in-right-on-scroll"
-          :style="{ backgroundImage: `url(/storage/${aboutContent.image_2_url})`, transitionDelay: '100ms' }"></div>
+          :style="{ backgroundImage: `url(${$storage(aboutContent.image_2_url)})`, transitionDelay: '100ms' }"></div>
       </section>
 
       <section class="mb-8 p-4 md:p-0 animate-on-scroll fade-in-up-on-scroll">
@@ -44,7 +44,7 @@
           <h2 class="text-brand-text font-semibold text-xl mb-4">Language</h2>
           <div class="flex flex-col space-y-4 h-full justify-center">
             <div v-for="(lang, index) in aboutContent.languages" :key="index" class="flex items-center text-brand-text">
-              <img v-if="lang.icon_url" :src="`/storage/${lang.icon_url}`" :alt="lang.name"
+              <img v-if="lang.icon_url" :src="$storage(lang.icon_url)" :alt="lang.name"
                 class="w-14 h-14 object-cover rounded-full mr-3 flex-shrink-0 bg-gray-700 p-1" />
               <div v-else class="w-12 h-12 bg-gray-600 rounded-full mr-3 flex-shrink-0"></div>
               <div>

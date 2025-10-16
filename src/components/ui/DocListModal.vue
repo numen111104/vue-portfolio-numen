@@ -6,7 +6,7 @@
             <a 
                 v-for="(doc, index) in docs" 
                 :key="index" 
-                :href="`/storage/${doc}`" 
+                :href="$storage(doc)" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 class="flex items-center p-3 rounded-lg bg-brand-dark/50 hover:bg-brand-dark transition-colors"

@@ -52,6 +52,7 @@ import Switch from '@/components/ui/SwitchComp.vue';
 import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
 import { useFilePondServer } from '@/services/filePondService.js';
+import { storage } from '@/utils/appHelper.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -80,8 +81,10 @@ watch(() => props.testimonial, (newVal) => {
     const formData = { is_published: true, display_order: 0, ...newVal };
 
     if (newVal.author_avatar_url) {
-      initialFiles.value = [{ source: `/storage/${newVal.author_avatar_url.replace('/storage/', '')}`, options: { type: 'local' } }];
-      formData.author_avatar_url = newVal.author_avatar_url.replace('/storage/', '');
+      // Ensure we only use the raw path, then let the helper build the full URL
+      const rawPath = newVal.author_avatar_url.replace('/storage/', '');
+      initialFiles.value = [{ source: storage(rawPath), options: { type: 'local' } }];
+      formData.author_avatar_url = rawPath; // Store only the raw path in the form model
     } else {
       initialFiles.value = [];
     }

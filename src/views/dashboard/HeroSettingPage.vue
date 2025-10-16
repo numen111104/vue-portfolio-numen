@@ -76,7 +76,7 @@
           <h2 class="text-xl font-semibold text-brand-yellow mb-4">Hero Image</h2>
           <div class="flex items-center space-x-6">
             <img v-if="imagePreviewUrl" :src="imagePreviewUrl" class="h-24 w-24 rounded-lg object-cover" />
-            <img v-else-if="settings.image_url" :src="`/storage/${settings.image_url}`" class="h-24 w-24 rounded-lg object-cover" />
+            <img v-else-if="settings.image_url" :src="$storage(settings.image_url)" class="h-24 w-24 rounded-lg object-cover" />
             <div v-else class="h-24 w-24 rounded-lg bg-brand-light-gray flex items-center justify-center text-gray-400">No Image</div>
             <div>
               <label for="hero-image" class="cursor-pointer btn btn-outline">Change Image</label>

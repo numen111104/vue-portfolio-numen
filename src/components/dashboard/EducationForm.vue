@@ -87,6 +87,7 @@ import { useFilePondServer } from '@/services/filePondService.js';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
 import apiService from '@/services/apiService';
 import swalMixin from '@/utils/swal.js';
+import { storage } from '@/utils/appHelper.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -113,8 +114,8 @@ const initialFiles = ref({ logo: [], docs: [] });
 const isEnhancing = ref(false);
 const isGenerating = ref(false); // Added for consistency, though no generate button exists yet
 
-const fileMapper = (url) => (url ? [{ source: `/storage/${url}`, options: { type: 'local' } }] : []);
-const multipleFileMapper = (urls) => (urls && urls.length ? urls.map(url => ({ source: `/storage/${url}`, options: { type: 'local' } })) : []);
+const fileMapper = (url) => (url ? [{ source: storage(url), options: { type: 'local' } }] : []);
+const multipleFileMapper = (urls) => (urls && urls.length ? urls.map(url => ({ source: storage(url), options: { type: 'local' } })) : []);
 
 watch(() => props.education, (newVal) => {
   if (newVal) {

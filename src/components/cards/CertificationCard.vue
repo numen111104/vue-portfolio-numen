@@ -2,7 +2,7 @@
   <div ref="cardElement" class="card group cursor-pointer animate-on-scroll fade-in-up-on-scroll"
     :style="{ transitionDelay: `${delay}ms` }" @click="emit('open', certification)">
     <div class="overflow-hidden rounded-t-lg">
-      <img :src="`/storage/${certification.credential_image_url}`" :alt="certification.title"
+      <img :src="$storage(certification.credential_image_url)" :alt="certification.title"
         class="object-cover w-full h-48 transition-transform duration-300 group-hover:scale-110" />
     </div>
     <div class="p-6">

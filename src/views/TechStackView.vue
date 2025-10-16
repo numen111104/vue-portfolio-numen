@@ -17,7 +17,7 @@
     <BaseModal :show="isModalVisible" @close="closeModal" modal-class="max-w-2xl">
       <template #header>
         <div v-if="selectedTech" class="flex items-center gap-4">
-          <img :src="`/storage/${selectedTech.icon_url}`" :alt="selectedTech.name" class="w-10 h-10 object-contain" />
+          <img :src="$storage(selectedTech.icon_url)" :alt="selectedTech.name" class="w-10 h-10 object-contain" />
           <span>{{ selectedTech.name }}</span>
         </div>
       </template>

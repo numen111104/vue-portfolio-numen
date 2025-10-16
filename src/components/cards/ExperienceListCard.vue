@@ -2,7 +2,7 @@
   <div ref="cardElement"
     class="flex flex-col items-start gap-6 p-6 transition-all duration-300 ease-in-out sm:flex-row card animate-on-scroll fade-in-up-on-scroll"
     :style="{ transitionDelay: `${delay}ms` }">
-    <img v-if="experience.thumbnail_url" :src="`/storage/${experience.thumbnail_url}`" :alt="experience.title"
+    <img v-if="experience.thumbnail_url" :src="$storage(experience.thumbnail_url)" :alt="experience.title"
       class="object-cover w-full rounded-lg sm:w-48 sm:h-auto bg-gray-800" />
     <div v-else class="shrink-0 w-full sm:w-48 h-32 rounded-lg bg-gray-800"></div>
     <div>

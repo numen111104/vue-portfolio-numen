@@ -5,7 +5,7 @@
     :style="{ transitionDelay: `${delay}ms` }"
     @click="emit('open', tech)"
   >
-    <img :src="`/storage/${tech.icon_url}`" :alt="tech.name" class="w-20 h-20 mb-4 object-contain" />
+    <img :src="$storage(tech.icon_url)" :alt="tech.name" class="w-20 h-20 mb-4 object-contain" />
     <h4 class="text-lg font-semibold text-white">{{ tech.name }}</h4>
   </div>
 </template>

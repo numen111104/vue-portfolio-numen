@@ -44,7 +44,7 @@
             <tr v-for="tech in technologies" :key="tech.id"
               class="border-b border-brand-light-gray hover:bg-brand-dark/50">
               <td class="px-6 py-4">
-                <img :src="`/storage/${tech.icon_url}`" :alt="tech.name" class="h-10 w-10 object-contain">
+                <img :src="$storage(tech.icon_url)" :alt="tech.name" class="h-10 w-10 object-contain">
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
                 {{ tech.name }}

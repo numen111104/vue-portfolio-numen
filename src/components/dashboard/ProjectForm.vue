@@ -131,6 +131,7 @@ import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import apiService from '@/services/apiService';
 import { useFilePondServer } from '@/services/filePondService.js';
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
+import { storage } from '@/utils/appHelper.js';
 
 // Filepond
 import vueFilePond from "vue-filepond";
@@ -161,8 +162,8 @@ const isEnhancingFull = ref(false);
 const addLink = () => form.value.links.push({ label: '', url: '' });
 const removeLink = (index) => form.value.links.splice(index, 1);
 
-const fileMapper = (url) => (url ? [{ source: `/storage/${url}`, options: { type: 'local' } }] : []);
-const multipleFileMapper = (urls) => (urls && urls.length ? urls.map(url => ({ source: `/storage/${url}`, options: { type: 'local' } })) : []);
+const fileMapper = (url) => (url ? [{ source: storage(url), options: { type: 'local' } }] : []);
+const multipleFileMapper = (urls) => (urls && urls.length ? urls.map(url => ({ source: storage(url), options: { type: 'local' } })) : []);
 
 onMounted(async () => {
   try {
