@@ -3,6 +3,8 @@
 import { defineStore } from 'pinia'
 import apiService from '@/services/apiService'
 import router from '@/router'
+import apiSessionClient from '@/services/apiSession'
+import Cookies from 'js-cookie'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -27,22 +29,22 @@ export const useAuthStore = defineStore('auth', {
     },
 
     // Aksi login yang baru
-   async login(credentials) {
+    async login(credentials) {
       try {
+        const token = Cookies.get('XSRF-TOKEN')
+        if (token) {
+          apiSessionClient.defaults.headers.common['X-XSRF-TOKEN'] = token
+        }
         await apiService.login(credentials)
         await this.fetchUser()
         return { success: true }
       } catch (error) {
-        // Cetak seluruh detail error ke console untuk debugging
-        console.error('Login Gagal! Respons dari server:', error.response);
-
-        // Ambil pesan error yang lebih spesifik jika ada
+        console.error('Login Gagal! Respons dari server:', error.response)
         const errorMessage = error.response?.data?.errors
           ? Object.values(error.response.data.errors).flat().join(' ')
-          : error.response?.data?.message || 'Login failed. Periksa kredensial Anda.';
-
-        this.user = null;
-        localStorage.removeItem('user');
+          : error.response?.data?.message || 'Login failed. Periksa kredensial Anda.'
+        this.user = null
+        localStorage.removeItem('user')
         return { success: false, error: errorMessage }
       }
     },
