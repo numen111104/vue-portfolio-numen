@@ -57,10 +57,49 @@ export function useFilePondServer() {
         },
       },
       load: (source, load, error) => {
-        fetch(source, { credentials: 'include' })
-          .then((res) => res.blob())
-          .then(load)
-          .catch(error)
+        if (!source) return error(new Error('No source provided'))
+
+        let path = source
+
+        try {
+          const url = new URL(source)
+          path = url.pathname
+        } catch (e) {
+          return swalMixin.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to load file',
+          })
+        }
+
+        path = path.replace(/^\/?storage\//, '')
+
+        // URL ke route Laravel yang serve storage + CORS header
+        const url = appHelper.url.base + '/storage/' + path
+
+        fetch(url, {
+          credentials: 'include',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error('Failed to load file')
+
+            // ambil filename dari Content-Disposition
+            const disposition = res.headers.get('Content-Disposition')
+            const filenameMatch = disposition && disposition.match(/filename="?([^"]+)"?/)
+            const filename = filenameMatch ? filenameMatch[1] : path.split('/').pop()
+
+            return res.blob().then((blob) => {
+              // FilePond expect: File/Blob + filename
+              load(new File([blob], filename, { type: blob.type }))
+            })
+          })
+          .catch((err) => {
+            console.error('FilePond load error:', err)
+            error(err)
+          })
       },
     }
   })

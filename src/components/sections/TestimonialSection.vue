@@ -81,6 +81,7 @@ import BaseModal from '@/components/ui/BaseModal.vue';
 import swalMixin from '@/utils/swal.js';
 import { usePortfolioStore } from '@/stores/portfolio';
 import TestimonialCard from '../cards/TestimonialCard.vue';
+import { usePublicFilePondServer } from '@/services/publicFilePondService.js'; // Correct import
 
 import vueFilePond from "vue-filepond";
 import "filepond/dist/filepond.min.css";
@@ -99,6 +100,9 @@ const { observe } = inject('observer');
 const titleBlock = ref(null);
 const discoverButton = ref(null);
 const addButton = ref(null);
+
+// Use the correct, public-facing filepond server options
+const { publicFilePondServerOptions } = usePublicFilePondServer();
 
 onMounted(() => {
   if (titleBlock.value) observe(titleBlock.value);
@@ -122,23 +126,15 @@ const isSubmitting = ref(false);
 
 const acceptedFiles = getAcceptedFileTypes(['IMAGE']);
 
-const publicFilePondServerOptions = {
-  url: '/api/files',
-  process: './public/process',
-  revert: './public/revert',
-  headers: {
-    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
-  },
-};
-
 const handleSubmitTestimonial = async () => {
   isSubmitting.value = true;
   const pondFile = avatarPond.value?.getFile();
-  const serverId = pondFile?.serverId;
+  // The serverId from FilePond is a JSON string, so we parse it.
+  const serverId = pondFile?.serverId ? JSON.parse(pondFile.serverId) : null;
 
   const payload = {
     ...form.value,
-    author_avatar: serverId ? JSON.parse(serverId) : null,
+    author_avatar: serverId,
   };
 
   try {
