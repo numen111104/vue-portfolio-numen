@@ -21,18 +21,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue';
+import { ref, onMounted, inject, nextTick } from 'vue'; // 1. Import nextTick
 import { IconHome } from '@tabler/icons-vue';
 
 const { observe } = inject('observer');
 const viewRoot = ref(null);
 
 onMounted(() => {
-  if (viewRoot.value) {
-    const elements = viewRoot.value.querySelectorAll('.animate-on-scroll');
-    elements.forEach(el => {
-      observe(el);
-    });
-  }
+  // 2. Wrap the logic in nextTick
+  nextTick(() => {
+    if (viewRoot.value) {
+      const elements = viewRoot.value.querySelectorAll('.animate-on-scroll');
+      elements.forEach(el => {
+        observe(el);
+      });
+    }
+  });
 });
 </script>

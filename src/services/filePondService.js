@@ -52,7 +52,7 @@ export function useFilePondServer() {
           swalMixin.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Could not revert file. Please try again later.',
+            text: 'Could not revert file from server. Please try again later.',
           })
         },
       },
@@ -65,16 +65,17 @@ export function useFilePondServer() {
           const url = new URL(source)
           path = url.pathname
         } catch (e) {
-          return swalMixin.fire({
+           swalMixin.fire({
             icon: 'error',
             title: 'Error',
             text: 'Failed to load file',
-          })
+           })
+          console.error('Failed to load file:', e)
+          return
         }
 
         path = path.replace(/^\/?storage\//, '')
 
-        // URL ke route Laravel yang serve storage + CORS header
         const url = appHelper.url.base + '/storage/' + path
 
         fetch(url, {
@@ -83,18 +84,14 @@ export function useFilePondServer() {
             'X-Requested-With': 'XMLHttpRequest',
           },
         })
-          .then((res) => {
+          .then(async (res) => {
             if (!res.ok) throw new Error('Failed to load file')
-
-            // ambil filename dari Content-Disposition
             const disposition = res.headers.get('Content-Disposition')
             const filenameMatch = disposition && disposition.match(/filename="?([^"]+)"?/)
             const filename = filenameMatch ? filenameMatch[1] : path.split('/').pop()
+            const blob = await res.blob()
 
-            return res.blob().then((blob) => {
-              // FilePond expect: File/Blob + filename
-              load(new File([blob], filename, { type: blob.type }))
-            })
+            load(new File([blob], filename, { type: blob.type }))
           })
           .catch((err) => {
             console.error('FilePond load error:', err)

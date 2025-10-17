@@ -91,10 +91,8 @@ const handleLogin = async () => {
   loading.value = true;
   error.value = null;
 
-  // Determine if the login input is an email or username
-  const isEmail = login.value.includes('@');
   const credentials = {
-    [isEmail ? 'email' : 'username']: login.value,
+    login: login.value,
     password: password.value,
   };
 

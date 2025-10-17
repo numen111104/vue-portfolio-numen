@@ -10,7 +10,7 @@
     <div class="relative flex items-center mb-8 h-8" :class="!sidebarExpanded ? 'justify-center group-hover:justify-between' : 'justify-between'">
         <!-- Logo & Title -->
         <router-link to="/admin/dashboard" class="flex items-center">
-            <img v-if="appSettingsStore.logoUrl" :src="appSettingsStore.logoUrl" alt="Site Logo" class="w-14 h-14 shrink-0 rounded-full object-cover ms-3">
+            <img v-if="appSettingsStore.logoUrl" :src="appSettingsStore.logoUrl" alt="Site Logo" class="w-10 h-10 shrink-0 object-cover ms-3">
             <IconBrandTabler v-else class="w-10 h-10 shrink-0 text-brand-yellow" />
             <span
                 class="text-white text-lg font-bold ml-3 whitespace-nowrap transition-all duration-200 ease-in-out"

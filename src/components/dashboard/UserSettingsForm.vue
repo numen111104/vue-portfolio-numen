@@ -39,7 +39,7 @@ import { ref, watch } from 'vue';
 import ErrorDisplay from '@/components/ui/ErrorDisplay.vue';
 
 const props = defineProps({
-  user: { 
+  user: {
     type: Object,
     required: true,
   },
@@ -54,7 +54,6 @@ const emit = defineEmits(['submit']);
 const form = ref({});
 
 watch(() => props.user, (newUser) => {
-  // Reset form with user data, but clear password fields
   form.value = { ...newUser };
   form.value.password = '';
   form.value.password_confirmation = '';

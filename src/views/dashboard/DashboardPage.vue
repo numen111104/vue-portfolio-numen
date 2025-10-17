@@ -42,9 +42,15 @@
             <apexchart type="donut" height="350" :options="deviceSourceChart.options" :series="deviceSourceChart.series"></apexchart>
           </div>
         </div>
-         <div class="mt-6 card-home bg-brand-gray p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          <div class="card-home bg-brand-gray p-6">
             <h4 class="font-semibold text-white mb-4">Top 5 Popular Pages</h4>
             <apexchart type="bar" height="350" :options="popularPagesChart.options" :series="popularPagesChart.series"></apexchart>
+          </div>
+          <div class="card-home bg-brand-gray p-6">
+            <h4 class="font-semibold text-white mb-4">Top Visitor Locations</h4>
+            <apexchart type="bar" height="350" :options="visitorLocationChart.options" :series="visitorLocationChart.series"></apexchart>
+          </div>
         </div>
       </section>
 
@@ -122,7 +128,8 @@
                             <td class="px-6 py-4 truncate max-w-sm" :title="hit.action">{{ hit.action.split('@')[1] || hit.action.split('\\').pop() }}</td>
                             <td class="px-6 py-4">{{ hit.device }}</td>
                             <td class="px-6 py-4">{{ new Date(hit.created_at).toLocaleString() }}</td>
-                            <td class="px-6 py-4 text-right">
+                            <td class="px-6 py-4 text-right space-x-4">
+                                <button @click="showDetails(hit)" class="font-medium text-blue-400 hover:underline">View</button>
                                 <button @click="blockIp(hit.ip_address)" class="font-medium text-red-500 hover:underline">Block IP</button>
                             </td>
                         </tr>
@@ -132,6 +139,7 @@
         </div>
       </section>
     </div>
+    <ActivityLogDetailModal :show="showActivityDetailModal" :hit="selectedHit" @close="showActivityDetailModal = false" />
   </div>
 </template>
 
@@ -142,12 +150,15 @@ import apiService from '@/services/apiService';
 import swal from '@/utils/swal';
 import VueApexCharts from 'vue3-apexcharts';
 import { IconLoader2 } from '@tabler/icons-vue';
+import ActivityLogDetailModal from '@/components/dashboard/ActivityLogDetailModal.vue';
 
 const apexchart = VueApexCharts;
 
 // State
 const loading = ref(true);
 const data = ref(null);
+const showActivityDetailModal = ref(false);
+const selectedHit = ref(null);
 
 const baseChartOptions = {
   chart: { zoom: { enabled: false }, toolbar: { show: false }, foreColor: '#dfff00', background: 'transparent' },
@@ -174,8 +185,9 @@ const dailyVisitsChart = computed(() => {
 
 const deviceSourceChart = computed(() => {
     if (!data.value) return { options: {}, series: [] };
-    const seriesData = data.value.analytics.device_sources.map(item => item.count);
-    const labels = data.value.analytics.device_sources.map(item => item.device);
+    const deviceSources = data.value.analytics.device_sources || [];
+    const seriesData = deviceSources.map(item => item.count);
+    const labels = deviceSources.map(item => item.device);
     return {
         series: seriesData,
         options: {
@@ -198,6 +210,30 @@ const popularPagesChart = computed(() => {
             chart: { ...baseChartOptions.chart, type: 'bar' },
             xaxis: { categories: categories },
             plotOptions: { bar: { horizontal: true, borderRadius: 4 } },
+        }
+    };
+});
+
+const visitorLocationChart = computed(() => {
+    if (!data.value || !data.value.analytics || !data.value.analytics.visitor_locations) {
+        return { options: {}, series: [] };
+    }
+    const seriesData = data.value.analytics.visitor_locations.map(item => item.count);
+    const categories = data.value.analytics.visitor_locations.map(item => item.location);
+    return {
+        series: [{ name: 'Visitors', data: seriesData }],
+        options: {
+            ...baseChartOptions,
+            chart: { ...baseChartOptions.chart, type: 'bar' },
+            xaxis: { categories: categories },
+            plotOptions: { bar: { horizontal: true, borderRadius: 4 } },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return val + " visitors"
+                    }
+                }
+            }
         }
     };
 });
@@ -247,6 +283,11 @@ const blockIp = async (ip) => {
             swal.fire('Error', `Could not block IP. It might already be blocked.`, 'error');
         }
     }
+};
+
+const showDetails = (hit) => {
+  selectedHit.value = hit;
+  showActivityDetailModal.value = true;
 };
 
 onMounted(fetchData);

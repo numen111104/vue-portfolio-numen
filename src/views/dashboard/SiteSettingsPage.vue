@@ -104,6 +104,7 @@ import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import { getAcceptedFileTypes } from '@/constants/fileTypes';
 import { useFilePondServer } from '@/services/filePondService.js';
+import { storage } from '@/utils/appHelper.js';
 
 const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 
@@ -122,9 +123,9 @@ const initialFaviconFiles = ref([]);
 const initialOgImageFiles = ref([]);
 
 const setInitialFiles = () => {
-    initialLogoFiles.value = settings.value.site_logo_url ? [{ source: settings.value.site_logo_url, options: { type: 'local' } }] : [];
-    initialFaviconFiles.value = settings.value.site_favicon_url ? [{ source: settings.value.site_favicon_url, options: { type: 'local' } }] : [];
-    initialOgImageFiles.value = settings.value.og_image_url ? [{ source: settings.value.og_image_url, options: { type: 'local' } }] : [];
+    initialLogoFiles.value = settings.value.site_logo_url ? [{ source: storage(settings.value.site_logo_url), options: { type: 'local' } }] : [];
+    initialFaviconFiles.value = settings.value.site_favicon_url ? [{ source: storage(settings.value.site_favicon_url), options: { type: 'local' } }] : [];
+    initialOgImageFiles.value = settings.value.og_image_url ? [{ source: storage(settings.value.og_image_url), options: { type: 'local' } }] : [];
 };
 
 onMounted(async () => {
