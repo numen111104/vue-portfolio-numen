@@ -97,7 +97,7 @@
           </p>
         </div>
         <div class="flex flex-col justify-between card-home animate-on-scroll fade-in-up-on-scroll min-w-0">
-          <h3 class="text-xl font-semibold">
+          <h3 class="mb-2 text-xl font-semibold">
             <router-link to="/tech-stacks" class="flex items-center justify-between group">
               Techstacks
               <IconArrowRight class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45" />
@@ -109,14 +109,14 @@
                 <router-link v-for="tech in technologies" :key="tech.id"
                   :to="{ path: '/tech-stacks', query: { open: tech.id } }" class="shrink-0">
                   <img :src="$storage(tech.icon_url)" :alt="tech.name"
-                    class="shrink-0 w-16 h-16 py-2 md:w-20 md:h-20 object-contain" />
+                    class="shrink-0 w-16 h-16 py-2 md:w-24 md:h-24 object-contain" />
                 </router-link>
               </div>
               <div class="marquee-group" aria-hidden="true">
                 <router-link v-for="tech in technologies" :key="`${tech.id}-clone`"
-                  :to="{ path: '/tech-stacks', query: { open: tech.id } }" aria-hidden="true" class="shrink-0">
+                  :to="{ path: '/tech-stacks', query: { open: tech.id } }" class="shrink-0">
                   <img :src="$storage(tech.icon_url)" :alt="tech.name"
-                    class="shrink-0 w-16 h-16 py-2 md:w-20 md:h-20 object-contain" />
+                    class="shrink-0 w-16 h-16 py-2 md:w-24 md:h-24 object-contain" />
                 </router-link>
               </div>
             </div>
@@ -148,6 +148,60 @@ const technologies = computed(() => portfolioStore.technologies);
 const socialMediaLinks = computed(() => portfolioStore.socials);
 const aboutContent = computed(() => portfolioStore.about);
 const latestEducation = computed(() => portfolioStore.educations?.[0]);
+
+// --- START: Marquee Logic ---
+const certsContainer = ref(null);
+const certsContent = ref(null);
+const techContainer = ref(null);
+const techContent = ref(null);
+
+const setupMarquee = (container, content) => {
+  if (!container || !content) return;
+
+  const images = Array.from(content.querySelectorAll('img'));
+  const imagePromises = images.map(img => {
+    if (img.complete) return Promise.resolve();
+    return new Promise(resolve => { img.onload = img.onerror = resolve; });
+  });
+
+  Promise.all(imagePromises).then(() => {
+    const containerWidth = container.offsetWidth;
+    const children = Array.from(content.children);
+    if (children.length === 0) return;
+
+    const originalItems = children.slice(0, children.length / 2);
+
+    // Use a simple reduce to get a rough idea of width for the check
+    const roughContentWidth = originalItems.reduce((acc, item) => acc + item.offsetWidth, 0);
+
+    if (roughContentWidth > containerWidth) {
+      // More accurate method for the animation distance
+      const firstClone = children[originalItems.length];
+      if (!firstClone) return; // Should not happen if content is duplicated
+
+      const scrollAmount = firstClone.offsetLeft;
+      const duration = scrollAmount / 50; // Speed: 50 pixels per second
+
+      content.style.setProperty('--marquee-translate-x', `-${scrollAmount}px`);
+      content.style.setProperty('--marquee-duration', `${duration}s`);
+      content.classList.add('is-animating');
+    } else {
+      content.classList.remove('is-animating');
+    }
+  });
+};
+
+watch([certifications, technologies], (newData) => {
+  const [newCerts, newTechs] = newData;
+  if (newCerts.length > 0) {
+    nextTick(() => setupMarquee(certsContainer.value, certsContent.value));
+  }
+  if (newTechs.length > 0) {
+    nextTick(() => setupMarquee(techContainer.value, techContent.value));
+  }
+}, { immediate: true });
+// --- END: Marquee Logic ---
+
 
 // --- START: Scroll Animation Logic ---
 const { observe } = inject('observer');

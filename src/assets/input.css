@@ -295,6 +295,7 @@ body::before {
 }
 .animate-marquee {
   display: flex;
+  gap: 26px;
 }
 
 .marquee-group {
@@ -302,8 +303,21 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  gap: 32px; /* Corresponds to gap-8 in Tailwind */
+  gap: 24px; /* Corresponds to gap-8 in Tailwind */
   animation: marquee-scroll 40s linear infinite;
+}
+
+/* NEW: Icon hover effect */
+.marquee-group img {
+  transition: all 0.4s ease-in-out;
+  filter: grayscale(100%);
+  opacity: 0.7;
+}
+
+.marquee-group > a:hover img {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 .animate-marquee:hover .marquee-group {
