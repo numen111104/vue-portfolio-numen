@@ -69,8 +69,8 @@
               <IconArrowRight class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45" />
             </router-link>
           </h3>
-          <div class="relative w-full overflow-hidden">
-            <div class="flex items-center gap-8 mb-4 animate-marquee">
+          <div ref="certsContainer" class="relative w-full overflow-hidden">
+            <div ref="certsContent" class="animate-marquee">
               <router-link v-for="cert in certifications" :key="cert.id" :to="{ path: '/certifications', query: { open: cert.id } }">
                 <img
                   :src="$storage(cert.credential_image_url)"
@@ -100,8 +100,8 @@
               <IconArrowRight class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45" />
             </router-link>
           </h3>
-          <div class="relative w-full overflow-hidden">
-            <div class="flex items-center justify-center gap-4 animate-marquee" style="transition: all 500ms">
+          <div ref="techContainer" class="relative w-full overflow-hidden">
+            <div ref="techContent" class="animate-marquee items-center justify-center">
               <router-link v-for="tech in technologies" :key="tech.id"
                 :to="{ path: '/tech-stacks', query: { open: tech.id } }" class="shrink-0">
                 <img :src="$storage(tech.icon_url)" :alt="tech.name"
@@ -129,6 +129,7 @@
 import { computed, ref, watch, nextTick, inject } from 'vue';
 import { IconArrowRight } from '@tabler/icons-vue';
 import { usePortfolioStore } from '@/stores/portfolio';
+import { useMarquee } from '@/composables/useMarquee.js';
 import githubIcon from '@/assets/images/icons/ic-github.png';
 import linkedinIcon from '@/assets/images/icons/ic-linkedin.png';
 import gmailIcon from '@/assets/images/icons/ic-gmail.png';
@@ -141,6 +142,16 @@ const technologies = computed(() => portfolioStore.technologies);
 const socialMediaLinks = computed(() => portfolioStore.socials);
 const aboutContent = computed(() => portfolioStore.about);
 const latestEducation = computed(() => portfolioStore.educations?.[0]);
+
+// Marquee Refs
+const certsContainer = ref(null);
+const certsContent = ref(null);
+const techContainer = ref(null);
+const techContent = ref(null);
+
+// Initialize Marquees
+useMarquee(certsContainer, certsContent);
+useMarquee(techContainer, techContent);
 
 const { observe } = inject('observer');
 const sectionRoot = ref(null);
