@@ -28,13 +28,9 @@
       transform: translateY(-10px);
     }
   }
-  @keyframes marquee-dynamic {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(var(--marquee-translate-x, -50%));
-    }
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
   }
   @keyframes fadeInUp {
     0% {
@@ -298,13 +294,19 @@ body::before {
   transform: translateX(0);
 }
 .animate-marquee {
-  animation: var(--marquee-duration, 30s) linear infinite;
-  animation-name: var(--marquee-animation-name, none);
   display: flex;
-  flex-wrap: nowrap;
 }
 
-.animate-marquee:hover {
+.marquee-group {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 32px; /* Corresponds to gap-8 in Tailwind */
+  animation: marquee-scroll 40s linear infinite;
+}
+
+.animate-marquee:hover .marquee-group {
   animation-play-state: paused;
 }
 

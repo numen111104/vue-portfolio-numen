@@ -61,7 +61,7 @@
       </div>
 
       <div class="grid grid-cols-1 col-span-1 gap-8 md:col-span-2 lg:col-span-1">
-        <div class="flex flex-col justify-between card-home animate-on-scroll fade-in-up-on-scroll">
+        <div class="flex flex-col justify-between card-home animate-on-scroll fade-in-up-on-scroll min-w-0">
           <h3 class="mb-2 text-xl font-semibold">
             <router-link to="/certifications"
               class="flex items-center justify-between transition-transform group hover:text-brand-yellow">
@@ -70,22 +70,25 @@
             </router-link>
           </h3>
           <div ref="certsContainer" class="relative w-full overflow-hidden">
-            <div ref="certsContent" class="animate-marquee">
-              <router-link v-for="cert in certifications" :key="cert.id" :to="{ path: '/certifications', query: { open: cert.id } }">
-                <img
-                  :src="$storage(cert.credential_image_url)"
-                  :alt="cert.title"
-                  class="shrink-0 object-cover w-28 sm:w-32 md:w-38 cursor-pointer transition-transform hover:scale-105"
-                />
-              </router-link>
-              <!-- Cloned for seamless animation -->
-              <router-link v-for="cert in certifications" :key="`${cert.id}-clone`" :to="{ path: '/certifications', query: { open: cert.id } }" aria-hidden="true">
-                <img
-                  :src="$storage(cert.credential_image_url)"
-                  :alt="cert.title"
-                  class="shrink-0 object-cover w-28 sm:w-32 md:w-38 cursor-pointer transition-transform hover:scale-105"
-                />
-              </router-link>
+            <div class="animate-marquee">
+              <div class="marquee-group">
+                <router-link v-for="cert in certifications" :key="cert.id" :to="{ path: '/certifications', query: { open: cert.id } }" class="shrink-0">
+                  <img
+                    :src="$storage(cert.credential_image_url)"
+                    :alt="cert.title"
+                    class="shrink-0 object-cover w-28 sm:w-32 md:w-38 cursor-pointer transition-transform hover:scale-105"
+                  />
+                </router-link>
+              </div>
+              <div class="marquee-group" aria-hidden="true">
+                <router-link v-for="cert in certifications" :key="`${cert.id}-clone`" :to="{ path: '/certifications', query: { open: cert.id } }" class="shrink-0">
+                  <img
+                    :src="$storage(cert.credential_image_url)"
+                    :alt="cert.title"
+                    class="shrink-0 object-cover w-28 sm:w-32 md:w-38 cursor-pointer transition-transform hover:scale-105"
+                  />
+                </router-link>
+              </div>
             </div>
           </div>
           <p class="py-2 text-sm text-gray-400">
@@ -93,26 +96,29 @@
             journey.
           </p>
         </div>
-        <div class="flex flex-col justify-between card-home animate-on-scroll fade-in-up-on-scroll">
-          <h3 class="mb-2 text-xl font-semibold">
+        <div class="flex flex-col justify-between card-home animate-on-scroll fade-in-up-on-scroll min-w-0">
+          <h3 class="text-xl font-semibold">
             <router-link to="/tech-stacks" class="flex items-center justify-between group">
               Techstacks
               <IconArrowRight class="w-5 h-5 transition-transform duration-300 transform group-hover:rotate-45" />
             </router-link>
           </h3>
           <div ref="techContainer" class="relative w-full overflow-hidden">
-            <div ref="techContent" class="animate-marquee items-center justify-center">
-              <router-link v-for="tech in technologies" :key="tech.id"
-                :to="{ path: '/tech-stacks', query: { open: tech.id } }" class="shrink-0">
-                <img :src="$storage(tech.icon_url)" :alt="tech.name"
-                  class="shrink-0 w-16 h-16 py-2 md:w-24 md:h-24 object-contain" />
-              </router-link>
-              <!-- Cloned for seamless animation -->
-              <router-link v-for="tech in technologies" :key="`${tech.id}-clone`"
-                :to="{ path: '/tech-stacks', query: { open: tech.id } }" aria-hidden="true" class="shrink-0">
-                <img :src="$storage(tech.icon_url)" :alt="tech.name"
-                  class="shrink-0 w-16 h-16 py-2 md:w-24 md:h-24 object-contain" />
-              </router-link>
+            <div class="animate-marquee">
+              <div class="marquee-group">
+                <router-link v-for="tech in technologies" :key="tech.id"
+                  :to="{ path: '/tech-stacks', query: { open: tech.id } }" class="shrink-0">
+                  <img :src="$storage(tech.icon_url)" :alt="tech.name"
+                    class="shrink-0 w-16 h-16 py-2 md:w-20 md:h-20 object-contain" />
+                </router-link>
+              </div>
+              <div class="marquee-group" aria-hidden="true">
+                <router-link v-for="tech in technologies" :key="`${tech.id}-clone`"
+                  :to="{ path: '/tech-stacks', query: { open: tech.id } }" aria-hidden="true" class="shrink-0">
+                  <img :src="$storage(tech.icon_url)" :alt="tech.name"
+                    class="shrink-0 w-16 h-16 py-2 md:w-20 md:h-20 object-contain" />
+                </router-link>
+              </div>
             </div>
           </div>
           <p class="text-sm text-gray-400">
@@ -129,7 +135,6 @@
 import { computed, ref, watch, nextTick, inject } from 'vue';
 import { IconArrowRight } from '@tabler/icons-vue';
 import { usePortfolioStore } from '@/stores/portfolio';
-import { useMarquee } from '@/composables/useMarquee.js';
 import githubIcon from '@/assets/images/icons/ic-github.png';
 import linkedinIcon from '@/assets/images/icons/ic-linkedin.png';
 import gmailIcon from '@/assets/images/icons/ic-gmail.png';
@@ -137,22 +142,14 @@ import HighlightedTitle from '../ui/HighlightedTitle.vue';
 
 const portfolioStore = usePortfolioStore();
 
+// Data from Store
 const certifications = computed(() => portfolioStore.certifications);
 const technologies = computed(() => portfolioStore.technologies);
 const socialMediaLinks = computed(() => portfolioStore.socials);
 const aboutContent = computed(() => portfolioStore.about);
 const latestEducation = computed(() => portfolioStore.educations?.[0]);
 
-// Marquee Refs
-const certsContainer = ref(null);
-const certsContent = ref(null);
-const techContainer = ref(null);
-const techContent = ref(null);
-
-// Initialize Marquees
-useMarquee(certsContainer, certsContent);
-useMarquee(techContainer, techContent);
-
+// --- START: Scroll Animation Logic ---
 const { observe } = inject('observer');
 const sectionRoot = ref(null);
 
@@ -174,14 +171,16 @@ const setupAnimations = () => {
   }
 };
 
-// Ganti onMounted dengan watch yang mengamati data yang relevan
 watch([aboutContent, latestEducation], (newData) => {
   const [about, education] = newData;
-  if (about || education) { // Jalankan jika salah satu data sudah tiba
+  if (about || education) {
     nextTick(setupAnimations);
   }
 }, { immediate: true });
+// --- END: Scroll Animation Logic ---
 
+
+// --- START: Other Logic ---
 const socialIconMap = {
   github: githubIcon,
   linkedin: linkedinIcon,
@@ -198,4 +197,5 @@ const formatYear = (dateString) => {
     if (!dateString) return 'Now';
     return new Date(dateString).getFullYear();
 }
+// --- END: Other Logic ---
 </script>
