@@ -144,7 +144,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
+import echo from '@/echo';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
 import apiService from '@/services/apiService';
 import swal from '@/utils/swal';
@@ -290,6 +291,17 @@ const showDetails = (hit) => {
   showActivityDetailModal.value = true;
 };
 
-onMounted(fetchData);
+onMounted(() => {
+  fetchData();
+  echo.channel('dashboard')
+    .listen('.App\\Events\\DashboardUpdated', (e) => {
+      console.log('Dashboard updated event received:', e);
+      fetchData();
+    });
+});
+
+onUnmounted(() => {
+  echo.leave('dashboard');
+});
 
 </script>

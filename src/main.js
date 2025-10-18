@@ -11,6 +11,7 @@ import App from './App.vue'
 import router from './router'
 import apiSessionClient from './services/apiSession'
 import { appHelper } from '@/utils/appHelper.js'
+import echo from './echo';
 
 const app = createApp(App)
 app.use(createPinia())
