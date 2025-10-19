@@ -42,7 +42,7 @@
             </tr>
             <tr v-for="project in projects" :key="project.id" class="border-b border-brand-light-gray hover:bg-brand-dark/50">
               <td class="px-6 py-4">
-                <img v-if="project.thumbnail_url" :src="$storage(project.thumbnail_url)" :alt="project.title" class="h-10 w-16 object-cover bg-white/10 p-1 rounded-md">
+                <ImageViewer v-if="project.thumbnail_url" :images="[$storage(project.thumbnail_url)]" :alt="project.title" sizeClass="h-12 w-20" />
                 <div v-else class="h-10 w-16 bg-brand-light-gray rounded-md"></div>
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
@@ -106,6 +106,7 @@ import swal from '@/utils/swal';
 import { useErrorHandler } from '@/composables/useErrorHandler';
 import { IconPlus, IconLoader2 } from '@tabler/icons-vue';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
+import ImageViewer from '@/components/ui/ImageViewer.vue';
 
 // State
 const { errors, processErrors, clearErrors } = useErrorHandler();

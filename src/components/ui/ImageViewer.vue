@@ -2,9 +2,15 @@
   <div>
     <viewer :options="viewerOptions" :images="images" @inited="inited" class="image-viewer-container">
       <template #default="scope">
-        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+        <!-- Gallery view for multiple images -->
+        <div v-if="scope.images.length > 1" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
           <img v-for="src in scope.images" :src="src" :key="src" @error="handleImageError"
             class="w-full h-24 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity" :alt="alt">
+        </div>
+        <!-- Single image view -->
+        <div v-else-if="scope.images.length === 1">
+          <img :src="scope.images[0]" @error="handleImageError"
+            :class="[sizeClass, 'object-contain rounded-md cursor-pointer hover:opacity-80 transition-opacity bg-white/10 p-1']" :alt="alt">
         </div>
       </template>
     </viewer>
@@ -24,6 +30,10 @@ defineProps({
   alt: {
     type: String,
     default: 'Gallery'
+  },
+  sizeClass: {
+    type: String,
+    default: 'h-12 w-auto'
   }
 });
 

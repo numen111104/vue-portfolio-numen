@@ -43,22 +43,26 @@
             </tr>
             <tr v-for="edu in educations" :key="edu.id" class="border-b border-brand-light-gray hover:bg-brand-dark/50">
               <td class="px-6 py-4">
-                <img v-if="edu.logo_url" :src="$storage(edu.logo_url)" :alt="edu.institution_name" class="h-10 w-10 object-contain bg-white/10 p-1 rounded-full">
+                <ImageViewer v-if="edu.logo_url" :images="[$storage(edu.logo_url)]" :alt="edu.institution_name" sizeClass="h-12 w-12" />
                 <div v-else class="h-10 w-10 bg-brand-light-gray rounded-full"></div>
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
                 {{ edu.institution_name }}
               </th>
               <td class="px-6 py-4">{{ edu.major }}</td>
-              <td class="px-6 py-4">{{ formatDate(edu.start_date) }} - {{ edu.end_date ? formatDate(edu.end_date) : 'Present' }}</td>
+              <td class="px-6 py-4">{{ formatDate(edu.start_date) }} - {{ edu.end_date ? formatDate(edu.end_date) :
+                'Present' }}</td>
               <td class="px-6 py-4 text-right space-x-4">
                 <template v-if="edu.deleted_at">
-                  <button @click="openConfirmModal('restore', edu)" class="font-medium text-green-400 hover:underline">Restore</button>
-                  <button @click="openConfirmModal('forceDelete', edu)" class="font-medium text-red-500 hover:underline">Delete Permanently</button>
+                  <button @click="openConfirmModal('restore', edu)"
+                    class="font-medium text-green-400 hover:underline">Restore</button>
+                  <button @click="openConfirmModal('forceDelete', edu)"
+                    class="font-medium text-red-500 hover:underline">Delete Permanently</button>
                 </template>
                 <template v-else>
                   <button @click="openFormModal(edu)" class="font-medium text-blue-400 hover:underline">Edit</button>
-                  <button @click="openConfirmModal('delete', edu)" class="font-medium text-red-500 hover:underline">Trash</button>
+                  <button @click="openConfirmModal('delete', edu)"
+                    class="font-medium text-red-500 hover:underline">Trash</button>
                 </template>
               </td>
             </tr>
@@ -76,7 +80,8 @@
       <EducationForm ref="educationForm" :education="editingEducation" :errors="errors" @submit="handleFormSubmit" />
       <template #footer>
         <button @click="showFormModal = false" class="btn btn-secondary">Cancel</button>
-        <ButtonSpinner @click="educationForm?.handleSubmit()" :loading="formLoading" class="btn-primary">Save</ButtonSpinner>
+        <ButtonSpinner @click="educationForm?.handleSubmit()" :loading="formLoading" class="btn-primary">Save
+        </ButtonSpinner>
       </template>
     </BaseModal>
 
@@ -104,6 +109,7 @@ import swal from '@/utils/swal';
 import { useErrorHandler } from '@/composables/useErrorHandler';
 import { IconPlus, IconLoader2 } from '@tabler/icons-vue';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
+import ImageViewer from '@/components/ui/ImageViewer.vue';
 
 // State
 const { errors, processErrors, clearErrors } = useErrorHandler();
@@ -172,7 +178,7 @@ const handleFormSubmit = async (formData) => {
   } catch (error) {
     processErrors(error);
     if (error.response?.status !== 422) {
-        swal.fire('Error', 'An unexpected error occurred.', 'error');
+      swal.fire('Error', 'An unexpected error occurred.', 'error');
     }
   } finally {
     formLoading.value = false;

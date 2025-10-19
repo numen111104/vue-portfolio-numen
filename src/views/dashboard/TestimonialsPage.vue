@@ -46,9 +46,9 @@
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
                     <div class="mask mask-squircle w-12 h-12">
-                      <img
-                        :src="testimonial.author_avatar_url ? testimonial.author_avatar_url : 'https://placehold.co/100x100/000000/FFF?text=AV'"
-                        :alt="testimonial.author_name" class="object-cover w-12 h-12 rounded-full" />
+                      <ImageViewer
+                        :images="[testimonial.author_avatar_url || 'https://placehold.co/100x100/000000/FFF?text=AV']"
+                        :alt="testimonial.author_name" sizeClass="h-12 w-12" />
                     </div>
                   </div>
                   <div>
@@ -129,6 +129,7 @@ import ButtonSpinner from '@/components/ui/ButtonSpinner.vue';
 import Switch from '@/components/ui/SwitchComp.vue';
 import Pagination from '@/components/ui/PaginationComp.vue';
 import { IconPlus, IconLoader2 } from '@tabler/icons-vue';
+import ImageViewer from '@/components/ui/ImageViewer.vue';
 
 // State
 const { errors, processErrors, clearErrors } = useErrorHandler();

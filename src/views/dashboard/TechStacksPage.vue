@@ -44,7 +44,7 @@
             <tr v-for="tech in technologies" :key="tech.id"
               class="border-b border-brand-light-gray hover:bg-brand-dark/50">
               <td class="px-6 py-4">
-                <img :src="$storage(tech.icon_url)" :alt="tech.name" class="h-10 w-10 object-contain">
+                <ImageViewer :images="[$storage(tech.icon_url)]" :alt="tech.name" sizeClass="h-10 w-10" />
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
                 {{ tech.name }}
@@ -114,6 +114,7 @@ import swal from '@/utils/swal';
 import { useErrorHandler } from '@/composables/useErrorHandler';
 import { IconPlus, IconLoader2 } from '@tabler/icons-vue';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
+import ImageViewer from '@/components/ui/ImageViewer.vue';
 
 // State
 const { errors, processErrors, clearErrors } = useErrorHandler();

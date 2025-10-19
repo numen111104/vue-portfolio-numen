@@ -44,8 +44,7 @@
             <tr v-for="cert in certifications" :key="cert.id"
               class="border-b border-brand-light-gray hover:bg-brand-dark/50">
               <td class="px-6 py-4">
-                <img :src="$storage(cert.credential_image_url)" :alt="cert.title"
-                  class="h-10 w-auto object-contain bg-white/10 p-1 rounded-md">
+                <ImageViewer :images="[$storage(cert.credential_image_url)]" :alt="cert.title" sizeClass="h-16 w-auto" />
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-white whitespace-nowrap">
                 {{ cert.title }}
@@ -116,6 +115,7 @@ import swal from '@/utils/swal';
 import { useErrorHandler } from '@/composables/useErrorHandler';
 import { IconPlus, IconLoader2 } from '@tabler/icons-vue';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
+import ImageViewer from '@/components/ui/ImageViewer.vue';
 
 // State
 const { errors, processErrors, clearErrors } = useErrorHandler();
