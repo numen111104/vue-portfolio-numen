@@ -19,16 +19,16 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import TheSidebar from '@/components/dashboard/TheSidebar.vue'
 import DashboardHeader from '@/components/dashboard/DashboardHeader.vue'
 
 const sidebarOpen = ref(true)
-const sidebarExpanded = ref(localStorage.getItem('sidebar-expanded') === 'true')
+const sidebarExpanded = ref(true)
 
-watch(sidebarExpanded, (val) => {
-  localStorage.setItem('sidebar-expanded', val)
-})
+// watch(sidebarExpanded, (val) => {
+//   localStorage.setItem('sidebar-expanded', val)
+// })
 </script>
 
 <style scoped></style>

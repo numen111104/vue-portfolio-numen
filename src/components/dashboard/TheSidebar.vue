@@ -7,38 +7,36 @@
     ]">
 
     <!-- Sidebar header -->
-    <div class="relative flex items-center mb-8 h-8" :class="!sidebarExpanded ? 'justify-center group-hover:justify-between' : 'justify-between'">
-        <!-- Logo & Title -->
-        <router-link to="/admin/dashboard" class="flex items-center">
-            <img v-if="appSettingsStore.logoUrl" :src="$storage(appSettingsStore.logoUrl)" alt="Site Logo" class="w-10 h-10 shrink-0 object-cover ms-3">
-            <IconBrandTabler v-else class="w-10 h-10 shrink-0 text-brand-yellow" />
-            <span
-                class="text-white text-lg font-bold ml-3 whitespace-nowrap transition-all duration-200 ease-in-out"
-                :class="sidebarExpanded ? 'max-w-xs opacity-100' : 'max-w-0 opacity-0 group-hover:max-w-xs group-hover:opacity-100'"
-            >
-                Portfolio
-            </span>
-        </router-link>
+    <div class="relative flex items-center mb-8 h-8"
+      :class="!sidebarExpanded ? 'justify-center group-hover:justify-between' : 'justify-between'">
+      <!-- Logo & Title -->
+      <router-link to="/admin/dashboard" class="flex items-center">
+        <img v-if="appSettingsStore.logoUrl" :src="$storage(appSettingsStore.logoUrl)" alt="Site Logo"
+          class="w-10 h-10 shrink-0 object-cover ms-3">
+        <IconBrandTabler v-else class="w-10 h-10 shrink-0 text-brand-yellow" />
+        <span class="text-white text-lg font-bold ml-3 whitespace-nowrap transition-all duration-200 ease-in-out"
+          :class="sidebarExpanded ? 'max-w-xs opacity-100' : 'max-w-0 opacity-0 group-hover:max-w-xs group-hover:opacity-100'">
+          Portfolio
+        </span>
+      </router-link>
 
-        <!-- Buttons -->
-        <div class="absolute top-1/2 -translate-y-1/2 right-0">
-            <!-- Desktop Collapse/Expand Button -->
-            <button
-                class="hidden lg:block text-gray-400 hover:text-brand-yellow transition-opacity duration-300"
-                :class="sidebarExpanded ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'"
-                @click.stop="$emit('update:sidebar-expanded', !sidebarExpanded)"
-            >
-                <span class="sr-only">Expand / collapse sidebar</span>
-                <IconCircleDot v-if="sidebarExpanded" class="w-6 h-6" />
-                <IconCircle v-else class="w-6 h-6" />
-            </button>
+      <!-- Buttons -->
+      <div class="absolute top-1/2 -translate-y-1/2 right-0">
+        <!-- Desktop Collapse/Expand Button -->
+        <button class="hidden lg:block text-gray-400 hover:text-brand-yellow transition-opacity duration-300"
+          :class="sidebarExpanded ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'"
+          @click.stop="$emit('update:sidebar-expanded', !sidebarExpanded)">
+          <span class="sr-only">Expand / collapse sidebar</span>
+          <IconCircleDot v-if="sidebarExpanded" class="w-6 h-6" />
+          <IconCircle v-else class="w-6 h-6" />
+        </button>
 
-            <!-- Mobile Close Button -->
-            <button class="lg:hidden text-gray-400 hover:text-brand-yellow" @click.stop="$emit('toggle-sidebar')">
-                <span class="sr-only">Close sidebar</span>
-                <IconX class="h-6 w-6" />
-            </button>
-        </div>
+        <!-- Mobile Close Button -->
+        <button class="lg:hidden text-gray-400 hover:text-brand-yellow" @click.stop="$emit('toggle-sidebar')">
+          <span class="sr-only">Close sidebar</span>
+          <IconX class="h-6 w-6" />
+        </button>
+      </div>
     </div>
 
     <!-- Links -->
@@ -190,7 +188,8 @@
           <li class="mb-0.5 rounded-sm px-3 py-2 last:mb-0"
             :class="{ 'bg-brand-yellow': $route.path.includes('/admin/cache-management') }">
             <router-link class="block truncate transition duration-150 hover:text-gray-500"
-              :class="{ 'text-brand-dark': $route.path.includes('/admin/cache-management') }" to="/admin/cache-management">
+              :class="{ 'text-brand-dark': $route.path.includes('/admin/cache-management') }"
+              to="/admin/cache-management">
               <div class="flex items-center">
                 <IconDatabase class="h-6 w-6 shrink-0" />
                 <span class="ml-3 text-sm font-medium"
