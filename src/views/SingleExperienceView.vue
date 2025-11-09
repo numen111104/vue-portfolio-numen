@@ -73,7 +73,7 @@ import { ref, shallowRef, computed, onMounted, inject, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import { usePortfolioStore } from '@/stores/portfolio';
 import HighlightedTitle from '@/components/ui/HighlightedTitle.vue';
-import Breadcrumb from '@/components/ui/Breadcrumb.vue';
+import Breadcrumb from '@/components/ui/BreadcrumbComp.vue';
 import DocListModal from '@/components/ui/DocListModal.vue';
 import { IconLoader2, IconLink, IconPhoto, IconFileText } from '@tabler/icons-vue';
 import 'viewerjs/dist/viewer.css';

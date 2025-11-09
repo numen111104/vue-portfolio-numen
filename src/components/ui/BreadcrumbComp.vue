@@ -21,7 +21,6 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
 
 defineProps({
   crumbs: {

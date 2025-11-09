@@ -1,6 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useUiStore } from '@/stores/ui';
 
 import TheHeader from '@/components/sections/TheHeader.vue'
@@ -8,7 +7,6 @@ import TheFooter from '@/components/sections/TheFooter.vue'
 
 // Global Stores
 const uiStore = useUiStore();
-const route = useRoute();
 
 // --- Spotlight Effect ---
 const mouseX = ref(0);

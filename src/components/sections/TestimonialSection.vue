@@ -35,7 +35,7 @@
         :observe="observe" :delay="index * 100" />
     </div>
 
-    <BaseModal :show="showTestimonialModal" @close="showTestimonialModal = false" modal-id="testimonial-form-modal"
+    <BaseModal :show="showTestimonialModal" @close="closeModal" modal-id="testimonial-form-modal"
       modal-class="max-w-lg">
       <template #header>Add Your Recommendation</template>
       <form @submit.prevent="handleSubmitTestimonial">
@@ -62,7 +62,7 @@
             placeholder="Share your thoughts about my work..." required></textarea>
         </div>
         <div class="flex justify-end gap-4">
-          <button type="button" @click="showTestimonialModal = false" class="btn btn-secondary">
+          <button type="button" @click="closeModal" class="btn btn-secondary">
             Cancel
           </button>
           <button type="submit" :disabled="isSubmitting" class="btn btn-primary">
@@ -76,7 +76,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, inject } from 'vue';
+import { ref, onMounted, computed, inject, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import BaseModal from '@/components/ui/BaseModal.vue';
 import swalMixin from '@/utils/swal.js';
 import { usePortfolioStore } from '@/stores/portfolio';
@@ -101,8 +102,29 @@ const titleBlock = ref(null);
 const discoverButton = ref(null);
 const addButton = ref(null);
 
+const route = useRoute();
+const router = useRouter();
+
 // Use the correct, public-facing filepond server options
 const { publicFilePondServerOptions } = usePublicFilePondServer();
+
+const showTestimonialModal = ref(false);
+
+const closeModal = () => {
+  showTestimonialModal.value = false;
+  if (route.query.testiModal) {
+    const newQuery = { ...route.query };
+    delete newQuery.testiModal;
+    router.replace({ query: newQuery });
+  }
+};
+
+watch(() => route.query.testiModal, (value) => {
+  if (value === 'true') {
+    showTestimonialModal.value = true;
+  }
+}, { immediate: true });
+
 
 onMounted(() => {
   if (titleBlock.value) observe(titleBlock.value);
@@ -114,7 +136,6 @@ onMounted(() => {
   }
 });
 
-const showTestimonialModal = ref(false);
 const hasSubmitted = ref(false);
 const form = ref({
   author_name: '',
@@ -151,7 +172,7 @@ const handleSubmitTestimonial = async () => {
 
     form.value = { author_name: '', author_title: '', testimonial_text: '' };
     avatarPond.value?.removeFiles();
-    showTestimonialModal.value = false;
+    closeModal();
 
   } catch (error) {
     console.error('Failed to submit testimonial:', error);
