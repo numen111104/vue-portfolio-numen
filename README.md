@@ -2,7 +2,7 @@
 
 This is a modern, fully responsive portfolio website built with Vue 3, Vite, and Tailwind CSS. It features a clean design, smooth animations, and a structure designed to be powered by a dynamic backend. The project also includes a foundational layout for a CMS/admin dashboard to manage portfolio content.
 
-## Key Features
+## ✨ Key Features
 
 -   **Fully Responsive Design**: A custom 3-tier navigation system ensures a great user experience on any device.
     -   **Mobile (`<768px`):** A clean, icon-only navigation bar fixed to the bottom.
@@ -13,163 +13,88 @@ This is a modern, fully responsive portfolio website built with Vue 3, Vite, and
 -   **Interactive UI**: Engaging user experience with modals for project details, smooth page transitions, and hover animations.
 -   **Admin Dashboard Layout**: A complete layout for a backend dashboard is included, with a responsive sidebar and header, ready for building out content management functionality.
 
-## Database Schema
+## 🚀 Tech Stack
 
-A database schema is defined in `schema.dbml` using Database Markup Language (DBML). This provides a blueprint for the backend database, ensuring all portfolio content can be managed dynamically.
+-   **Vue 3**: A progressive JavaScript framework for building user interfaces.
+-   **Vite**: A build tool that provides a faster and leaner development experience.
+-   **Vue Router**: The official router for Vue.js.
+-   **Pinia**: The official state management library for Vue.js.
+-   **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
+-   **Axios**: A promise-based HTTP client for making API requests.
+-   **ApexCharts**: A modern charting library for creating interactive charts and graphs.
+-   **SweetAlert2**: A beautiful and customizable replacement for JavaScript's popup boxes.
 
-You can visualize this schema and export SQL scripts by pasting the contents of `schema.dbml` into online tools like [dbdiagram.io](https://dbdiagram.io).
+## 📦 Installation and Usage
 
-<details>
-<summary>Click to view the DBML Schema</summary>
+### Prerequisites
 
-```dbml
-//// ----------------------------------------------------
-//// -- DBML (Database Markup Language) for Vue Portfolio
-//// -- Designed to make the portfolio content fully
-//// -- configurable through an admin dashboard.
-//// ----------------------------------------------------
-
-// Project-level settings
-Project vue_portfolio {
-  database_type: 'PostgreSQL'
-  Note: 'A scalable and dynamic database schema for a personal portfolio website.'
-}
-
-// Table for admin user accounts
-Table users {
-  id integer [pk, increment]
-  username varchar(50) [unique, not null]
-  email varchar(255) [unique, not null]
-  password_hash varchar(255) [not null]
-  full_name varchar(100)
-  created_at timestamp [default: `now()`]
-  
-  Note: 'Stores admin users who can log in and manage the portfolio content.'
-}
-
-// Table for general, site-wide settings and content for the hero/about sections.
-// Using a key-value approach for flexibility.
-Table site_settings {
-  key varchar(50) [pk]
-  value text
-  
-  Note: 'Key-value store for global site settings and single-instance content like hero text or about paragraphs.'
-}
-// Example keys: 'site_title', 'hero_greeting', 'hero_main_title', 'hero_subtitle', 'about_section_image', 'about_section_description', 'cv_download_url'
-
-// Table for technologies/skills (e.g., Vue, React, Node.js)
-Table technologies {
-  id integer [pk, increment]
-  name varchar(100) [not null, unique]
-  icon_url varchar(255) [note: 'URL or path to the technology icon/logo']
-  category varchar(50) [note: 'e.g., Frontend, Backend, Database, DevOps']
-  created_at timestamp [default: `now()`]
-}
-
-// Table for portfolio projects
-Table projects {
-  id integer [pk, increment]
-  title varchar(255) [not null]
-  description text
-  thumbnail_url varchar(255)
-  project_url varchar(255)
-  repository_url varchar(255)
-  display_order integer [default: 0, note: 'Used for ordering projects on the site']
-  is_published boolean [default: true]
-  created_at timestamp [default: `now()`]
-}
-
-// Junction table for the many-to-many relationship between projects and technologies
-Table project_technologies {
-  project_id integer [ref: > projects.id]
-  technology_id integer [ref: > technologies.id]
-  
-  indexes {
-    (project_id, technology_id) [pk]
-  }
-}
-
-// Enum for experience types
-Enum experience_type {
-  Work
-  Education
-}
-
-// Table for work experience and education history
-Table experiences {
-  id integer [pk, increment]
-  type experience_type [not null]
-  title varchar(255) [not null, note: 'Job title or degree name']
-  organization_name varchar(255) [not null, note: 'Company name or university name']
-  start_date date [not null]
-  end_date date [note: 'Null if it is the current experience']
-  description text
-  display_order integer [default: 0]
-  is_published boolean [default: true]
-  created_at timestamp [default: `now()`]
-}
-
-// Table for client or colleague testimonials
-Table testimonials {
-  id integer [pk, increment]
-  author_name varchar(100) [not null]
-  author_title varchar(100) [note: 'e.g., CEO @ Example Inc.']
-  author_avatar_url varchar(255)
-  testimonial_text text [not null]
-  display_order integer [default: 0]
-  is_published boolean [default: true]
-  created_at timestamp [default: `now()`]
-}
-
-// Table for certifications
-Table certifications {
-  id integer [pk, increment]
-  title varchar(255) [not null]
-  issuing_organization varchar(255) [not null]
-  issue_date date
-  credential_url varchar(255)
-  credential_image_url varchar(255)
-  display_order integer [default: 0]
-  is_published boolean [default: true]
-  created_at timestamp [default: `now()`]
-}
-
-// Table for social media links
-Table social_media_links {
-  id integer [pk, increment]
-  platform_name varchar(50) [not null, unique, note: 'e.g., GitHub, LinkedIn, Twitter']
-  url varchar(255) [not null]
-  display_order integer [default: 0]
-}
-```
-
-</details>
-
-## Project Setup
-
-### Recommended IDE Setup
-
--   [VSCode](https://code.visualstudio.com/)
--   [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur if installed).
+-   Node.js (v16 or higher recommended)
+-   npm
 
 ### Installation
 
-```sh
-npm install
-```
+1.  Clone the repository:
 
-### Development Server
+    ```sh
+    git clone https://github.com/your-username/vue-portfolio-numen.git
+    ```
 
-Compile and Hot-Reload for Development.
+2.  Navigate to the project directory:
+
+    ```sh
+    cd vue-portfolio-numen
+    ```
+
+3.  Install the dependencies:
+
+    ```sh
+    npm install
+    ```
+
+### Development
+
+To start the development server with hot-reloading, run the following command:
 
 ```sh
 npm run dev
 ```
 
-### Production Build
+### Production
 
-Compile and Minify for Production.
+To build the application for production, run the following command:
 
 ```sh
 npm run build
 ```
+
+This will create a `dist` directory with the optimized and minified files.
+
+## 📁 Project Structure
+
+The project follows a standard Vue.js application structure, with a few additions for better organization:
+
+-   `src/assets`: Static assets like images, fonts, and stylesheets.
+-   `src/components`: Reusable Vue components.
+-   `src/composables`: Vue composables for reusable logic.
+-   `src/constants`: Application-wide constants.
+-   `src/data`: Mock data for development.
+-   `src/layouts`: Layout components for different page structures.
+-   `src/router`: Vue Router configuration.
+-   `src/services`: Services for making API calls.
+-   `src/stores`: Pinia store modules.
+-   `src/utils`: Utility functions.
+-   `src/views`: Page components.
+
+## 🔗 Backend Integration
+
+This project is designed to be connected to a backend for dynamic content management. The `axios` library is pre-configured for making API requests. You can find the service files in the `src/services` directory, which can be modified to interact with your backend API.
+
+The `schema.dbml` file in the root directory provides a blueprint for the database schema, which you can use to set up your backend database.
+
+## 🤝 Contributing
+
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
