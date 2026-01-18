@@ -1,6 +1,5 @@
-// Import Tailwind CSS - style.css is the minified production version
-// For development, run `npm run watch` to regenerate from input.css
-import '@/assets/styles/style.css'
+// Import Tailwind CSS - @tailwindcss/vite plugin handles processing
+import '@/assets/styles/input.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

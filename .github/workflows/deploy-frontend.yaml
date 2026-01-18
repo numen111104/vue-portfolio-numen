@@ -20,11 +20,10 @@ jobs:
         with:
           node-version: '18' # Sesuaikan dengan versi Node.js Anda
 
-      # 3. Install dependencies, minify tailwind & build frontend
+      # 3. Install dependencies & build frontend
       - name: Install and Build
         run: |
           npm install
-          npm run minify
           npm run build
 
       # 4. Deploy file menggunakan FTP
