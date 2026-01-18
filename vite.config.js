@@ -19,11 +19,36 @@ export default defineConfig(async ({ mode }) => {
       },
     },
     build: {
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 600,
       rollupOptions: {
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
+              // Vue core
+              if (id.includes('vue') || id.includes('pinia') || id.includes('vue-router')) {
+                return 'vue-core'
+              }
+              // Charts library (large)
+              if (id.includes('apexcharts') || id.includes('vue3-apexcharts')) {
+                return 'charts'
+              }
+              // UI libraries
+              if (id.includes('sweetalert2')) {
+                return 'ui-libs'
+              }
+              // File upload
+              if (id.includes('filepond')) {
+                return 'filepond'
+              }
+              // Icons (large)
+              if (id.includes('@tabler/icons')) {
+                return 'icons'
+              }
+              // Date/time
+              if (id.includes('date') || id.includes('vuepic')) {
+                return 'datetime'
+              }
+              // Other vendors
               return 'vendor'
             }
           },
