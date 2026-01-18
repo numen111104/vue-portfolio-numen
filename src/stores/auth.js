@@ -2,8 +2,8 @@
 
 import { defineStore } from 'pinia'
 import apiService from '@/services/apiService'
-import router from '@/router'
-import apiSessionClient from '@/services/apiSession'
+import router from '@/app/router'
+import apiSessionClient from '@/lib/axios/apiSession'
 import Cookies from 'js-cookie'
 
 export const useAuthStore = defineStore('auth', {

@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Disallow admin/dashboard routes
+Disallow: /admin/
+Disallow: /login
+
+# Disallow API routes (if accessed directly)
+Disallow: /api/
+Disallow: /sanctum/
+Disallow: /storage/
+
+# Crawl delay for politeness
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://numenide.id/sitemap.xml

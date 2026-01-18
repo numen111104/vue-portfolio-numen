@@ -1,5 +1,5 @@
-import apiClient from './apiClient';
-import apiSessionClient from './apiSession';
+import apiClient from '@/lib/axios/apiClient'
+import apiSessionClient from '@/lib/axios/apiSession'
 
 export default {
   login: (credentials) => apiSessionClient.post('/login', credentials),
@@ -10,4 +10,4 @@ export default {
   post: (url, data) => apiClient.post(url, data),
   put: (url, data) => apiClient.put(url, data),
   destroy: (url) => apiClient.delete(url),
-};
+}
