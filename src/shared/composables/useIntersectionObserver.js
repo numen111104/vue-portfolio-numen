@@ -1,17 +1,22 @@
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue'
 
 /**
  * A Vue composable for handling Intersection Observer logic.
  * @param {IntersectionObserverInit} options - Configuration options for the Intersection Observer.
  * @returns {{ observe: (element: HTMLElement) => void, unobserve: (element: HTMLElement) => void }} - Functions to observe and unobserve elements.
  */
-export function useIntersectionObserver(options = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }) {
+export function useIntersectionObserver(
+  options = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
+) {
   const observer = ref(null)
+  const pendingElements = ref([]) // Queue for elements observed before observer is ready
 
   /**
    * Check if element is already visible in viewport and add class immediately
    */
   const checkInitialVisibility = (element) => {
+    if (!element) return
+
     const rect = element.getBoundingClientRect()
     const windowHeight = window.innerHeight || document.documentElement.clientHeight
 
@@ -20,18 +25,22 @@ export function useIntersectionObserver(options = { threshold: 0.1, rootMargin: 
     const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0)
     const elementHeight = rect.height
 
-    if (visibleHeight / elementHeight >= threshold) {
+    if (elementHeight > 0 && visibleHeight / elementHeight >= threshold) {
       // Element is already visible, add class immediately
       element.classList.add('is-visible')
     }
   }
 
   const observe = (element) => {
-    if (element && observer.value) {
-      // Check initial visibility immediately
+    if (!element) return
+
+    if (observer.value) {
+      // Observer is ready, check visibility and observe
       checkInitialVisibility(element)
-      // Then observe for future changes
       observer.value.observe(element)
+    } else {
+      // Observer not ready yet, queue the element
+      pendingElements.value.push(element)
     }
   }
 
@@ -51,6 +60,15 @@ export function useIntersectionObserver(options = { threshold: 0.1, rootMargin: 
         }
       })
     }, options)
+
+    // Process any pending elements that were queued before observer was ready
+    if (pendingElements.value.length > 0) {
+      pendingElements.value.forEach((element) => {
+        checkInitialVisibility(element)
+        observer.value.observe(element)
+      })
+      pendingElements.value = [] // Clear the queue
+    }
   })
 
   onUnmounted(() => {
@@ -61,4 +79,3 @@ export function useIntersectionObserver(options = { threshold: 0.1, rootMargin: 
 
   return { observe, unobserve }
 }
-
