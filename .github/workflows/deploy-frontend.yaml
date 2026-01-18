@@ -24,19 +24,13 @@ jobs:
           npm install
           npm run build
 
-      - name: Add SSH known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -p 2223 ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
-
-      - name: Deploy via SSH (rsync)
-        uses: easingthemes/ssh-deploy@main
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_user: ${{ secrets.SSH_USER }}
-          remote_port: ${{ secrets.SSH_PORT }}
-          source: "dist/"
-          target: ${{ secrets.DEPLOY_PATH }}
-          args: "-avz --delete"
+          server: ftp.numenide.id
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: dist/
+          server-dir: /public_html/__vue/
