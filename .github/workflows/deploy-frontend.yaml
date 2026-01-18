@@ -1,5 +1,5 @@
 # Created by numenide.id
-name: Deploy Vue Frontend to numenide.id
+name: Deploy Vue Frontend to numenide.id (SSH)
 
 on:
   push:
@@ -9,31 +9,28 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # 1. Checkout kode
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Sesuaikan dengan versi Node.js Anda
+          node-version: '18'
 
-      # 3. Install dependencies & build frontend
       - name: Install and Build
         run: |
           npm install
           npm run build
 
-      # 4. Deploy file menggunakan FTP
-      - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/ # Upload isi dari folder 'dist'
-          server-dir: /public_html/
-          # Opsi tambahan untuk membersihkan file lama di server
-          # dangerous-clean-slate: true
+      - name: Deploy via SSH (rsync)
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          SOURCE: "dist/"
+          TARGET: "/home/numr8247/public_html/"
+          ARGS: "-avz --delete"
