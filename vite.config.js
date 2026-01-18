@@ -12,7 +12,6 @@ export default defineConfig(async ({ mode }) => {
   }
 
   return {
-    base: mode === 'production' ? '/__vue/' : '/',
     plugins,
     resolve: {
       alias: {
