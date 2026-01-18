@@ -49,11 +49,97 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Khand:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<!-- DNS Prefetch for external resources -->
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+<!-- Preload critical assets -->
+<link rel="preload" href="/og-image.png" as="image" type="image/png">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://numenide.id/#person",
+        "name": "Nu'man Nasyar MZ",
+        "alternateName": "Numenide",
+        "jobTitle": "Full-Stack Developer",
+        "description": "Full-Stack Developer & UI/UX Enthusiast yang bersemangat dalam menciptakan aplikasi web modern dan fungsional",
+        "url": "https://numenide.id",
+        "image": "https://numenide.id/og-image.png",
+        "sameAs": [
+          "https://github.com/numenide",
+          "https://linkedin.com/in/numenide",
+          "https://twitter.com/numenide"
+        ],
+        "knowsAbout": [
+          "Laravel",
+          "Vue.js",
+          "PHP",
+          "JavaScript",
+          "TypeScript",
+          "MySQL",
+          "PostgreSQL",
+          "UI/UX Design",
+          "Full-Stack Development"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://numenide.id/#website",
+        "url": "https://numenide.id",
+        "name": "Nu'man Nasyar MZ Portfolio",
+        "description": "Portfolio pribadi Nu'man Nasyar MZ, seorang full-stack developer dan peminat UI/UX",
+        "publisher": {
+          "@id": "https://numenide.id/#person"
+        },
+        "inLanguage": "id-ID"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://numenide.id/#webpage",
+        "url": "https://numenide.id",
+        "name": "Nu'man Nasyar MZ - Full-Stack Developer & UI/UX Enthusiast",
+        "description": "Portfolio pribadi Nu'man Nasyar MZ, seorang full-stack developer dan peminat UI/UX yang bersemangat dalam menciptakan aplikasi web modern dan fungsional.",
+        "isPartOf": {
+          "@id": "https://numenide.id/#website"
+        },
+        "about": {
+          "@id": "https://numenide.id/#person"
+        },
+        "inLanguage": "id-ID",
+        "datePublished": "2025-01-01",
+        "dateModified": "2026-01-18"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://numenide.id/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://numenide.id/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+<!-- Additional SEO meta tags -->
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-TileColor" content="#DFFF00">
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
 </head>
 
 <body>
   <div id="app"></div>
-  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="/src/app/main.js"></script>
 </body>
 
 </html>

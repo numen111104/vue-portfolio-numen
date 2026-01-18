@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
-import swalMixin from '@/utils/swal';
+import swalMixin from '@/lib/sweetalert/swal';
 
 export const usePortfolioStore = defineStore('portfolio', {
   state: () => ({

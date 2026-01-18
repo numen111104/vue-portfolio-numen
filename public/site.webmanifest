@@ -1,6 +1,14 @@
 {
-  "name": "MyWebSite",
-  "short_name": "Numenide Portfolio",
+  "name": "Nu'man Nasyar MZ Portfolio",
+  "short_name": "Numenide",
+  "description": "Portfolio pribadi Nu'man Nasyar MZ - Full-Stack Developer & UI/UX Enthusiast",
+  "start_url": "/",
+  "scope": "/",
+  "id": "numenide-portfolio",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#DFFF00",
+  "background_color": "#0f172a",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -13,9 +21,21 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "theme_color": "#1e293b",
-  "background_color": "#1e293b",
-  "display": "standalone"
+  "categories": ["portfolio", "developer", "technology"],
+  "lang": "id",
+  "dir": "ltr"
 }
