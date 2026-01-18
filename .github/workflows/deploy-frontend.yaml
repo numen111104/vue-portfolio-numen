@@ -33,5 +33,5 @@ jobs:
           protocol: ftp
           port: 21
           passive: true
-        local-dir: dist/
+          local-dir: dist/
           server-dir: /public_html/
