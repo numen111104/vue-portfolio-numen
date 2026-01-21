@@ -128,6 +128,7 @@ import { ref, watch, onMounted } from 'vue';
 import MultiSelectInput from '@/shared/components/MultiSelectInput.vue';
 import Switch from '@/shared/components/SwitchComp.vue';
 import ButtonSpinner from '@/shared/components/ButtonSpinner.vue';
+import ErrorDisplay from '@/shared/components/ErrorDisplay.vue';
 import apiService from '@/services/apiService';
 import { useFilePondServer } from '@/lib/filepond/filePondService.js';
 import { getAcceptedFileTypes } from '@/shared/constants/fileTypes';
@@ -232,14 +233,37 @@ const enhanceFullDescription = async () => {
 
 const handleSubmit = () => {
     const getPondServerId = (pondRef) => pondRef.value?.getFile()?.serverId || null;
-    const getPondServerIds = (pondRef) => pondRef.value?.getFiles().map(f => f.serverId).filter(id => id) || [];
+
+  // Get all gallery items - either serverId for new uploads or extract path for existing
+  const getPondGalleryItems = (pondRef) => {
+    if (!pondRef.value) return [];
+    return pondRef.value.getFiles().map(f => {
+      if (f.serverId) {
+        // New upload - return serverId
+        return f.serverId;
+      } else if (f.source && typeof f.source === 'string') {
+        // Existing file - extract path from URL
+        // Source is like "https://api.numenide.id/storage/projects/gallery/xxx.jpg"
+        // We need to return just the path part: "projects/gallery/xxx.jpg"
+        const url = f.source;
+        const storageMatch = url.match(/\/storage\/(.+)$/);
+        if (storageMatch) {
+          return storageMatch[1];
+        }
+        // Fallback for other URL patterns
+        const pathMatch = url.match(/projects\/gallery\/.+$/);
+        return pathMatch ? pathMatch[0] : null;
+      }
+      return null;
+    }).filter(Boolean);
+  };
 
     const payload = {
         ...form.value,
         is_published: form.value.is_published ? 1 : 0,
         links: JSON.stringify(form.value.links),
         thumbnail: getPondServerId(thumbnailPond),
-        gallery_images: getPondServerIds(galleryPond),
+      gallery_images: getPondGalleryItems(galleryPond),
     };
 
     emit('submit', payload);

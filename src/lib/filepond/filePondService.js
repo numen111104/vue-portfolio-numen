@@ -65,18 +65,19 @@ export function useFilePondServer() {
           const url = new URL(source)
           path = url.pathname
         } catch (e) {
-           swalMixin.fire({
+          swalMixin.fire({
             icon: 'error',
             title: 'Error',
             text: 'Failed to load file',
-           })
+          })
           console.error('Failed to load file:', e)
           return
         }
 
         path = path.replace(/^\/?storage\//, '')
 
-        const url = appHelper.url.base + '/storage/' + path
+        // Use storage helper for correct URL (avoids /api/storage issue)
+        const url = appHelper.url.storage(path)
 
         fetch(url, {
           credentials: 'include',
