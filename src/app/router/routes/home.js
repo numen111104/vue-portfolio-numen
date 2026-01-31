@@ -8,6 +8,7 @@ import TestimonialDetailView from '@/features/portfolio/views/TestimonialDetailV
 import CertificationsView from '@/features/portfolio/views/CertificationsView.vue'
 import TechStackView from '@/features/portfolio/views/TechStackView.vue'
 import SingleExperienceView from '@/features/portfolio/views/SingleExperienceView.vue'
+import SharingSessionView from '@/features/portfolio/views/SharingSessionView.vue'
 
 const Home = [
   {
@@ -53,6 +54,11 @@ const Home = [
         path: 'tech-stacks',
         name: 'tech-stacks',
         component: TechStackView,
+      },
+      {
+        path: 'sharing-session',
+        name: 'sharing-session',
+        component: SharingSessionView,
       },
     ],
   },
