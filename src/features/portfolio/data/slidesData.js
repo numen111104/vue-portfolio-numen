@@ -23,11 +23,11 @@ export const sharingSessionSlides = [
     title: 'Latar Belakang',
     content: [
       'Mahasiswa Semester 6 D4 Programming - Politeknik IDN Bogor',
-      'Ex Internship @PT Surya Citra Media Tbk (SCTV, Indosiar, dll)',
-      'Tech Lead Software Engineering @PT Kreasi Digital Mandiri',
-      'Tech Lead Software Engineering @Lineworks.id',
-      'Freelance Web Developer',
-      'Menjalani kuliah sambil bekerja profesional',
+      'Ex Internship @IDN Foundation as a Fullstack Web Developer',
+      'Ex Internship @PT Surya Citra Media Tbk (SCTV, Indosiar, dll) as a Fullstack Web Developer',
+      'Working @PT Kreasi Digital Mandiri as a Fullstack Developer',
+      'Side Hustle @Lineworks.id as a Tech Lead',
+      'Freelancer Web Developer',
     ],
   },
 
