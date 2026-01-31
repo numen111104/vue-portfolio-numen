@@ -11,7 +11,7 @@ export const sharingSessionSlides = [
     title: 'Perjalanan Mahasiswa Programming',
     subtitle: 'Dari Santri hingga Programmer',
     meta: {
-      event: 'Sharing Session Mahasiswa Baru Politeknik IDN Bogor 2026/2027',
+      event: 'Sharing Session Umum Politeknik IDN Bogor 2026/2027',
       speaker: "Nu'man Nasyar MZ",
     },
   },
