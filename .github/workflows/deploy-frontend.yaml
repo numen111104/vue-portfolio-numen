@@ -12,26 +12,33 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
+          cache: npm
 
-      - name: Install and Build
-        run: |
-          npm install
-          npm run build
+      - name: Install Dependencies
+        run: npm ci
 
-      - name: FTP Deploy
+      - name: Build Project
+        run: npm run build
+
+      - name: Deploy via SFTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          server: ftp.numenide.id
+          server: 202.10.xx.xx
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          passive: true
-          local-dir: dist/
+          protocol: sftp
+          port: 2223
+          local-dir: ./dist/
           server-dir: /public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .github/**
+            README.md
