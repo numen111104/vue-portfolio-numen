@@ -7,7 +7,7 @@
     <div class="flex items-center gap-4 mb-4">
       <img
         :alt="testimonial.author_name"
-        :src="testimonial.author_avatar_url ? testimonial.author_avatar_url : `https://ui-avatars.com/api/?name=${testimonial.author_name}&background=334155&color=dfff00`"
+        :src="testimonial.author_avatar_url ? $storage(testimonial.author_avatar_url) : `https://ui-avatars.com/api/?name=${testimonial.author_name}&background=334155&color=dfff00`"
         class="object-cover w-16 h-16 rounded-full"
       />
       <div>

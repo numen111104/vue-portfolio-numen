@@ -47,7 +47,7 @@
                   <div class="avatar">
                     <div class="mask mask-squircle w-12 h-12">
                       <ImageViewer
-                        :images="[testimonial.author_avatar_url || 'https://placehold.co/100x100/000000/FFF?text=AV']"
+                        :images="[testimonial.author_avatar_url ? $storage(testimonial.author_avatar_url) : 'https://placehold.co/100x100/000000/FFF?text=AV']"
                         :alt="testimonial.author_name" sizeClass="h-12 w-12" />
                     </div>
                   </div>
