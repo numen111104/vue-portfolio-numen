@@ -111,15 +111,10 @@ export function useFilePondServer() {
         const url = appHelper.url.storage(path)
         const filename = path.split('/').pop() || 'file'
 
-        // Strategy 1: Try fetch via /api/storage route (has CORS headers)
+        // Strategy 1: Try fetch via /api/storage route (has CORS headers via HandleCors middleware)
         const apiUrl = `${appHelper.url.base}/storage/${path}`
 
-        fetch(apiUrl, {
-          credentials: 'include',
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-          },
-        })
+        fetch(apiUrl, { credentials: 'include' })
           .then(async (res) => {
             if (!res.ok) throw new Error(`HTTP ${res.status}`)
             const disposition = res.headers.get('Content-Disposition')
@@ -128,7 +123,8 @@ export function useFilePondServer() {
             const blob = await res.blob()
             load(new File([blob], resolvedName, { type: blob.type }))
           })
-          .catch(() => {
+          .catch((fetchErr) => {
+            console.warn('FilePond load via API failed, trying img fallback:', fetchErr.message)
             // Strategy 2: Try loading via <img> element (bypasses CORS for display)
             loadImageViaElement(url, filename)
               .then((file) => load(file))

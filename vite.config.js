@@ -59,15 +59,15 @@ export default defineConfig(async ({ mode }) => {
       host: true,
       proxy: {
         '/api': {
-          target: 'http://localhost:8000',
+          target: 'http://localhost:8001',
           changeOrigin: true,
         },
         '/storage': {
-          target: 'http://localhost:8000',
+          target: 'http://localhost:8001',
           changeOrigin: true,
         },
         '/sanctum': {
-          target: 'http://localhost:8000',
+          target: 'http://localhost:8001',
           changeOrigin: true,
         },
       },
