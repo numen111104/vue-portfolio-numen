@@ -35,6 +35,7 @@ jobs:
           port: 2223
           source: "dist/*"
           target: "/home/${{ secrets.SSH_USERNAME }}/public_html"
+          strip_components: 1
 
       - name: Fix permissions (optional)
         uses: appleboy/ssh-action@v1.0.3
